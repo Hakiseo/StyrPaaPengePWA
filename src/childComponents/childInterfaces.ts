@@ -2,9 +2,10 @@
 
 export interface IWishlist {
     id:string;
-    name:string;
+    creatorId:string;
+    savingName:string;
     content:string;
-    reward:string;
-    status:string;
-    image?:string;
+    currentRewardBalence:string;
+    targetRewardBalence:string;
+    currentStatus:string;
 }

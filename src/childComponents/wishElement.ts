@@ -69,19 +69,18 @@ export class WishElement extends LitElement {
     `];
 
     @property({type: Object}) wish!: IWishlist;
-
     @query('#img') image: any; //NO IDEA WHAT THIS IS!
 
     firstUpdated(){
-        this.image.style.setProperty('--image-url',`url(${this.wish.image})`)
+        //this.image.style.setProperty('--image-url',`url(${this.wish.image})`)
     }
 
     render(): TemplateResult{
         return html`
             <article class="wishElement">
-                <div id="img" alt=${this.wish.name}></div>
-                <h5>${this.wish.name}</h5>
-                ${this.wish.status ? html `${this.wish.status}<br><br>` : ''}
+                <div id="img" alt=${this.wish.savingName}></div>
+                <h5>${this.wish.savingName}</h5>
+                ${this.wish.currentStatus ? html `${this.wish.currentStatus}<br><br>` : ''}
                 <a class="btn" href= "/wish-detail/${this.wish.id}">Se mere</a>
             </article>
         `;

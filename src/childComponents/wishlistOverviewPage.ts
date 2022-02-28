@@ -6,7 +6,8 @@ import {getWishlist} from "../api/childApiRequests";
 @customElement("wishlist-overview-page")
 export class WishlistOverviewPage extends LitElement {
 
-    @property() wishlist: IWishlist[] = [];
+    //@property() wishlist: IWishlist[] = [];
+    @property({type: Array}) wishlist: IWishlist[] = [];
 
     protected render(): TemplateResult {
         return html `
@@ -26,10 +27,13 @@ export class WishlistOverviewPage extends LitElement {
 
     constructor() {
         super();
+        console.log(this.wishlist);
         getWishlist().then(r => this.wishlist = r);
+        console.log(this.wishlist);
     }
 
     private renderWishes(){
+        /*
         return html `
             <h1>Wish Overview:</h1>
             <section class="container">
@@ -38,5 +42,6 @@ export class WishlistOverviewPage extends LitElement {
                 `)}
             </section>
         `;
+        */
     }
 }
