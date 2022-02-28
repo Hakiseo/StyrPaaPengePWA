@@ -46,10 +46,10 @@ export class IndexElement extends LitElement {
 
     render404() {
         return html ` 
-      <div class="w3-container">
-        <h2> 404 - Not found </h2>
-        <button class="w3-button w3-blue-gray" @click="${() => router.navigate("/home")}"> Go back to main page </button> 
-      </div>
-    `
+        <div class="w3-container">
+            <h2> 404 - Not found </h2>
+            <button class="w3-button w3-blue-gray" @click="${() => router.navigate("/home")}"> Go back to main page </button> 
+        </div>
+        `
     }
 }
