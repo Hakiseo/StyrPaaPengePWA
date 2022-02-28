@@ -3,8 +3,8 @@ import {css, html, LitElement, TemplateResult} from "lit";
 import {IWishlist} from "./childInterfaces";
 import {getWishlist} from "../api/childApiRequests";
 
-@customElement("wish-overview-page")
-export class WishOverviewPage extends LitElement {
+@customElement("wishlist-overview-page")
+export class WishlistOverviewPage extends LitElement {
 
     @property({type: Array}) wishlist: IWishlist[] = [];
 

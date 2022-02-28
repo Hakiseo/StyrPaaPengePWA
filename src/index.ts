@@ -2,6 +2,7 @@ import {LitElement, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import Navigo from "navigo";
 import "./childComponents/childIndexPage";
+import "./childComponents/wishlistOverviewPage";
 import "./parentComponents/parentIndexPage";
 import "./home"
 
@@ -27,6 +28,7 @@ export class IndexElement extends LitElement {
             .on("/parent", () => {this.route = html`<parent-index-page></parent-index-page>`})
             .on("/parent/:id", (match: any) => {console.log("Match object from Navigo router: ", match); this.route = html`<parent-index-page .parentId="${match.data.id}"></parent-index-page>`})
             .on("/child", () => {this.route = html`<child-index-page></child-index-page>`})
+            .on("/wishlist-overview", () => {this.route = html`<wishlist-overview-page></wishlist-overview-page>`})
             .on("/home", () => {this.route = html`<home-element></home-element>`})
             .on("*", () => {setTimeout(() => this.route = this.render404(), 200)})
         ;

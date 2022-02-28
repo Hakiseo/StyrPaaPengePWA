@@ -7,6 +7,7 @@ export class ChildIndexPage extends LitElement {
     protected render(): TemplateResult {
         return html `
             <h1> Hello from Child Index Page! </h1>
+            <a href= "/wishlist-overview">Wishlist</a>
         `
     }
 }
