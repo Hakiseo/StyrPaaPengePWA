@@ -3,6 +3,7 @@ import {customElement, property} from 'lit/decorators.js';
 import Navigo from "navigo";
 import "./childComponents/childIndexPage";
 import "./parentComponents/parentIndexPage";
+import "./home"
 
 export const router = new Navigo('/');
 
@@ -26,49 +27,28 @@ export class IndexElement extends LitElement {
             .on("/parent", () => {this.route = html`<parent-index-page></parent-index-page>`})
             .on("/parent/:id", (match: any) => {console.log("Match object from Navigo router: ", match); this.route = html`<parent-index-page .parentId="${match.data.id}"></parent-index-page>`})
             .on("/child", () => {this.route = html`<child-index-page></child-index-page>`})
-            .on("/main", () => {this.route = this.renderHome()})
+            .on("/home", () => {this.route = html`<home-element></home-element>`})
             .on("*", () => {setTimeout(() => this.route = this.render404(), 200)})
         ;
 
         if (window.location.href == "http://localhost:8000/") {
-            router.navigate("/main")
+            router.navigate("/home")
         }
 
         router.resolve();
     }
 
-    render() {
+    render(): TemplateResult {
         return html `
             ${this.route}
         `
-    }
-
-    countUp() {
-        this.count++
-    }
-
-    countDown() {
-        this.count--
-    }
-
-    renderHome() {
-        return html`
-            <h1> WHATS UP MOTHER FUCKERS I CAN COUNT UP AND DOWN!!! </h1>
-            <button @click="${() => this.countUp()}"> Count up </button>
-            <button @click="${() => this.countDown()}"> Count down </button>
-            <h2>Counter: ${this.count}</h2>
-            <h1>AMAZinG!!!</h1>
-            <button @click="${() => router.navigate("parent")}"> Go To Parent index </button>
-            <button @click="${() => router.navigate("parent/1")}"> Go To Parent 1 index </button>
-            <button @click="${() => router.navigate("child")}"> Go To Child index </button>
-        `;
     }
 
     render404() {
         return html ` 
       <div class="w3-container">
         <h2> 404 - Not found </h2>
-        <button class="w3-button w3-blue-gray" @click="${() => router.navigate("/main")}"> Go back to main page </button> 
+        <button class="w3-button w3-blue-gray" @click="${() => router.navigate("/home")}"> Go back to main page </button> 
       </div>
     `
     }
