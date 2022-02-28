@@ -6,7 +6,7 @@ import {getWishlist} from "../api/childApiRequests";
 @customElement("wishlist-overview-page")
 export class WishlistOverviewPage extends LitElement {
 
-    @property({type: Array}) wishlist: IWishlist[] = [];
+    @property() wishlist: IWishlist[] = [];
 
     protected render(): TemplateResult {
         return html `
