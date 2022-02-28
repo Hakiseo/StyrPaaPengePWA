@@ -1,6 +1,8 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, TemplateResult} from "lit";
 import {router} from "./index";
+import {getAllParent} from "./api/parentApiRequests";
+import {getAllChildren} from "./api/childApiRequests";
 
 @customElement('home-element')
 export class Home extends LitElement {
@@ -24,6 +26,8 @@ export class Home extends LitElement {
             <button @click="${() => router.navigate("parent")}"> Go To Parent index </button>
             <button @click="${() => router.navigate("parent/1")}"> Go To Parent 1 index </button>
             <button @click="${() => router.navigate("child")}"> Go To Child index </button>
+            <button @click="${() => getAllChildren().then(r => console.log(r))}"> Get Children </button>
+            <button @click="${() => getAllParent().then(r => console.log(r))}"> Get Parents </button>
         `;
     }
 }
