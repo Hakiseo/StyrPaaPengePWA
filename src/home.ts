@@ -6,16 +6,16 @@ import {router} from "./index";
 export class Home extends LitElement {
     @property({type: Number}) count = 0;
 
-    countUp() {
+    countUp(): void {
         this.count++;
     }
 
-    countDown() {
+    countDown(): void {
         this.count--;
     }
 
     render(): TemplateResult {
-        return html`
+        return html `
             <h1> WHATS UP MOTHER FUCKERS I CAN COUNT UP AND DOWN!!! </h1>
             <button @click="${() => this.countUp()}"> Count up </button>
             <button @click="${() => this.countDown()}"> Count down </button>
