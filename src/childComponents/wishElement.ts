@@ -72,7 +72,7 @@ export class WishElement extends LitElement {
     @query('#img') image: any; //NO IDEA WHAT THIS IS!
 
     firstUpdated(){
-        //this.image.style.setProperty('--image-url',`url(${this.wish.image})`)
+        this.image.style.setProperty('--image-url',`url(${this.wish.image})`)
     }
 
     render(): TemplateResult{
@@ -80,9 +80,13 @@ export class WishElement extends LitElement {
             <article class="wishElement">
                 <div id="img" alt=${this.wish.savingName}></div>
                 <h5>${this.wish.savingName}</h5>
+                
                 ${this.wish.currentStatus ? html `${this.wish.currentStatus}<br><br>` : ''}
                 <a class="btn" href= "/wish-detail/${this.wish.id}">Se mere</a>
             </article>
+            
+            
         `;
     }
 }
+

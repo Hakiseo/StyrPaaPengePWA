@@ -8,4 +8,5 @@ export interface IWishlist {
     currentRewardBalence:string;
     targetRewardBalence:string;
     currentStatus:string;
+    image:string;
 }

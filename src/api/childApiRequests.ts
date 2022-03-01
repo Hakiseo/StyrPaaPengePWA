@@ -4,9 +4,7 @@
 //TODO: Change it in production to match the live server when we get there
 const url='http://localhost:8080/';
 
-
-export async function getWishlist() {
-    console.log("HET!");
+export function getWishlist() {
     return fetch(url + 'child/wishlist', {
         method: 'GET'
     })

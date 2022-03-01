@@ -27,13 +27,16 @@ export class WishlistOverviewPage extends LitElement {
 
     constructor() {
         super();
-        console.log(this.wishlist);
         getWishlist().then(r => this.wishlist = r);
-        console.log(this.wishlist);
     }
 
     private renderWishes(){
-        /*
+        if(!this.wishlist){
+            return html `
+                <p>Loading....</p>
+            `;
+        }
+        console.log(this.wishlist)
         return html `
             <h1>Wish Overview:</h1>
             <section class="container">
@@ -42,6 +45,6 @@ export class WishlistOverviewPage extends LitElement {
                 `)}
             </section>
         `;
-        */
     }
 }
+
