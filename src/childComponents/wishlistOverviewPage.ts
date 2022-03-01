@@ -35,7 +35,7 @@ export class WishlistOverviewPage extends LitElement {
         super();
         getWishlist().then((r : apiResponse) =>{
             this.wishlist = r.results
-            this.errorMessage = "r.error"
+            this.errorMessage = r.error
             // this.errorMessage = "r.error" //simulerer at der er en error besked
         })
     }
