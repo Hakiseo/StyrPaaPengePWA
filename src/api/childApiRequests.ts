@@ -27,3 +27,10 @@ export function delete_Wish(id: string) {
     })
         .then(res => res.json())
 }
+
+export function confirm_Wish(current_status: string, id: string) {
+    return fetch(apiUrl + 'child/wish/confirm/' + current_status + '/' + id, {
+        method: 'POST'
+    })
+        .then(res => res.json())
+}

@@ -2,7 +2,7 @@ import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
-import {getWish, delete_Wish} from "../api/childApiRequests";
+import {getWish, delete_Wish, confirm_Wish} from "../api/childApiRequests";
 import {IWishlist} from "./childInterfaces";
 import { router } from "../index";
 
@@ -43,8 +43,7 @@ export class WishDetailPage extends LitElement {
     }
 
     deleteWish(){
-        //TODO: DER SKAL LAVES EN FUNKTION HER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //Funktionen skal slette en ønskeliste!
+        //TODO: Reloader ikke siden! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         delete_Wish(this.wish.id).then((r : apiResponse) => {
             this.errorMessage = r.error
@@ -59,7 +58,15 @@ export class WishDetailPage extends LitElement {
 
     confirmWish(){
         //TODO: DER SKAL LAVES EN FUNKTION HER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //Funktionen skal ændre værdien i databasen, så listen hentes til Forældrekontoen!
+        confirm_Wish("0", this.wish.id).then((r : apiResponse) => {
+            this.errorMessage = r.error
+            // this.errorMessage = "r.error" //simulerer at der er en error besked
+        })
+        if(this.errorMessage){
+            this.renderError()
+        }else{
+            router.navigate("/wishlist-overview")
+        }
     }
 
     goBack(){
@@ -86,8 +93,6 @@ export class WishDetailPage extends LitElement {
             <p>${this.wish.saving_name}</p>
             <h4>Beskrivelse:</h4>
             <p>${this.wish.content}</p>
-            <h4>Opsparing:</h4>
-            <p>${this.wish.current_reward_balance}</p>
             <h4>Pris:</h4>
             <p>${this.wish.target_reward_balance}</p>
             <h4>Status:</h4>
