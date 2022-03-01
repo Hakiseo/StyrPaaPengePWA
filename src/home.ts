@@ -22,7 +22,7 @@ export class Home extends LitElement {
             <button @click="${() => this.countUp()}"> Count up </button>
             <button @click="${() => this.countDown()}"> Count down </button>
             <h2>Counter: ${this.count}</h2>
-            <h1>AMAZinG!!!</h1>
+            <h1>AMAZinG Retards!!!</h1>
             <button @click="${() => router.navigate("parent")}"> Go To Parent index </button>
             <button @click="${() => router.navigate("parent/1")}"> Go To Parent 1 index </button>
             <button @click="${() => router.navigate("child")}"> Go To Child index </button>
