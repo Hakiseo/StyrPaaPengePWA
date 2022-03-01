@@ -21,8 +21,8 @@ export function getWish(id: string) {
         .then(res => res.json())
 }
 
-export function deleteWish(id: string) {
-    return fetch(apiUrl + 'child/delete/wish' + id, {
+export function delete_Wish(id: string) {
+    return fetch(apiUrl + 'child/wish/delete/' + id, {
         method: 'POST'
     })
         .then(res => res.json())

@@ -2,7 +2,7 @@ import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
-import {getWish, deleteWish} from "../api/childApiRequests";
+import {getWish, delete_Wish} from "../api/childApiRequests";
 import {IWishlist} from "./childInterfaces";
 import { router } from "../index";
 
@@ -43,7 +43,10 @@ export class WishDetailPage extends LitElement {
     }
 
     deleteWish(){
-        deleteWish(this.wish.id).then((r : apiResponse) => {
+        //TODO: DER SKAL LAVES EN FUNKTION HER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //Funktionen skal slette en ønskeliste!
+
+        delete_Wish(this.wish.id).then((r : apiResponse) => {
             this.errorMessage = r.error
             // this.errorMessage = "r.error" //simulerer at der er en error besked
         })
@@ -52,6 +55,15 @@ export class WishDetailPage extends LitElement {
         }else{
             router.navigate("/wishlist-overview")
         }
+    }
+
+    confirmWish(){
+        //TODO: DER SKAL LAVES EN FUNKTION HER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //Funktionen skal ændre værdien i databasen, så listen hentes til Forældrekontoen!
+    }
+
+    goBack(){
+        router.navigate("/wishlist-overview")
     }
 
     renderError(){
@@ -63,10 +75,25 @@ export class WishDetailPage extends LitElement {
 
     renderWishInfo(){
         return html`
-            <button @click=${this.deleteWish}>Delete Wish</button><br>
+            <button @click=${this.goBack}>Tilbage</button><br>
             <h1>${this.wish.saving_name}: </h1>
-            <p>${this.wish.content}: </p>
-            <h1>${this.wish.current_status}: </h1>
+            <img src="${this.wish.img}" alt="Wish Icon" width="200" height="200">
+            <h4>ID:</h4>
+            <p>${this.wish.id}</p>
+            <h4>Creator ID:</h4>
+            <p>${this.wish.creator_id}</p>
+            <h4>Navn på liste:</h4>
+            <p>${this.wish.saving_name}</p>
+            <h4>Beskrivelse:</h4>
+            <p>${this.wish.content}</p>
+            <h4>Opsparing:</h4>
+            <p>${this.wish.current_reward_balance}</p>
+            <h4>Pris:</h4>
+            <p>${this.wish.target_reward_balance}</p>
+            <h4>Status:</h4>
+            <p>${this.wish.current_status}</p>
+            <button @click=${this.deleteWish}>Delete Wish</button><br>
+            <button @click=${this.confirmWish()}>Godkend</button><br>
         `;
     }
 }

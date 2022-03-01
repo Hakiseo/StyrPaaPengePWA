@@ -5,8 +5,8 @@ export interface IWishlist {
     creator_id:string;
     saving_name:string;
     content:string;
-    current_reward_balence:string;
-    target_reward_balence:string;
+    current_reward_balance:string;
+    target_reward_balance:string;
     current_status:string;
     img:string;
 }
