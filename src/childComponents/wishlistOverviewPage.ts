@@ -3,6 +3,7 @@ import {css, html, LitElement, TemplateResult} from "lit";
 import {IWishlist} from "./childInterfaces";
 import {getWishlist} from "../api/childApiRequests";
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
+import "./wishElement"
 
 @customElement("wishlist-overview-page")
 export class WishlistOverviewPage extends LitElement {
@@ -46,9 +47,12 @@ export class WishlistOverviewPage extends LitElement {
         return html `
             <h1>Wish Overview:</h1>
             <section class="container">
-                ${this.wishlist.map(wish => html `
+                ${this.wishlist.map(wish => {
+                    console.log(wish)
+                    return html `
                     <wish-element .wish=${wish}></wish-element>
-                `)}
+                `
+                })}
             </section>
         `;
     }

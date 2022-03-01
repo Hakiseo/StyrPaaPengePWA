@@ -4,6 +4,7 @@ import Navigo from "navigo";
 import "./childComponents/childIndexPage";
 import "./childComponents/wishlistOverviewPage";
 import "./parentComponents/parentIndexPage";
+import "./childComponents/wishDetail";
 import "./home"
 
 export const router = new Navigo('/');
@@ -25,6 +26,7 @@ export class IndexElement extends LitElement {
     constructor() {
         super();
         router
+            .on("/wish-detail/:id", () => {this.route = html`<wish-detail-page></wish-detail-page>`})
             .on("/parent", () => {this.route = html`<parent-index-page></parent-index-page>`})
             .on("/parent/:id", (match: any) => {console.log("Match object from Navigo router: ", match); this.route = html`<parent-index-page .parentId="${match.data.id}"></parent-index-page>`})
             .on("/child", () => {this.route = html`<child-index-page></child-index-page>`})

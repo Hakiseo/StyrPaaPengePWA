@@ -76,17 +76,23 @@ export class WishElement extends LitElement {
     }
 
     render(): TemplateResult{
-        return html`
-            <article class="wishElement">
-                <div id="img" alt=${this.wish.savingName}></div>
-                <h5>${this.wish.savingName}</h5>
+        if(!this.wish){
+            return html `Loading...`
+        }else{
+            console.log(this.wish)
+            return html`
                 
-                ${this.wish.currentStatus ? html `${this.wish.currentStatus}<br><br>` : ''}
-                <a class="btn" href= "/wish-detail/${this.wish.id}">Se mere</a>
-            </article>
-            
-            
+                <h>${this.wish.savingName}</h>
+                
+                <article class="wishElement">
+                    <div id="img" alt=${this.wish.savingName}></div>
+                    <h5>${this.wish.savingName}</h5>
+                    ${this.wish.currentStatus ? html `${this.wish.currentStatus}<br><br>` : ''}
+                    <a class="btn" href= "/wish-detail/${this.wish.id}">Se mere</a>
+                </article>
+                
+                
         `;
+        }
     }
 }
-

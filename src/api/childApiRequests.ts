@@ -15,7 +15,7 @@ export function getWishlist() {
 }
 
 export function getWish(id: string) {
-    return fetch(apiUrl + 'child/wish' + id, {
+    return fetch(apiUrl + 'child/wish/' + id, {
         method: 'GET'
     })
         .then(res => res.json())
