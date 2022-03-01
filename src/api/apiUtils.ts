@@ -6,11 +6,7 @@ export function apiFetch(path: string): Promise<any> {
     return fetch(apiUrl + path).then(res => res.json());
 }
 
-export function apiPost(path: string) {
-    const data = { username: 'example' };
-
-    console.log("DATA: ", data)
-
+export function apiPost(path: string, data: {}) {
     fetch(apiUrl + path, {
         method: 'POST',
         headers: {
