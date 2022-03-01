@@ -18,7 +18,7 @@ let IndexElement = class IndexElement extends LitElement {
         super();
         this.count = 0;
         router
-            .on("/wish-detail/:id", () => { this.route = html `<wish-detail-page></wish-detail-page>`; })
+            .on("/wish-detail/:id", (match) => { this.route = html `<wish-detail-page .wishID="${match.data.id}"></wish-detail-page>`; })
             .on("/parent", () => { this.route = html `<parent-index-page></parent-index-page>`; })
             .on("/parent/:id", (match) => { console.log("Match object from Navigo router: ", match); this.route = html `<parent-index-page .parentId="${match.data.id}"></parent-index-page>`; })
             .on("/child", () => { this.route = html `<child-index-page></child-index-page>`; })
