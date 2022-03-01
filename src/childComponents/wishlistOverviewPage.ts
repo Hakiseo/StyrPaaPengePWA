@@ -11,11 +11,7 @@ export class WishlistOverviewPage extends LitElement {
     @property({type: String}) errorMessage: string | null = "";
 
     protected render(): TemplateResult {
-        if(!this.wishlist){
-            return html `
-                <p>Loading....</p>
-            `;
-        }
+        if (!this.wishlist) return html `Loading ...`;
         return html `
             <div>
                 ${this.renderWishes()}
@@ -45,7 +41,7 @@ export class WishlistOverviewPage extends LitElement {
             return html `
                 <p> ${this.errorMessage} </p>
                 <p> Please try again or please go back to main page </p>
-            `
+            `;
         }
         return html `
             <h1>Wish Overview:</h1>
