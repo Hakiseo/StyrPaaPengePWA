@@ -7,9 +7,8 @@ import {apiResponse} from "../sharedComponents/sharedInterfaces";
 @customElement("wishlist-overview-page")
 export class WishlistOverviewPage extends LitElement {
 
-    //@property() wishlist: IWishlist[] = [];
-    @property({type: Array}) wishlist!: IWishlist[];
-    @property({type: String}) errorMassega: string = "";
+    @property() wishlist!: IWishlist[];
+    @property({type: String}) errorMessage: string | null = "";
 
     protected render(): TemplateResult {
         if(!this.wishlist){
@@ -34,20 +33,20 @@ export class WishlistOverviewPage extends LitElement {
 
     constructor() {
         super();
-
         getWishlist().then((r : apiResponse) =>{
-            if(r.error !== null){
-                this.wishlist = r.results
-            }else{
-                this.errorMassega = r.error
-            }
+            this.wishlist = r.results
+            this.errorMessage = "r.error"
+            // this.errorMessage = "r.error" //simulerer at der er en error besked
         })
-
-        //getWishlist().then(r => this.wishlist = r.result);
     }
 
     private renderWishes(){
-        console.log(this.wishlist)
+        if (this.errorMessage) {
+            return html `
+                <p> ${this.errorMessage} </p>
+                <p> Please try again or please go back to main page </p>
+            `
+        }
         return html `
             <h1>Wish Overview:</h1>
             <section class="container">

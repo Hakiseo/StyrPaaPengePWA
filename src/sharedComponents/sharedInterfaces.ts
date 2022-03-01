@@ -2,5 +2,5 @@
 
 export interface apiResponse {
     results: [],
-    error: string
+    error: string | null
 }
