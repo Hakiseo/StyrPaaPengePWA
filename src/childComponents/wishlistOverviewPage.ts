@@ -2,14 +2,21 @@ import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import {IWishlist} from "./childInterfaces";
 import {getWishlist} from "../api/childApiRequests";
+import {apiResponse} from "../sharedComponents/sharedInterfaces";
 
 @customElement("wishlist-overview-page")
 export class WishlistOverviewPage extends LitElement {
 
     //@property() wishlist: IWishlist[] = [];
-    @property({type: Array}) wishlist: IWishlist[] = [];
+    @property({type: Array}) wishlist!: IWishlist[];
+    @property({type: String}) errorMassega: string = "";
 
     protected render(): TemplateResult {
+        if(!this.wishlist){
+            return html `
+                <p>Loading....</p>
+            `;
+        }
         return html `
             <div>
                 ${this.renderWishes()}
@@ -27,15 +34,19 @@ export class WishlistOverviewPage extends LitElement {
 
     constructor() {
         super();
-        getWishlist().then(r => this.wishlist = r);
+
+        getWishlist().then((r : apiResponse) =>{
+            if(r.error !== null){
+                this.wishlist = r.results
+            }else{
+                this.errorMassega = r.error
+            }
+        })
+
+        //getWishlist().then(r => this.wishlist = r.result);
     }
 
     private renderWishes(){
-        if(!this.wishlist){
-            return html `
-                <p>Loading....</p>
-            `;
-        }
         console.log(this.wishlist)
         return html `
             <h1>Wish Overview:</h1>

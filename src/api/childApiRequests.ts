@@ -11,4 +11,19 @@ export function getWishlist() {
         method: 'GET'
     })
         .then(res => res.json())
+        //.then(res => {console.log(res.json()) ; return res.json()})
+}
+
+export function getWish(id: string) {
+    return fetch(apiUrl + 'child/wish' + id, {
+        method: 'GET'
+    })
+        .then(res => res.json())
+}
+
+export function deleteWish(id: string) {
+    return fetch(apiUrl + 'child/delete/wish' + id, {
+        method: 'POST'
+    })
+        .then(res => res.json())
 }
