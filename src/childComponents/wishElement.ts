@@ -17,8 +17,8 @@ export class WishElement extends LitElement {
         }
 
         #img{
-            width:200px;
-            height:120px;
+            width:100px;
+            height:100px;
             border-radius:15%;
             margin-bottom:20px;
             background-size:cover;
@@ -34,13 +34,13 @@ export class WishElement extends LitElement {
             background-color: #003865;
             padding: 2rem;
             text-align: center;
-            max-width: 200px;
-            min-width: 200px;
-            max-height:350px;
-            min-height:350px;
+            max-width: 100px;
+            min-width: 100px;
+            max-height:240px;
+            min-height:240px;
             border-radius: 30px;
-            margin-bottom: 20px;
-            margin-top: 20px;
+            margin-bottom: 10px;
+            margin-top: 10px;
         }
 
         .btn {
@@ -85,7 +85,7 @@ export class WishElement extends LitElement {
                     <div id="img" alt=${this.wish.saving_name}></div>
                     <h5>${this.wish.saving_name}</h5>
                     ${this.wish.current_status ? html `${this.wish.current_status}<br><br>` : ''}
-                    <a class="btn" href= "/wish-detail/${this.wish.id}">Se mere</a>
+                    <a class="btn" href= "/wish-detail/${this.wish.id}">Detaljer</a>
                 </article>
         `;
         }

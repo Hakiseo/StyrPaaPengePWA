@@ -43,8 +43,6 @@ export class WishDetailPage extends LitElement {
     }
 
     deleteWish(){
-        //TODO: Reloader ikke siden! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
         delete_Wish(this.wish.id).then((r : apiResponse) => {
             this.errorMessage = r.error
             // this.errorMessage = "r.error" //simulerer at der er en error besked
@@ -57,8 +55,7 @@ export class WishDetailPage extends LitElement {
     }
 
     confirmWish(){
-        //TODO: DER SKAL LAVES EN FUNKTION HER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        confirm_Wish("0", this.wish.id).then((r : apiResponse) => {
+        confirm_Wish("1", this.wish.id).then((r : apiResponse) => {
             this.errorMessage = r.error
             // this.errorMessage = "r.error" //simulerer at der er en error besked
         })
@@ -82,7 +79,7 @@ export class WishDetailPage extends LitElement {
 
     renderWishInfo(){
         return html`
-            <button @click=${this.goBack}>Tilbage</button><br>
+            <button @click=${() => this.goBack()}>Tilbage</button><br>
             <h1>${this.wish.saving_name}: </h1>
             <img src="${this.wish.img}" alt="Wish Icon" width="200" height="200">
             <h4>ID:</h4>
@@ -97,8 +94,8 @@ export class WishDetailPage extends LitElement {
             <p>${this.wish.target_reward_balance}</p>
             <h4>Status:</h4>
             <p>${this.wish.current_status}</p>
-            <button @click=${this.deleteWish}>Delete Wish</button><br>
-            <button @click=${this.confirmWish()}>Godkend</button><br>
+            <button @click=${() => this.deleteWish()}>Delete Wish</button><br>
+            <button @click=${() => this.confirmWish()}>Godkend</button><br>
         `;
     }
 }

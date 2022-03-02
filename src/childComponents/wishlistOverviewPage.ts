@@ -43,8 +43,7 @@ export class WishlistOverviewPage extends LitElement {
     }
 
     createWishList(){
-        //TODO: DER SKAL LAVES EN FUNKTION HER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //Funktionen skal oprette en ny ønskeliste!
+        router.navigate("/wishlist-creating")
     }
 
     private renderWishes(){
@@ -56,8 +55,8 @@ export class WishlistOverviewPage extends LitElement {
         }
         return html `
             <h1>Ønskelister:</h1>
-            <button @click=${this.goBack}>Tilbage</button><br>
-            <button @click=${this.createWishList}>Opret Ønskeliste</button><br>
+            <button @click=${() => this.goBack()}>Tilbage</button><br>
+            <button @click=${() => this.createWishList()}>Opret Ønskeliste</button><br>
 
             <section class="container">
                 ${this.wishlist.map(wish => {

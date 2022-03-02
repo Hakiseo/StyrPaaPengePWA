@@ -34,3 +34,10 @@ export function confirm_Wish(current_status: string, id: string) {
     })
         .then(res => res.json())
 }
+
+export function create_Wishlist(creator_id: string, saving_name: string, content: string, target_reward_balance: string) {
+    return fetch(apiUrl + 'child/wishlist/create/' + creator_id + '/' + saving_name + '/' + content + '/' + target_reward_balance, {
+        method: 'POST'
+    })
+        .then(res => res.json())
+}

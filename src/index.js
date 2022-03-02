@@ -11,6 +11,7 @@ import "./childComponents/childIndexPage";
 import "./childComponents/wishlistOverviewPage";
 import "./parentComponents/parentIndexPage";
 import "./childComponents/wishDetail";
+import "./childComponents/wishCreatePage";
 import "./home";
 export const router = new Navigo('/');
 let IndexElement = class IndexElement extends LitElement {
@@ -18,11 +19,12 @@ let IndexElement = class IndexElement extends LitElement {
         super();
         this.count = 0;
         router
+            .on("/child", () => { this.route = html `<child-index-page></child-index-page>`; })
+            .on("/wishlist-overview", () => { this.route = html `<wishlist-overview-page></wishlist-overview-page>`; })
+            .on("/wishlist-creating", () => { this.route = html `<wish-create-page></wish-create-page>`; })
             .on("/wish-detail/:id", (match) => { this.route = html `<wish-detail-page .wishID="${match.data.id}"></wish-detail-page>`; })
             .on("/parent", () => { this.route = html `<parent-index-page></parent-index-page>`; })
             .on("/parent/:id", (match) => { console.log("Match object from Navigo router: ", match); this.route = html `<parent-index-page .parentId="${match.data.id}"></parent-index-page>`; })
-            .on("/child", () => { this.route = html `<child-index-page></child-index-page>`; })
-            .on("/wishlist-overview", () => { this.route = html `<wishlist-overview-page></wishlist-overview-page>`; })
             .on("/home", () => { this.route = html `<home-element></home-element>`; })
             .on("*", () => { setTimeout(() => this.route = this.render404(), 200); });
         if (window.location.href == "http://localhost:8000/") {
