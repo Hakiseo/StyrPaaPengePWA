@@ -7,7 +7,7 @@ export function apiFetch(path: string): Promise<any> {
 }
 
 export function apiPost(path: string, data: {}) {
-    fetch(apiUrl + path, {
+    return fetch(apiUrl + path, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -15,11 +15,5 @@ export function apiPost(path: string, data: {}) {
         },
         body: JSON.stringify(data),
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+        .then(response => response.json());
 }

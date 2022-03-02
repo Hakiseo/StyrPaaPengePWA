@@ -1,6 +1,6 @@
 //Child component related api-requests
 
-import {apiFetch, apiUrl} from "./apiUtils";
+import {apiFetch, apiPost, apiUrl} from "./apiUtils";
 
 export function getAllChildren(): Promise<any> {
     return apiFetch("child")
@@ -35,9 +35,11 @@ export function confirm_Wish(current_status: string, id: string) {
         .then(res => res.json())
 }
 
-export function create_Wishlist(creator_id: string, saving_name: string, content: string, target_reward_balance: string) {
-    return fetch(apiUrl + 'child/wishlist/create/' + creator_id + '/' + saving_name + '/' + content + '/' + target_reward_balance, {
+export function create_Wishlist(saving_name: string, content: string, target_reward_balance: number) {
+/*    return fetch(apiUrl + 'child/wishlist/create/' + creator_id + '/' + saving_name + '/' + content + '/' + target_reward_balance, {
         method: 'POST'
     })
-        .then(res => res.json())
+        .then(res => res.json())*/
+    //TODO: Nat figure out how to get the ID automatically from child without having to set it manually (Not safe to set it manually)
+    return apiPost("child/wishlist/create/", {saving_name: saving_name, content: content, target_reward_balance: target_reward_balance})
 }
