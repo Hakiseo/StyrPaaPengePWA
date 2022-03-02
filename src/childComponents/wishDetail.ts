@@ -39,7 +39,7 @@ export class WishDetailPage extends LitElement {
             <p> ${this.wish.content} </p>
             <p> ${this.wish.target_reward_balance} </p>
             <button @click=${() => this.editMode = true}> Redigér ønskeliste</button><br>
-        `
+        `;
     }
 
     renderEditForm() {
@@ -50,10 +50,9 @@ export class WishDetailPage extends LitElement {
                        .wishListTarget="${this.wish.target_reward_balance}"
                        @submit="${(e: CustomEvent) => {
                            this.updateWish(e);
-                           this.editMode = false;
                        }}"
             ></wish-form>
-        `
+        `;
     }
 
     protected updated(_changedProperties: PropertyValues) {
@@ -87,7 +86,7 @@ export class WishDetailPage extends LitElement {
             if(this.errorMessage){
                 this.renderError()
             }else{
-                this.goBack()
+                this.editMode = false;
             }
         } else {
             window.alert("No fields may be left empty'!");

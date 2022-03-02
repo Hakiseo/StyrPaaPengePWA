@@ -10,7 +10,7 @@ import "./wishForm";
 export class WishCreatePage extends LitElement {
     @property({type: String}) errorMessage: string | null = "";
 
-    constructor() {
+    constructor(){
         super();
     }
 
@@ -39,7 +39,7 @@ export class WishCreatePage extends LitElement {
     }
     */
 
-    createWishList(e: CustomEvent) {
+    createWishList(e: CustomEvent){
         console.log("New wishlist created: ", e.detail)
         if (e.detail.wishListName && e.detail.wishListContent && e.detail.wishListTarget) {
             create_Wishlist(e.detail.wishListName, e.detail.wishListContent, e.detail.wishListTarget).then((r : apiResponse) => {
