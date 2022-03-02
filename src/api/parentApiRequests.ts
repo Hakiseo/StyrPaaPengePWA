@@ -7,5 +7,5 @@ export function getAllParent(): Promise<any> {
 }
 
 export function postParent() {
-    apiPost("parent")
+    apiPost("parent", {data: "testData"})
 }
