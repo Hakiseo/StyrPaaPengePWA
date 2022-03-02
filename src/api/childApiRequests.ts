@@ -6,6 +6,17 @@ export function getAllChildren(): Promise<any> {
     return apiFetch("child")
 }
 
+//Task Calls:
+export function getTasklist() {
+    return fetch(apiUrl + 'child/tasklist', {
+        method: 'GET'
+    })
+        .then(res => res.json())
+    //.then(res => {console.log(res.json()) ; return res.json()})
+}
+
+
+//Wish Calls:
 export function getWishlist() {
     return fetch(apiUrl + 'child/wishlist', {
         method: 'GET'
