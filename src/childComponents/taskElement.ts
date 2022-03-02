@@ -85,7 +85,7 @@ export class TaskElement extends LitElement {
                     <div id="img" alt=${this.task.task_name}></div>
                     <h5>${this.task.task_name}</h5>
                     ${this.task.current_status ? html `${this.task.current_status}<br><br>` : ''}
-                    <a class="btn" href= "/task-detail/${this.task.id}">Detaljer</a>
+                    <!--<a class="btn" href= "/task-detail/${this.task.id}">Detaljer</a>-->
                 </article>
         `;
         }

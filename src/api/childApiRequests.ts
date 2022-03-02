@@ -32,25 +32,43 @@ export function getWish(id: string) {
         .then(res => res.json())
 }
 
-export function delete_Wish(id: string) {
+export function update_Wish(id: string, saving_name: string, content: string, target_reward_balance: number) {
+    /*
     return fetch(apiUrl + 'child/wish/delete/' + id, {
         method: 'POST'
     })
         .then(res => res.json())
+    */
+    return apiPost("child/wishlist/update/", {id: id, saving_name: saving_name, content: content, target_reward_balance: target_reward_balance})
+}
+
+export function delete_Wish(id: string) {
+    /*
+    return fetch(apiUrl + 'child/wish/delete/' + id, {
+        method: 'POST'
+    })
+        .then(res => res.json())
+    */
+    return apiPost("child/wishlist/delete/", {id: id})
 }
 
 export function confirm_Wish(current_status: string, id: string) {
+    /*
     return fetch(apiUrl + 'child/wish/confirm/' + current_status + '/' + id, {
         method: 'POST'
     })
         .then(res => res.json())
+    */
+    return apiPost("child/wishlist/confirm/", {current_status: current_status, id: id})
 }
 
 export function create_Wishlist(saving_name: string, content: string, target_reward_balance: number) {
-/*    return fetch(apiUrl + 'child/wishlist/create/' + creator_id + '/' + saving_name + '/' + content + '/' + target_reward_balance, {
+    /*
+    return fetch(apiUrl + 'child/wishlist/create/' + creator_id + '/' + saving_name + '/' + content + '/' + target_reward_balance, {
         method: 'POST'
     })
-        .then(res => res.json())*/
+        .then(res => res.json())
+    */
     //TODO: Nat figure out how to get the ID automatically from child without having to set it manually (Not safe to set it manually)
     return apiPost("child/wishlist/create/", {saving_name: saving_name, content: content, target_reward_balance: target_reward_balance})
 }

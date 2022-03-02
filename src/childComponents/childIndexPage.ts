@@ -1,10 +1,10 @@
-import {customElement} from "lit/decorators.js";
+import {customElement,property} from "lit/decorators.js";
 import {html, LitElement, TemplateResult} from "lit";
 import {ITasklist} from "./childInterfaces";
 import {getTasklist} from "../api/childApiRequests";
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
 import "./taskElement"
-import {property} from "lit/decorators";
+//import {property} from "lit/decorators";
 
 @customElement("child-index-page")
 export class ChildIndexPage extends LitElement {
@@ -47,7 +47,7 @@ export class ChildIndexPage extends LitElement {
                     return html `
                     <task-element .task=${task}></task-element>
                 `
-        })}
+            })}
             </section>
         `;
     }
