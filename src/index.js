@@ -10,6 +10,7 @@ import Navigo from "navigo";
 import "./childComponents/childIndexPage";
 import "./parentComponents/parentIndexPage";
 import "./home";
+import "./sharedComponents/register";
 export const router = new Navigo('/');
 let IndexElement = class IndexElement extends LitElement {
     constructor() {

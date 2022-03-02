@@ -3,25 +3,17 @@ import {html, LitElement, TemplateResult} from "lit";
 import {router} from "./index";
 import {getAllParent, postParent} from "./api/parentApiRequests";
 import {getAllChildren} from "./api/childApiRequests";
+import "./sharedComponents/login"
+import "./sharedComponents/register"
 
 @customElement('home-element')
 export class Home extends LitElement {
-    @property({type: Number}) count = 0;
+    @property() showRegister: boolean = false;
 
-    countUp(): void {
-        this.count++;
-    }
-
-    countDown(): void {
-        this.count--;
-    }
+    //Show login & register only
 
     render(): TemplateResult {
         return html `
-            <h1> WHATS UP MOTHER FUCKERS I CAN COUNT UP AND DOWN!!! </h1>
-            <button @click="${() => this.countUp()}"> Count up </button>
-            <button @click="${() => this.countDown()}"> Count down </button>
-            <h2>Counter: ${this.count}</h2>
             <h1>AMAZinG Retards!!!</h1>
             <button @click="${() => router.navigate("parent")}"> Go To Parent index </button>
             <button @click="${() => router.navigate("parent/1")}"> Go To Parent 1 index </button>
@@ -29,6 +21,18 @@ export class Home extends LitElement {
             <button @click="${() => getAllChildren().then(r => console.log(r))}"> Get Children </button>
             <button @click="${() => getAllParent().then(r => console.log(r))}"> Get Parents </button>
             <button @click="${() => postParent()}"> Post test parent </button>
+            <hr>
+            ${this.renderHomeContent()}
         `;
+    }
+
+    renderHomeContent() {
+        if (this.showRegister) {
+            return html `<register-page @showLogin="${() => this.showRegister = false}"></register-page>`
+        }
+
+        return html `
+            <login-page @showRegister="${() => this.showRegister = true}"></login-page>
+        `
     }
 }

@@ -3,6 +3,7 @@ import Navigo from "navigo";
 import "./childComponents/childIndexPage";
 import "./parentComponents/parentIndexPage";
 import "./home";
+import "./sharedComponents/register";
 export declare const router: Navigo;
 export declare class IndexElement extends LitElement {
     get route(): void | TemplateResult<1 | 2>;

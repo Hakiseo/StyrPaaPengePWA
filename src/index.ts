@@ -3,7 +3,8 @@ import {customElement, property} from 'lit/decorators.js';
 import Navigo from "navigo";
 import "./childComponents/childIndexPage";
 import "./parentComponents/parentIndexPage";
-import "./home"
+import "./home";
+import "./sharedComponents/register";
 
 export const router = new Navigo('/');
 
