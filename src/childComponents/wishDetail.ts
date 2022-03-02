@@ -11,6 +11,7 @@ export class WishDetailPage extends LitElement {
     @property({type: String}) errorMessage: string | null = "";
     @property() wishID: string = "";
     @property() wish!: IWishlist;
+    @property() editMode: boolean = false;
 
     constructor() {
         super();
@@ -26,12 +27,33 @@ export class WishDetailPage extends LitElement {
             <h1>Ønskeliste: ${this.wish.saving_name}</h1>
             <img src="${this.wish.img}" alt="Wish Icon" width="200" height="200"><br><br>
             <button @click=${() => this.goBack()}>Tilbage</button><br>
-            <wish-form .detailForm="${true}" .wishListName="${this.wish.saving_name}" .wishListContent="${this.wish.content}" .wishListTarget="${this.wish.target_reward_balance}" @submit="${(e: CustomEvent) => {
-                this.updateWish(e)
-            }}"></wish-form>
+            ${this.editMode ? this.renderEditForm() : this.renderInformation()}
             <button @click=${() => this.deleteWish()}>Delete Wish</button><br>
             <button @click=${() => this.confirmWish()}>Godkend</button><br>
         `;
+    }
+
+    renderInformation() {
+        return html `
+            <p> ${this.wish.saving_name} </p>
+            <p> ${this.wish.content} </p>
+            <p> ${this.wish.target_reward_balance} </p>
+            <button @click=${() => this.editMode = true}> Redigér ønskeliste</button><br>
+        `
+    }
+
+    renderEditForm() {
+        return html `
+            <wish-form .detailForm="${true}"
+                       .wishListName="${this.wish.saving_name}"
+                       .wishListContent="${this.wish.content}"
+                       .wishListTarget="${this.wish.target_reward_balance}"
+                       @submit="${(e: CustomEvent) => {
+                           this.updateWish(e);
+                           this.editMode = false;
+                       }}"
+            ></wish-form>
+        `
     }
 
     protected updated(_changedProperties: PropertyValues) {
