@@ -1,1 +1,1 @@
-{"version":3,"file":"childIndexPage.d.ts","sourceRoot":"","sources":["childIndexPage.ts"],"names":[],"mappings":"AACA,OAAO,EAAO,UAAU,EAAE,cAAc,EAAC,MAAM,KAAK,CAAC;AAErD,qBACa,cAAe,SAAQ,UAAU;IAE1C,SAAS,CAAC,MAAM,IAAI,cAAc;CAKrC"}
+{"version":3,"file":"childIndexPage.d.ts","sourceRoot":"","sources":["childIndexPage.ts"],"names":[],"mappings":"AACA,OAAO,EAAO,UAAU,EAAE,cAAc,EAAC,MAAM,KAAK,CAAC;AAErD,qBACa,cAAe,SAAQ,UAAU;IAE1C,iBAAiB;IAKjB,SAAS,CAAC,MAAM,IAAI,cAAc;CAKrC"}

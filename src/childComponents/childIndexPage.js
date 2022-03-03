@@ -7,6 +7,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { customElement } from "lit/decorators.js";
 import { html, LitElement } from "lit";
 let ChildIndexPage = class ChildIndexPage extends LitElement {
+    connectedCallback() {
+        super.connectedCallback();
+        //Check and validate token with an api-call to see if we have access to the site
+    }
     render() {
         return html `
             <h1> Hello from Child Index Page! </h1>
