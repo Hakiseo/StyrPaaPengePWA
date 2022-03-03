@@ -11,6 +11,7 @@ export class Register extends LitElement {
     @property() password: string = ""
     @property() repeatedPassword: string = ""
 
+    //TODO: validate input & visually show errors
     protected render(): TemplateResult {
         return html `
             <label for="firstname"> Fornavn: </label>

@@ -3,6 +3,7 @@ import {customElement, property} from 'lit/decorators.js';
 import Navigo from "navigo";
 import "./childComponents/childIndexPage";
 import "./parentComponents/parentIndexPage";
+import "./parentComponents/createChild";
 import "./home";
 import "./sharedComponents/register";
 
@@ -26,6 +27,7 @@ export class IndexElement extends LitElement {
         super();
         router
             .on("/parent", () => {this.route = html`<parent-index-page></parent-index-page>`})
+            .on("/parent/createChild", () => {this.route = html`<create-child></create-child>`})
             .on("/parent/:id", (match: any) => {console.log("Match object from Navigo router: ", match); this.route = html`<parent-index-page .parentId="${match.data.id}"></parent-index-page>`})
             .on("/child", () => {this.route = html`<child-index-page></child-index-page>`})
             .on("/home", () => {this.route = html`<home-element></home-element>`})

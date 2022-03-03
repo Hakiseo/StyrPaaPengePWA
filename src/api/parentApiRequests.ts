@@ -10,3 +10,7 @@ export function getAllParent(): Promise<any> {
 export function postParent() {
     apiPost("parent", {data: "tester"})
 }
+
+export function createJuniorUser(data: {}) {
+    return apiPost("parent/createChild", data)
+}

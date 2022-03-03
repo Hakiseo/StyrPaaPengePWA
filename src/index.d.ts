@@ -2,6 +2,7 @@ import { LitElement, TemplateResult } from 'lit';
 import Navigo from "navigo";
 import "./childComponents/childIndexPage";
 import "./parentComponents/parentIndexPage";
+import "./parentComponents/createChild";
 import "./home";
 import "./sharedComponents/register";
 export declare const router: Navigo;
