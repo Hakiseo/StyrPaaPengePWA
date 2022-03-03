@@ -53,20 +53,26 @@ export class WishlistOverviewPage extends LitElement {
                 <p> Please try again or please go back to main page </p>
             `;
         }
-        return html `
-            <h1>Ønskelister:</h1>
-            <button @click=${() => this.goBack()}>Tilbage</button><br>
-            <button @click=${() => this.createWishList()}>Opret Ønskeliste</button><br>
+        if(this.wishlist){
+            return html `
+                <h1>Ønskelister:</h1>
+                <button @click=${() => this.goBack()}>Tilbage</button><br>
+                <button @click=${() => this.createWishList()}>Opret Ønskeliste</button><br>
 
-            <section class="container">
-                ${this.wishlist.map(wish => {
-                    console.log(wish)
-                    return html `
+                <section class="container">
+                    ${this.wishlist.map(wish => {
+                        console.log(wish)
+                        return html `
                     <wish-element .wish=${wish}></wish-element>
                 `
-                })}
-            </section>
-        `;
+                    })}
+                </section>
+            `;
+        }else{
+            return html `
+                <p> Error loading Wishlist...</p>
+            `;
+        }
     }
 }
 

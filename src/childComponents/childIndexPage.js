@@ -5,7 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { customElement, property } from "lit/decorators.js";
-import { html, LitElement } from "lit";
+import { css, html, LitElement } from "lit";
 import { getTasklist } from "../api/childApiRequests";
 import "./taskElement";
 //import {property} from "lit/decorators";
@@ -36,19 +36,34 @@ let ChildIndexPage = class ChildIndexPage extends LitElement {
                 <p> Loading...</p>
             `;
         }
-        return html `
-            <h1>Opgaver:</h1>
-            <section class="container">
-                ${this.tasklist.map(task => {
-            console.log(task);
+        if (this.tasklist) {
             return html `
-                    <task-element .task=${task}></task-element>
-                `;
-        })}
-            </section>
-        `;
+                <h1>Opgaver:</h1>
+            
+                <section class="container">
+                    ${this.tasklist.map(task => {
+                console.log(task);
+                return html `
+                        <task-element .task=${task}></task-element>
+                    `;
+            })}
+                </section>
+            `;
+        }
+        else {
+            return html `
+                <p> Error loading Tasklist...</p>
+            `;
+        }
     }
 };
+ChildIndexPage.styles = [css `
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+    `];
 __decorate([
     property()
 ], ChildIndexPage.prototype, "tasklist", void 0);

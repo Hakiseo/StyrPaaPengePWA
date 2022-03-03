@@ -12,6 +12,7 @@ import "./childComponents/wishlistOverviewPage";
 import "./parentComponents/parentIndexPage";
 import "./childComponents/wishDetail";
 import "./childComponents/wishCreatePage";
+import "./childComponents/taskDetail";
 import "./home";
 export const router = new Navigo('/');
 let IndexElement = class IndexElement extends LitElement {
@@ -20,6 +21,7 @@ let IndexElement = class IndexElement extends LitElement {
         this.count = 0;
         router
             .on("/child", () => { this.route = html `<child-index-page></child-index-page>`; })
+            .on("/task-detail/:id", (match) => { this.route = html `<task-detail-page .taskID="${match.data.id}"></task-detail-page>`; })
             .on("/wishlist-overview", () => { this.route = html `<wishlist-overview-page></wishlist-overview-page>`; })
             .on("/wishlist-creating", () => { this.route = html `<wish-create-page></wish-create-page>`; })
             .on("/wish-detail/:id", (match) => { this.route = html `<wish-detail-page .wishID="${match.data.id}"></wish-detail-page>`; })

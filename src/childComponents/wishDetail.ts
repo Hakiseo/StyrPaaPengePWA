@@ -26,8 +26,11 @@ export class WishDetailPage extends LitElement {
         return html`
             <h1>Ønskeliste: ${this.wish.saving_name}</h1>
             <img src="${this.wish.img}" alt="Wish Icon" width="200" height="200"><br><br>
+            
             <button @click=${() => this.goBack()}>Tilbage</button><br>
+            
             ${this.editMode ? this.renderEditForm() : this.renderInformation()}
+            
             <button @click=${() => this.deleteWish()}>Delete Wish</button><br>
             <button @click=${() => this.confirmWish()}>Godkend</button><br>
         `;
@@ -59,15 +62,19 @@ export class WishDetailPage extends LitElement {
         super.updated(_changedProperties);
         console.log("wishID: ", this.wishID)
         if (_changedProperties.has("wishID")) {
-            getWish(this.wishID).then((r : apiResponse) => {
-                if(r.results !== null){
-                    let tempWishList:IWishlist[] = r.results;
-                    this.wish = tempWishList[0]
-                }else{
-                    this.errorMessage = r.error;
-                }
-            });
+            this.loadWish();
         }
+    }
+
+    loadWish(){
+        getWish(this.wishID).then((r : apiResponse) => {
+            if(r.results !== null){
+                let tempWishList:IWishlist[] = r.results;
+                this.wish = tempWishList[0]
+            }else{
+                this.errorMessage = r.error;
+            }
+        });
     }
 
     renderError(){
@@ -82,8 +89,9 @@ export class WishDetailPage extends LitElement {
         if (e.detail.wishListName && e.detail.wishListContent && e.detail.wishListTarget) {
             update_Wish(this.wish.id, e.detail.wishListName, e.detail.wishListContent, e.detail.wishListTarget).then((r : apiResponse) => {
                 this.errorMessage = r.error
+                this.loadWish();
             })
-            if(this.errorMessage){
+            if(this.errorMessage){ //TODO!!!!!!!!!!!!!!!!!!!!! OR ""
                 this.renderError()
             }else{
                 this.editMode = false;

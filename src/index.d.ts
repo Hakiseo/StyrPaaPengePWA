@@ -5,6 +5,7 @@ import "./childComponents/wishlistOverviewPage";
 import "./parentComponents/parentIndexPage";
 import "./childComponents/wishDetail";
 import "./childComponents/wishCreatePage";
+import "./childComponents/taskDetail";
 import "./home";
 export declare const router: Navigo;
 export declare class IndexElement extends LitElement {

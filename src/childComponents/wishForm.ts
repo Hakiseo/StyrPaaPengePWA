@@ -1,4 +1,4 @@
-import {html, LitElement, TemplateResult} from "lit";
+import {css, html, LitElement, TemplateResult} from "lit";
 import {property} from "lit/decorators.js";
 import {customElement} from "lit/decorators.js";
 
@@ -10,23 +10,29 @@ export class WishForm extends LitElement {
     @property({type: String}) wishListContent: string = "";
     @property({type: String}) wishListTarget: number = 100; //We can set the standard target to whatever we want
 
+    static styles = [css`
+        input:invalid {
+            border: 3px solid red;
+        }
+    `];
+
     protected render(): TemplateResult {
-        console.log(this.wishListTarget)
+        //console.log(this.wishListTarget)
         return html`
-            <div> 
+            <div>
                 <label> Name: </label>
                 <br>
-                <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" value="${this.wishListName}"
+                <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" type="text" required="required" value="${this.wishListName}"
                 type="text" @change=${(e:any) => this.wishListName = e.target.value}>
                 <br>
                 <label> Content: </label>
                 <br>
-                <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" value="${this.wishListContent}"
+                <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" type="text" required="required" value="${this.wishListContent}"
                 type="text" @change=${(e:any) => this.wishListContent = e.target.value}>
                 <br>
                 <label> Target: </label>
                 <br>
-                <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" value="${this.wishListTarget}"
+                <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" type="number" minlength="2" required="required" pattern="[1-9]+{2}" value="${this.wishListTarget}"
                 type="number" @change=${(e:any) => this.wishListTarget = e.target.value}>
                 <br>
                 ${this.renderSubmitButton()}

@@ -1,5 +1,5 @@
 import {customElement,property} from "lit/decorators.js";
-import {html, LitElement, TemplateResult} from "lit";
+import {css, html, LitElement, TemplateResult} from "lit";
 import {ITasklist} from "./childInterfaces";
 import {getTasklist} from "../api/childApiRequests";
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
@@ -23,6 +23,14 @@ export class ChildIndexPage extends LitElement {
         `
     }
 
+    static styles = [css`
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+    `];
+
     constructor() {
         super();
         getTasklist().then((r : apiResponse) =>{
@@ -39,16 +47,24 @@ export class ChildIndexPage extends LitElement {
                 <p> Loading...</p>
             `;
         }
-        return html `
-            <h1>Opgaver:</h1>
-            <section class="container">
-                ${this.tasklist.map(task => {
+        if(this.tasklist){
+            return html `
+                <h1>Opgaver:</h1>
+            
+                <section class="container">
+                    ${this.tasklist.map(task => {
                     console.log(task)
                     return html `
-                    <task-element .task=${task}></task-element>
-                `
-            })}
-            </section>
-        `;
+                        <task-element .task=${task}></task-element>
+                    `
+                })}
+                </section>
+            `;
+        }else{
+            return html `
+                <p> Error loading Tasklist...</p>
+            `;
+        }
     }
 }
+

@@ -5,6 +5,7 @@ export declare class ChildIndexPage extends LitElement {
     tasklist: ITasklist[];
     errorMessage: string | null;
     protected render(): TemplateResult;
+    static styles: import("lit").CSSResult[];
     constructor();
     private renderTasks;
 }
