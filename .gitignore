@@ -3,3 +3,7 @@ node_modules
 *.*.map
 *.*.*.map
 *.d.ts
+src/**/*.js
+src/**/*.d.ts
+src/**/*.map
+src/**/*.*.map
