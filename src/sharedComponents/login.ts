@@ -1,6 +1,6 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import {apiPost, identityTokenName} from "../api/apiUtils";
+import {apiPost, identityTokenName, storageUserId} from "../api/apiUtils";
 import {apiResponse} from "./sharedInterfaces";
 import {router} from "../index";
 
@@ -64,7 +64,7 @@ export class Login extends LitElement {
 
         apiPost("token", {userId: userId, userType: userType}).then((r: any) => {
             localStorage.setItem(identityTokenName, r.identityToken)
-            localStorage.setItem("userId", userId.toString())
+            localStorage.setItem(storageUserId, userId.toString())
         }).then(() => {
             userType == UserType.parent ? router.navigate("/parent") : router.navigate("/child")
         })

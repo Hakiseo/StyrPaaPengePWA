@@ -3,6 +3,7 @@
 export const apiUrl='http://localhost:8080/';
 
 export const identityTokenName = "identityToken"
+export const storageUserId = "userId"
 
 export function apiFetch(path: string): Promise<any> {
     let token = localStorage.getItem(identityTokenName)
