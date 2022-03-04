@@ -9,7 +9,7 @@ export function apiFetch(path: string): Promise<any> {
     return fetch(apiUrl + path, {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer' + token
+            'Authorization': 'Bearer ' + token
         }
     }).then(res => res.json());
 }
