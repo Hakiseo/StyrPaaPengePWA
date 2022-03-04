@@ -6,18 +6,42 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { customElement, property } from "lit/decorators.js";
 import { html, LitElement } from "lit";
+import { router } from "../index";
 let ParentIndexPage = class ParentIndexPage extends LitElement {
+    connectedCallback() {
+        super.connectedCallback();
+        //Check and validate token with an api-call to see if we have access to the site
+    }
     render() {
         return html `
             <h1> Hello from Parent Index Page! </h1>
-            ${this.renderSpecificParent()}
+            ${this.parentId ? html `<h2> Parent Id: ${this.parentId}</h2>` : ''}
+            ${this.renderWishListRedeemSection()}
+            ${this.renderTaskApprovalSection()}
+            <button> Opgaver </button>
+            ${this.renderJuniorUsers()}
+            <button @click="${() => router.navigate("/parent/createChild")}"> Opret Junior Konto </button>
         `;
     }
-    renderSpecificParent() {
-        if (!this.parentId)
-            return;
+    renderWishListRedeemSection() {
         return html `
-            <h1> Hello from Parent Index Page with parent id: ${this.parentId}! </h1>
+            <div> 
+                <h3> Indløste ønskelister: </h3> 
+            </div>
+        `;
+    }
+    renderTaskApprovalSection() {
+        return html `
+            <div> 
+                <h3> Opgaver til godkendelse: </h3> 
+            </div>
+        `;
+    }
+    renderJuniorUsers() {
+        return html `
+            <div> Junior 1 </div>
+            <div> Junior 2 </div>
+            <div> Junior 3 </div>
         `;
     }
 };

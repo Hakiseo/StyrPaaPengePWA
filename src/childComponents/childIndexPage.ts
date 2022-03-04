@@ -12,6 +12,11 @@ export class ChildIndexPage extends LitElement {
     @property() tasklist!: ITasklist[];
     @property({type: String}) errorMessage: string | null = "";
 
+    connectedCallback() {
+        super.connectedCallback();
+        //Check and validate token with an api-call to see if we have access to the site
+    }
+
     protected render(): TemplateResult {
         return html `
             <h1> Hello from Child Index Page! </h1>

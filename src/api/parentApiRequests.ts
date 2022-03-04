@@ -8,5 +8,9 @@ export function getAllParent(): Promise<any> {
 
 //Make post parent properly
 export function postParent() {
-    apiPost("parent", {data: "testData"})
+    apiPost("parent", {data: "tester"})
+}
+
+export function createJuniorUser(data: {}) {
+    return apiPost("parent/createChild", data)
 }
