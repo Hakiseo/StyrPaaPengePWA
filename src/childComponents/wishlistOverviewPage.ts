@@ -32,7 +32,10 @@ export class WishlistOverviewPage extends LitElement {
     constructor() {
         super();
         getWishlist().then((r : apiResponse) =>{
-            this.wishlist = r.results
+            //TODO: TOMY make this correctly
+            if (r.results !== null) {
+                this.wishlist = r.results
+            }
             this.errorMessage = r.error
             // this.errorMessage = "r.error" //simulerer at der er en error besked
         })

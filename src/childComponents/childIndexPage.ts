@@ -39,7 +39,10 @@ export class ChildIndexPage extends LitElement {
     constructor() {
         super();
         getTasklist().then((r : apiResponse) =>{
-            this.tasklist = r.results
+            //TODO: TOMY make this correctly
+            if (r.results !== null) {
+                this.tasklist = r.results
+            }
             this.errorMessage = r.error
             //this.errorMessage = "r.error" //simulerer at der er en error besked
         })

@@ -8,7 +8,12 @@ import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import Navigo from "navigo";
 import "./childComponents/childIndexPage";
+import "./childComponents/wishlistOverviewPage";
 import "./parentComponents/parentIndexPage";
+import "./childComponents/wishDetail";
+import "./childComponents/wishCreatePage";
+import "./childComponents/taskDetail";
+import "./home";
 import "./parentComponents/createChild";
 import "./home";
 import "./sharedComponents/register";
@@ -18,10 +23,14 @@ let IndexElement = class IndexElement extends LitElement {
         super();
         this.count = 0;
         router
+            .on("/child", () => { this.route = html `<child-index-page></child-index-page>`; })
+            .on("/task-detail/:id", (match) => { this.route = html `<task-detail-page .taskID="${match.data.id}"></task-detail-page>`; })
+            .on("/wishlist-overview", () => { this.route = html `<wishlist-overview-page></wishlist-overview-page>`; })
+            .on("/wishlist-creating", () => { this.route = html `<wish-create-page></wish-create-page>`; })
+            .on("/wish-detail/:id", (match) => { this.route = html `<wish-detail-page .wishID="${match.data.id}"></wish-detail-page>`; })
             .on("/parent", () => { this.route = html `<parent-index-page></parent-index-page>`; })
             .on("/parent/createChild", () => { this.route = html `<create-child></create-child>`; })
             .on("/parent/:id", (match) => { console.log("Match object from Navigo router: ", match); this.route = html `<parent-index-page .parentId="${match.data.id}"></parent-index-page>`; })
-            .on("/child", () => { this.route = html `<child-index-page></child-index-page>`; })
             .on("/home", () => { this.route = html `<home-element></home-element>`; })
             .on("*", () => { setTimeout(() => this.route = this.render404(), 200); });
         if (window.location.href == "http://localhost:8000/") {
