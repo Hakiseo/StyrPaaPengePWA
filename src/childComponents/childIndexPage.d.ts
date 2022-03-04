@@ -1,6 +1,6 @@
 import { LitElement, TemplateResult } from "lit";
 import { ITasklist } from "./childInterfaces";
-import "./taskElement";
+import "../sharedComponents/taskElement";
 export declare class ChildIndexPage extends LitElement {
     tasklist: ITasklist[];
     errorMessage: string | null;

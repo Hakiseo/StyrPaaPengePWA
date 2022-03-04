@@ -3,7 +3,7 @@ import {css, html, LitElement, TemplateResult} from "lit";
 import {ITasklist} from "./childInterfaces";
 import {getTasklist} from "../api/childApiRequests";
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
-import "./taskElement"
+import "../sharedComponents/taskElement"
 //import {property} from "lit/decorators";
 
 @customElement("child-index-page")

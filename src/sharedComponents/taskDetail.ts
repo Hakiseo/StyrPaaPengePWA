@@ -1,8 +1,8 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
-import {apiResponse} from "../sharedComponents/sharedInterfaces";
-import {ITasklist} from "./childInterfaces";
+import {apiResponse} from "./sharedInterfaces";
+import {ITasklist} from "../childComponents/childInterfaces";
 import {confirm_Task, getTask} from "../api/childApiRequests";
 import { router } from "../index";
 

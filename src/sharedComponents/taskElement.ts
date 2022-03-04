@@ -1,6 +1,6 @@
 import {customElement, query, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
-import {ITasklist} from "./childInterfaces";
+import {ITasklist} from "../childComponents/childInterfaces";
 
 @customElement("task-element")
 export class TaskElement extends LitElement {

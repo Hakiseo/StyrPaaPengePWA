@@ -4,7 +4,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
 import {create_Wishlist} from "../api/childApiRequests";
 import { router } from "../index";
-import "./wishForm";
+import "../sharedComponents/wishForm";
 
 @customElement("wish-create-page")
 export class WishCreatePage extends LitElement {

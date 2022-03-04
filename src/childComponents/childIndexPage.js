@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { customElement, property } from "lit/decorators.js";
 import { css, html, LitElement } from "lit";
 import { getTasklist } from "../api/childApiRequests";
-import "./taskElement";
+import "../sharedComponents/taskElement";
 //import {property} from "lit/decorators";
 let ChildIndexPage = class ChildIndexPage extends LitElement {
     constructor() {

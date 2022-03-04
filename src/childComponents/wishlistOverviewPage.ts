@@ -3,7 +3,7 @@ import {css, html, LitElement, TemplateResult} from "lit";
 import {IWishlist} from "./childInterfaces";
 import {getWishlist} from "../api/childApiRequests";
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
-import "./wishElement"
+import "../sharedComponents/wishElement"
 import {router} from "../index";
 
 @customElement("wishlist-overview-page")

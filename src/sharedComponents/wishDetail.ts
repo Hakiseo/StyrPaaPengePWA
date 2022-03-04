@@ -1,9 +1,9 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
-import {apiResponse} from "../sharedComponents/sharedInterfaces";
+import {apiResponse} from "./sharedInterfaces";
 import {getWish, delete_Wish, confirm_Wish, update_Wish} from "../api/childApiRequests";
-import {IWishlist} from "./childInterfaces";
+import {IWishlist} from "../childComponents/childInterfaces";
 import { router } from "../index";
 
 @customElement("wish-detail-page")
