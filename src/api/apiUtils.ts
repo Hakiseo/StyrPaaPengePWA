@@ -5,18 +5,33 @@ export const apiUrl='http://localhost:8080/';
 export const identityTokenName = "identityToken"
 export const storageUserId = "userId"
 
+export function getIdentityToken(): string {
+    let token: string | null = localStorage.getItem(identityTokenName)
+    if (token) {
+        return token;
+    }
+    return "";
+}
+
+export function getCurrentUserId(): string {
+    let token: string | null = localStorage.getItem(storageUserId)
+    if (token) {
+        return token;
+    }
+    return "";
+}
+
 export function apiFetch(path: string): Promise<any> {
-    let token = localStorage.getItem(identityTokenName)
     return fetch(apiUrl + path, {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': 'Bearer ' + getIdentityToken()
         }
     }).then(res => res.json());
 }
 
 export function apiPost(path: string, data: {}) {
-    let dataWithIdentity = Object.assign(data, {identityToken: localStorage.getItem(identityTokenName)})
+    let dataWithIdentity = Object.assign(data, {identityToken: getIdentityToken()})
     return fetch(apiUrl + path, {
         method: 'POST',
         headers: {

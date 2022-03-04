@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {createJuniorUser} from "../api/parentApiRequests";
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
-import {apiFetch, apiPost, identityTokenName, storageUserId} from "../api/apiUtils";
+import {apiFetch, apiPost, getIdentityToken, getCurrentUserId} from "../api/apiUtils";
 
 @customElement("create-child")
 export class CreateChild extends LitElement {
@@ -58,7 +58,7 @@ export class CreateChild extends LitElement {
     }
 
     createNewJuniorUser() {
-        console.log(localStorage.getItem(identityTokenName))
+        console.log(getIdentityToken())
         if (this.password !== this.repeatedPassword) {
             window.alert("The inputted passwords does not match!")
             return;
@@ -71,7 +71,7 @@ export class CreateChild extends LitElement {
                 username: this.username,
                 password: this.password,
                 startBalance: this.startBalance,
-                parentId: localStorage.getItem(storageUserId),
+                parentId: getCurrentUserId(),
             }).then((r: apiResponse) => console.log(r))
         } else {
             window.alert("All fields are required!")
