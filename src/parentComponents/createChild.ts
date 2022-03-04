@@ -1,7 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {createJuniorUser} from "../api/parentApiRequests";
-import {apiResponse} from "../sharedComponents/sharedInterfaces";
+import {ApiResponse} from "../sharedComponents/sharedInterfaces";
 import {apiFetch, apiPost, getIdentityToken, getCurrentUserId} from "../api/apiUtils";
 
 @customElement("create-child")
@@ -72,7 +72,7 @@ export class CreateChild extends LitElement {
                 password: this.password,
                 startBalance: this.startBalance,
                 parentId: getCurrentUserId(),
-            }).then((r: apiResponse) => console.log(r))
+            }).then((r: ApiResponse) => console.log(r))
         } else {
             window.alert("All fields are required!")
         }

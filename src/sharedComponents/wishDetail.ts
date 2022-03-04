@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
-import {apiResponse} from "./sharedInterfaces";
+import {ApiResponse} from "./sharedInterfaces";
 import {getWish, delete_Wish, confirm_Wish, update_Wish} from "../api/childApiRequests";
 import {IWishlist} from "../childComponents/childInterfaces";
 import { router } from "../index";
@@ -67,7 +67,7 @@ export class WishDetailPage extends LitElement {
     }
 
     loadWish(){
-        getWish(this.wishID).then((r : apiResponse) => {
+        getWish(this.wishID).then((r : ApiResponse) => {
             if(r.results !== null){
                 let tempWishList:IWishlist[] = r.results;
                 this.wish = tempWishList[0]
@@ -87,7 +87,7 @@ export class WishDetailPage extends LitElement {
     updateWish(e : CustomEvent){
         console.log("Wishlist updated: ", e.detail)
         if (e.detail.wishListName && e.detail.wishListContent && e.detail.wishListTarget) {
-            update_Wish(this.wish.id, e.detail.wishListName, e.detail.wishListContent, e.detail.wishListTarget).then((r : apiResponse) => {
+            update_Wish(this.wish.id, e.detail.wishListName, e.detail.wishListContent, e.detail.wishListTarget).then((r : ApiResponse) => {
                 this.errorMessage = r.error
                 this.loadWish();
             })
@@ -102,7 +102,7 @@ export class WishDetailPage extends LitElement {
     }
 
     deleteWish(){
-        delete_Wish(this.wish.id).then((r : apiResponse) => {
+        delete_Wish(this.wish.id).then((r : ApiResponse) => {
             this.errorMessage = r.error
             // this.errorMessage = "r.error" //simulerer at der er en error besked
         })
@@ -114,7 +114,7 @@ export class WishDetailPage extends LitElement {
     }
 
     confirmWish(){
-        confirm_Wish("1", this.wish.id).then((r : apiResponse) => {
+        confirm_Wish("1", this.wish.id).then((r : ApiResponse) => {
             this.errorMessage = r.error
             // this.errorMessage = "r.error" //simulerer at der er en error besked
         })

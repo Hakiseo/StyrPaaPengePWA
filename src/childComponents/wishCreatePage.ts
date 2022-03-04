@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, TemplateResult} from "lit";
 
-import {apiResponse} from "../sharedComponents/sharedInterfaces";
+import {ApiResponse} from "../sharedComponents/sharedInterfaces";
 import {create_Wishlist} from "../api/childApiRequests";
 import { router } from "../index";
 import "../sharedComponents/wishForm";
@@ -42,7 +42,7 @@ export class WishCreatePage extends LitElement {
     createWishList(e: CustomEvent){
         console.log("New wishlist created: ", e.detail)
         if (e.detail.wishListName && e.detail.wishListContent && e.detail.wishListTarget) {
-            create_Wishlist(e.detail.wishListName, e.detail.wishListContent, e.detail.wishListTarget).then((r : apiResponse) => {
+            create_Wishlist(e.detail.wishListName, e.detail.wishListContent, e.detail.wishListTarget).then((r : ApiResponse) => {
                 this.errorMessage = r.error
             })
             if(this.errorMessage) {

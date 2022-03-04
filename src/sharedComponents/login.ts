@@ -1,13 +1,8 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {apiPost, identityTokenName, storageUserId} from "../api/apiUtils";
-import {apiResponse} from "./sharedInterfaces";
+import {ApiResponse, UserType} from "./sharedInterfaces";
 import {router} from "../index";
-
-enum UserType {
-    parent = "parent",
-    child = "child"
-}
 
 @customElement("login-page")
 export class Login extends LitElement {
@@ -33,12 +28,16 @@ export class Login extends LitElement {
         this.dispatchEvent(new CustomEvent("showRegister"))
     }
 
+    loginStatusChanged(userType: string) {
+        this.dispatchEvent(new CustomEvent("loginStatusChanged", {detail: userType}))
+    }
+
     login() {
         if (this.loginData && this.password) {
             apiPost("login/", {
                 loginData: this.loginData,
                 password: this.password
-            }).then((r: apiResponse) => {
+            }).then((r: ApiResponse) => {
                 if (r.error) {
                     window.alert(r.error)
                 } else if (r.results == null){
@@ -66,6 +65,7 @@ export class Login extends LitElement {
             localStorage.setItem(identityTokenName, r.identityToken)
             localStorage.setItem(storageUserId, userId.toString())
         }).then(() => {
+            this.loginStatusChanged(userType);
             userType == UserType.parent ? router.navigate("/parent") : router.navigate("/child")
         })
     }

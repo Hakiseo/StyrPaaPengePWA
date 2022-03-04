@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
-import {apiResponse} from "./sharedInterfaces";
+import {ApiResponse} from "./sharedInterfaces";
 import {ITasklist} from "../childComponents/childInterfaces";
 import {confirm_Task, getTask} from "../api/childApiRequests";
 import { router } from "../index";
@@ -41,7 +41,7 @@ export class TaskDetailPage extends LitElement {
         super.updated(_changedProperties);
         console.log("taskID: ", this.taskID)
         if (_changedProperties.has("taskID")) {
-            getTask(this.taskID).then((r : apiResponse) => {
+            getTask(this.taskID).then((r : ApiResponse) => {
                 if(r.results !== null){
                     let tempTaskList:ITasklist[] = r.results;
                     this.task = tempTaskList[0]
@@ -60,7 +60,7 @@ export class TaskDetailPage extends LitElement {
     }
 
     confirmTask(){
-        confirm_Task("1", this.task.id).then((r : apiResponse) => {
+        confirm_Task("1", this.task.id).then((r : ApiResponse) => {
             this.errorMessage = r.error
             // this.errorMessage = "r.error" //simulerer at der er en error besked
         })

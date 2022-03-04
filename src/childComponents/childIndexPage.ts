@@ -2,9 +2,8 @@ import {customElement,property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import {ITasklist} from "./childInterfaces";
 import {getTasklist} from "../api/childApiRequests";
-import {apiResponse} from "../sharedComponents/sharedInterfaces";
+import {ApiResponse} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/taskElement"
-//import {property} from "lit/decorators";
 
 @customElement("child-index-page")
 export class ChildIndexPage extends LitElement {
@@ -38,7 +37,7 @@ export class ChildIndexPage extends LitElement {
 
     constructor() {
         super();
-        getTasklist().then((r : apiResponse) =>{
+        getTasklist().then((r : ApiResponse) =>{
             //TODO: TOMY make this correctly
             if (r.results !== null) {
                 this.tasklist = r.results
