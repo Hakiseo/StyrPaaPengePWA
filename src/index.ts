@@ -17,6 +17,7 @@ import {apiFetch, apiPost, getIdentityToken} from "./api/apiUtils";
 import {UserType, VerifyTokenResponse} from "./sharedComponents/sharedInterfaces"
 
 import Navigo from "navigo";
+import {ChildData} from "./parentComponents/parentInterfaces";
 export const router = new Navigo('/');
 
 @customElement('index-element')
@@ -33,6 +34,8 @@ export class IndexElement extends LitElement {
 
     @property() parent: boolean = false;
     @property() loggedIn: boolean = false;
+
+    @property() childData!: ChildData;
 
     //TODO: Make it handle window.history too - currently you can press back and still access pages you shouldn't be able to
     connectedCallback() {
@@ -76,11 +79,11 @@ export class IndexElement extends LitElement {
             .on("/wishlist-creating", () => {!this.parent && this.loggedIn ? this.route = html`<wish-create-page></wish-create-page>` : this.routeBackToIndex()})
             .on("/wish-detail/:id", (match: any) => {this.route = html`<wish-detail-page .wishID="${match.data.id}"></wish-detail-page>`})
 
-            .on("/parent", () => {this.parent && this.loggedIn ? this.route = html`<parent-index-page></parent-index-page>` : this.routeBackToIndex()})
+            .on("/parent", () => {this.parent && this.loggedIn ? this.route = html`<parent-index-page @indexEmitChildData="${(e: any) => this.childData = e.detail}"></parent-index-page>` : this.routeBackToIndex()})
             .on("/parent/createChild", () => {this.parent && this.loggedIn ? this.route = html`<create-child></create-child>` : this.routeBackToIndex()})
             .on("/parent/details", () => {this.parent && this.loggedIn ? this.route = html`<parent-details></parent-details>` : this.routeBackToIndex()})
             .on("/parent/details/changePassword", () => {this.parent && this.loggedIn ? this.route = html`<change-password .parent="${true}"></change-password>` : this.routeBackToIndex()})
-            .on("/parent/childDetails/:id", (match: any) => {this.parent && this.loggedIn ? this.route = html`<child-details .childId="${match.data.id}"></child-details>` : this.routeBackToIndex()})
+            .on("/parent/childDetails/:id", (match: any) => {this.parent && this.loggedIn ? this.route = html`<child-details .childId="${match.data.id}" .childData="${this.childData}"></child-details>` : this.routeBackToIndex()})
             .on("/parent/childDetails/:id/changePassword", (match: any) => {this.parent && this.loggedIn ? this.route = html`<change-password .id="${match.data.id}" .parent="${false}"></change-password>` : this.routeBackToIndex()})
             .on("/parent/:id", (match: any) => {
                 console.log("Match object from Navigo router: ", match);

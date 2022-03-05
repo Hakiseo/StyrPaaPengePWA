@@ -67,10 +67,20 @@ export class ParentIndexPage extends LitElement {
             <div>
                 ${this.childrenData.map((d: ChildData) => {
                     return html `
-                    <junior-card .firstName="${d.first_name}" .lastName="${d.last_name}" @click="${() => router.navigate("/parent/childDetails/" + d.id)}"></junior-card>
-                `
+                        <junior-card .firstName="${d.first_name}" .lastName="${d.last_name}" @click="${() => this.navigateToChild(d.id)}"></junior-card>
+                    `
                 })}
             </div>
         `
+    }
+
+    navigateToChild(id: number) {
+        this.emitChildData(id)
+        router.navigate("/parent/childDetails/" + id)
+    }
+
+    emitChildData(id: number) {
+        //This is made to avoid unecessary new request
+        this.dispatchEvent(new CustomEvent("indexEmitChildData", {detail: this.childrenData.find(r => r.id === id)}))
     }
 }

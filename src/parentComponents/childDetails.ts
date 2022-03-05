@@ -1,22 +1,40 @@
-import {html, LitElement, TemplateResult} from "lit";
+import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {ChildData} from "./parentInterfaces";
 import {router} from "../index";
 
 @customElement("child-details")
 export class ChildDetails extends LitElement {
-    //TODO: Replace with real data
-    @property() childData: ChildData = {id: 1, first_name: "test", last_name: "test", username: "tester", age: 12, reward_balance: 1200};
+    @property() childData!: ChildData;
+    @property() childId: string = "";
     @property() editMode: boolean = false;
 
     @property() firstName: string = "";
     @property() lastName: string = "";
     @property() username: string = "";
-    @property() age: number = 3;
+    @property() age: number = 0;
     @property() balance: number = 0;
 
+    connectedCallback() {
+        super.connectedCallback();
+        if (!this.childData) {
+            console.log("Make an API request with the id: ", this.childId)
+        }
+    }
+
+    protected updated(_changedProperties: PropertyValues) {
+        super.updated(_changedProperties);
+        if (_changedProperties.has("childData")) {
+            this.firstName = this.childData.first_name
+            this.lastName = this.childData.last_name
+            this.username = this.childData.username
+            this.age = this.childData.age
+            this.balance = this.childData.reward_balance
+        }
+    }
+
     protected render(): TemplateResult {
-        // if (!this.childData) return html ` <p> Loading... </p>`
+        if (!this.childData) return html ` <p> Loading... </p>`
         return html `
             ${this.editMode ? this.renderEdit() : this.renderView()}
             <div>
@@ -40,6 +58,7 @@ export class ChildDetails extends LitElement {
         `
     }
 
+    //TODO: validate input & visually show errors
     renderEdit(): TemplateResult {
         return html `
             <div>
@@ -67,6 +86,7 @@ export class ChildDetails extends LitElement {
             this.editMode = true;
         } else {
             //check for changes
+            console.log(this.firstName, this.lastName, this.username, this.age, this.balance)
             //make post-request to api
             this.editMode = false; //this should be set on success
         }
