@@ -21,7 +21,6 @@ export class Home extends LitElement {
                 .then((r: VerifyTokenResponse) => {
                     if (r.success) {
                         let parent = r.userType === UserType.parent
-                        //TODO: Fix this so it actually routes to something else than 404-page when not logged in
                         parent ? router.navigate("/parent") : router.navigate("/child")
                     }
                 })

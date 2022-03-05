@@ -37,7 +37,6 @@ export class IndexElement extends LitElement {
     //TODO: Make it handle window.history too - currently you can press back and still access pages you shouldn't be able to
     connectedCallback() {
         super.connectedCallback();
-        //TODO: Fix this so it actually routes to something else than 404-page when not logged in
         if (window.location.href == "http://localhost:8000/" || window.location.href == "http://localhost:8000") {
             this.routeBackToIndex()
         }
@@ -88,7 +87,7 @@ export class IndexElement extends LitElement {
                 this.parent && this.loggedIn ? this.route = html`<parent-index-page .parentId="${match.data.id}"></parent-index-page>` : this.routeBackToIndex()
             })
 
-            .on("*", () => {setTimeout(() => this.route = this.render404(), 200)})
+            .on("*", () => this.route = this.render404())
         ;
 
         //Need this to handle on refresh and still validate routes
@@ -139,7 +138,7 @@ export class IndexElement extends LitElement {
         return html ` 
         <div class="w3-container">
             <h2> 404 - Not found </h2>
-            <button class="w3-button w3-blue-gray" @click="${() => router.navigate("/home")}"> Go back to main page </button> 
+            <button class="w3-button w3-blue-gray" @click="${() => this.routeBackToIndex()}"> Go back to main page </button> 
         </div>
         `
     }
