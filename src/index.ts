@@ -8,6 +8,9 @@ import "./childComponents/wishCreatePage";
 import "./sharedComponents/taskDetail";
 import "./home"
 import "./parentComponents/createChild";
+import "./parentComponents/childDetails";
+import "./parentComponents/parentDetails";
+import "./parentComponents/changePassword";
 import "./home";
 import "./sharedComponents/register";
 import {apiPost, getIdentityToken} from "./api/apiUtils";
@@ -76,6 +79,10 @@ export class IndexElement extends LitElement {
 
             .on("/parent", () => {this.parent && this.loggedIn ? this.route = html`<parent-index-page></parent-index-page>` : this.routeBackToIndex()})
             .on("/parent/createChild", () => {this.parent && this.loggedIn ? this.route = html`<create-child></create-child>` : this.routeBackToIndex()})
+            .on("/parent/details", () => {this.parent && this.loggedIn ? this.route = html`<parent-details></parent-details>` : this.routeBackToIndex()})
+            .on("/parent/details/changePassword", () => {this.parent && this.loggedIn ? this.route = html`<change-password .parent="${true}"></change-password>` : this.routeBackToIndex()})
+            .on("/parent/childDetails/:id", (match: any) => {this.parent && this.loggedIn ? this.route = html`<child-details .childId="${match.data.id}"></child-details>` : this.routeBackToIndex()})
+            .on("/parent/childDetails/:id/changePassword", (match: any) => {this.parent && this.loggedIn ? this.route = html`<change-password .id="${match.data.id}" .parent="${false}"></change-password>` : this.routeBackToIndex()})
             .on("/parent/:id", (match: any) => {
                 console.log("Match object from Navigo router: ", match);
                 this.parent && this.loggedIn ? this.route = html`<parent-index-page .parentId="${match.data.id}"></parent-index-page>` : this.routeBackToIndex()
@@ -104,7 +111,11 @@ export class IndexElement extends LitElement {
 
     render(): TemplateResult {
         return html `
+            <button @click="${() => router.navigate("/parent/details")}"> Egen detalje side (Forælder) </button>
+            <button @click="${() => router.navigate("/home")}"> index </button>
+            <hr>
             ${this.route}
+            <hr>
             <button @click="${() => this.logout()}"> Log Out </button>
         `
     }
