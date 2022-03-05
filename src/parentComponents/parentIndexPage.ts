@@ -1,15 +1,31 @@
 import {customElement, property} from "lit/decorators.js";
-import {html, LitElement, TemplateResult} from "lit";
+import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {router} from "../index";
 import "./childCard"
+import {getCurrentUserId} from "../api/apiUtils";
+import {fetchJuniors} from "../api/parentApiRequests";
+import {ApiResponse} from "../sharedComponents/sharedInterfaces";
+import {ChildData} from "./parentInterfaces";
 
 @customElement("parent-index-page")
 export class ParentIndexPage extends LitElement {
     @property({type: Number}) parentId!: number;
+    @property() childrenData: ChildData[] = [];
 
     connectedCallback() {
         super.connectedCallback();
-        //Check and validate token with an api-call to see if we have access to the site
+        this.parentId = Number.parseInt(getCurrentUserId());
+    }
+
+    protected updated(_changedProperties: PropertyValues) {
+        super.updated(_changedProperties);
+        if (_changedProperties.has("parentId") && this.parentId) {
+            fetchJuniors(this.parentId).then((r: ApiResponse) => {
+                if (!r.error && r.results) {
+                    this.childrenData = r.results
+                }
+            })
+        }
     }
 
     protected render(): TemplateResult {
@@ -30,6 +46,7 @@ export class ParentIndexPage extends LitElement {
         return html `
             <div> 
                 <h3> Indløste ønskelister: </h3> 
+                <p>Tomy har en sektion han indsætter her</p>
             </div>
         `
     }
@@ -37,17 +54,23 @@ export class ParentIndexPage extends LitElement {
     renderTaskApprovalSection(): TemplateResult | void {
         return html `
             <div> 
-                <h3> Opgaver til godkendelse: </h3> 
+                <h3> Opgaver til godkendelse: </h3>
+                <p>Tomy har en sektion han indsætter her</p>
             </div>
         `
     }
 
-    renderJuniorUsers() {
+    renderJuniorUsers(): TemplateResult | void {
+        if (this.childrenData.length === 0) return;
         //Add loop here for all juniors and route on click to user id
         return html `
-            <junior-card @click="${() => router.navigate("/parent/childDetails/1")}"></junior-card>
-            <junior-card @click="${() => router.navigate("/parent/childDetails/2")}"></junior-card>
-            <junior-card @click="${() => router.navigate("/parent/childDetails/3")}"></junior-card>
+            <div>
+                ${this.childrenData.map((d: ChildData) => {
+                    return html `
+                    <junior-card .firstName="${d.first_name}" .lastName="${d.last_name}" @click="${() => router.navigate("/parent/childDetails/" + d.id)}"></junior-card>
+                `
+                })}
+            </div>
         `
     }
 }
