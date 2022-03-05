@@ -110,12 +110,9 @@ export class IndexElement extends LitElement {
 
     render(): TemplateResult {
         return html `
-            <button @click="${() => router.navigate("/parent/details")}"> Egen detalje side (Forælder) </button>
-            <button @click="${() => router.navigate("/home")}"> index </button>
+            ${this.renderFutureSideMenu()}
             <hr>
             ${this.route}
-            <hr>
-            <button @click="${() => this.logout()}"> Log Out </button>
         `
     }
 
@@ -125,6 +122,14 @@ export class IndexElement extends LitElement {
             return;
         }
         router.navigate("/home")
+    }
+
+    renderFutureSideMenu() {
+        return html `
+            <button @click="${() => router.navigate("/parent/details")}"> Egen detalje side (Forælder) </button>
+            <button @click="${() => router.navigate("/home")}"> index </button>
+            <button @click="${() => this.logout()}"> Log Out </button>
+        `
     }
 
     //TODO: Move logout into sidemenu
