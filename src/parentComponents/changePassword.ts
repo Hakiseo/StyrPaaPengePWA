@@ -16,6 +16,7 @@ export class ChangePassword extends LitElement {
         console.log(`Parent: ${this.parent} & Id: ${this.id}`)
     }
 
+    //TODO: validate input & visually show errors
     protected render(): TemplateResult {
         return html`
             

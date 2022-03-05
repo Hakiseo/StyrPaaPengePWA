@@ -39,6 +39,7 @@ export class ParentDetails extends LitElement {
         `
     }
 
+    //TODO: validate input & visually show errors
     renderEdit(): TemplateResult {
         return html `
             <div>
