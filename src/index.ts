@@ -13,7 +13,7 @@ import "./parentComponents/parentDetails";
 import "./parentComponents/changePassword";
 import "./home";
 import "./sharedComponents/register";
-import {apiPost, getIdentityToken} from "./api/apiUtils";
+import {apiFetch, apiPost, getIdentityToken} from "./api/apiUtils";
 import {UserType, VerifyTokenResponse} from "./sharedComponents/sharedInterfaces"
 
 import Navigo from "navigo";
@@ -129,6 +129,8 @@ export class IndexElement extends LitElement {
             <button @click="${() => router.navigate("/parent/details")}"> Egen detalje side (Forælder) </button>
             <button @click="${() => router.navigate("/home")}"> index </button>
             <button @click="${() => this.logout()}"> Log Out </button>
+            <button @click="${() => this.test()}"> test to fail post (Posting to child api path when parent) </button>
+            <button @click="${() => this.test2()}"> test to fail get (Getting at child api path when parent) </button>
         `
     }
 
@@ -146,5 +148,16 @@ export class IndexElement extends LitElement {
             <button class="w3-button w3-blue-gray" @click="${() => this.routeBackToIndex()}"> Go back to main page </button> 
         </div>
         `
+    }
+
+    //TODO: Delete after testing
+    //Expect test to fail - Accessing child routes from Parent user
+    test() {
+        apiPost("child/test", {})
+    }
+
+    //TODO: Delete after testing
+    test2() {
+        apiFetch("child/test")
     }
 }

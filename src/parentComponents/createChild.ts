@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {createJuniorUser} from "../api/parentApiRequests";
 import {ApiResponse} from "../sharedComponents/sharedInterfaces";
-import {apiFetch, apiPost, getIdentityToken, getCurrentUserId} from "../api/apiUtils";
+import {getIdentityToken, getCurrentUserId} from "../api/apiUtils";
 import {router} from "../index";
 
 @customElement("create-child")
@@ -42,20 +42,7 @@ export class CreateChild extends LitElement {
             <input type="number" value="${this.startBalance}" name="startBalance" id="startBalance" @change="${(e: any) => this.startBalance = e.target.value}">
             
             <button @click="${() => this.createNewJuniorUser()}"> Opret ny Junior-bruger</button>
-            <button @click="${() => this.test()}"> test to fail post </button>
-            <button @click="${() => this.test2()}"> test to fail get </button>
         `;
-    }
-
-    //TODO: Delete after testing
-    //Expect test to fail - Accessing child routes from Parent user
-    test() {
-        apiPost("child/test", {})
-    }
-
-    //TODO: Delete after testing
-    test2() {
-        apiFetch("child/test")
     }
 
     createNewJuniorUser() {
