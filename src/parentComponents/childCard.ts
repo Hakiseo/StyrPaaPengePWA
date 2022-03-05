@@ -4,7 +4,8 @@ import {customElement, property} from "lit/decorators.js";
 // https://www.w3schools.com/howto/howto_css_contact_chips.asp
 @customElement("junior-card")
 export class ChildCard extends LitElement {
-    @property() name: string = "John Doe"
+    @property() firstName: string = "John Doe"
+    @property() lastName: string = "John Doe"
 
     static styles = css `
         .chip {
@@ -21,7 +22,7 @@ export class ChildCard extends LitElement {
     protected render(): TemplateResult {
         return html `
             <div class="chip" style="cursor: pointer">
-                ${this.name}
+                ${this.firstName} ${this.lastName}
             </div>
         `;
     }
