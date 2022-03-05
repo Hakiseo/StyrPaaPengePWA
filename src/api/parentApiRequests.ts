@@ -14,3 +14,7 @@ export function postParent() {
 export function createJuniorUser(data: {}) {
     return apiPost("parent/createChild", data)
 }
+
+export function fetchJuniors(id: number) {
+    return apiFetch("parent/children/" + id)
+}
