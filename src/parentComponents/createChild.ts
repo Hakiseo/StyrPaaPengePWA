@@ -3,6 +3,7 @@ import {customElement, property} from "lit/decorators.js";
 import {createJuniorUser} from "../api/parentApiRequests";
 import {ApiResponse} from "../sharedComponents/sharedInterfaces";
 import {apiFetch, apiPost, getIdentityToken, getCurrentUserId} from "../api/apiUtils";
+import {router} from "../index";
 
 @customElement("create-child")
 export class CreateChild extends LitElement {
@@ -72,7 +73,13 @@ export class CreateChild extends LitElement {
                 password: this.password,
                 startBalance: this.startBalance,
                 parentId: getCurrentUserId(),
-            }).then((r: ApiResponse) => console.log(r))
+            }).then((r: ApiResponse) => {
+                if (!r.error) {
+                    router.navigate("/parent")
+                } else {
+                    //TODO: visually show errors
+                }
+            })
         } else {
             window.alert("All fields are required!")
         }
