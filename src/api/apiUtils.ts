@@ -30,10 +30,33 @@ export function apiFetch(path: string): Promise<any> {
     }).then(res => res.json());
 }
 
+
+export function apiDelete(path: string): Promise<any> {
+    return fetch(apiUrl + path, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'Bearer ' + getIdentityToken()
+        }
+    }).then(res => res.json());
+}
+
 export function apiPost(path: string, data: {}) {
     let dataWithIdentity = Object.assign(data, {identityToken: getIdentityToken()})
     return fetch(apiUrl + path, {
         method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataWithIdentity),
+    })
+        .then(response => response.json());
+}
+
+export function apiPut(path: string, data: {}) {
+    let dataWithIdentity = Object.assign(data, {identityToken: getIdentityToken()})
+    return fetch(apiUrl + path, {
+        method: 'PUT',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
