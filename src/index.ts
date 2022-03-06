@@ -4,6 +4,7 @@ import Navigo from "navigo";
 import "./childComponents/childIndexPage";
 import "./childComponents/wishlistOverviewPage";
 import "./parentComponents/parentIndexPage";
+import "./parentComponents/tasklistOverviewPage"
 import "./sharedComponents/wishDetail";
 import "./childComponents/wishCreatePage";
 import "./sharedComponents/taskDetail";
@@ -33,11 +34,12 @@ export class IndexElement extends LitElement {
         router
             .on("/child", () => {this.route = html`<child-index-page></child-index-page>`})
 
-            .on("/task-detail/:id", (match: any) => {this.route = html`<task-detail-page .taskID="${match.data.id}"></task-detail-page>`})
+            .on("/task-detail/:id/:parentView", (match: any) => {this.route = html`<task-detail-page .taskID="${match.data.id}" .parentView="${match.data.parentView}"></task-detail-page>`})
+            .on("/tasklist-overview", () => {this.route = html`<tasklist-overview-page></tasklist-overview-page>`})
 
             .on("/wishlist-overview", () => {this.route = html`<wishlist-overview-page></wishlist-overview-page>`})
             .on("/wishlist-creating", () => {this.route = html`<wish-create-page></wish-create-page>`})
-            .on("/wish-detail/:id", (match: any) => {this.route = html`<wish-detail-page .wishID="${match.data.id}"></wish-detail-page>`})
+            .on("/wish-detail/:id/:parentView", (match: any) => {this.route = html`<wish-detail-page .wishID="${match.data.id}" .parentView="${match.data.parentView}"></wish-detail-page>`})
 
             .on("/parent", () => {this.route = html`<parent-index-page></parent-index-page>`})
             .on("/parent/createChild", () => {this.route = html`<create-child></create-child>`})

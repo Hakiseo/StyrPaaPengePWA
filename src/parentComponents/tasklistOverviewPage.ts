@@ -1,27 +1,20 @@
-import {customElement,property} from "lit/decorators.js";
+import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
-import {ITasklist} from "./childInterfaces";
-import {getTasklist} from "../api/childApiRequests";
+import "../sharedComponents/wishElement"
+import {ITasklist} from "./parentInterfaces";
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
-import "../sharedComponents/taskElement"
-//import {property} from "lit/decorators";
+import {getCompleteTasklistTEST} from "../api/parentApiRequests";
+import {router} from "../index";
 
-@customElement("child-index-page")
-export class ChildIndexPage extends LitElement {
+@customElement("tasklist-overview-page")
+export class TasklistOverviewPage extends LitElement {
 
     @property() tasklist!: ITasklist[];
     @property({type: String}) errorMessage: string | null = "";
 
-    connectedCallback() {
-        super.connectedCallback();
-        //Check and validate token with an api-call to see if we have access to the site
-    }
-
     protected render(): TemplateResult {
+        if (!this.tasklist) return html `Loading ...`;
         return html `
-            <h1> Hello from Child Index Page! </h1>
-            <a href= "/wishlist-overview">Wishlist</a>
-
             <div>
                 ${this.renderTasks()}
             </div>
@@ -38,7 +31,8 @@ export class ChildIndexPage extends LitElement {
 
     constructor() {
         super();
-        getTasklist().then((r : apiResponse) =>{
+        //getCompleteTasklist(getCurrentUserId()).then((r : apiResponse) =>{
+        getCompleteTasklistTEST().then((r : apiResponse) =>{
             if (r.results !== null) {
                 this.tasklist = r.results
             }else{
@@ -58,24 +52,34 @@ export class ChildIndexPage extends LitElement {
         `;
     }
 
+    goBack(){
+        router.navigate("/parent")
+    }
+
+    createTaskList(){
+        router.navigate("") //TODO !!!!!!!!!!!!!!!!!!!!!! MISSING!!!
+    }
+
     private renderTasks(){
         if (this.errorMessage) {
             return html `
                 <p> ${this.errorMessage} </p>
-                <p> Loading...</p>
+                <p> Please try again or please go back to main page </p>
             `;
         }
         if(this.tasklist){
             return html `
                 <h1>Opgaver:</h1>
-            
+                <button @click=${() => this.goBack()}>Tilbage</button><br>
+                <button @click=${() => this.createTaskList()}>Opret Opgave</button><br>
+
                 <section class="container">
                     ${this.tasklist.map(task => {
-                    console.log(task)
-                    return html `
-                        <task-element .task=${task}></task-element>
-                    `
-                })}
+                console.log(task)
+                return html `
+                    <task-element .task=${task}></task-element>
+                `
+            })}
                 </section>
             `;
         }else{
@@ -85,4 +89,3 @@ export class ChildIndexPage extends LitElement {
         }
     }
 }
-

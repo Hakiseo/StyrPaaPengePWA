@@ -4,6 +4,7 @@ import {IWishlist} from "../childComponents/childInterfaces";
 
 @customElement("wish-element")
 export class WishElement extends LitElement {
+    @property({type: Boolean}) parentView: boolean = false;
 
     static styles = [css`
 
@@ -75,6 +76,18 @@ export class WishElement extends LitElement {
         this.image.style.setProperty('--image-url',`url(${this.wish.img})`)
     }
 
+    renderparent(){
+        return html`
+            <a class="btn" href= "/wish-detail/${this.wish.id}/${this.parentView}"">Godkend</a>
+        `;
+    }
+
+    renderChild(){
+        return html`
+            <a class="btn" href= "/wish-detail/${this.wish.id}/${this.parentView}">Detaljer</a>
+        `;
+    }
+
     render(): TemplateResult{
         if(!this.wish){
             return html `Loading...`
@@ -85,9 +98,10 @@ export class WishElement extends LitElement {
                     <div id="img" alt=${this.wish.saving_name}></div>
                     <h5>${this.wish.saving_name}</h5>
                     ${this.wish.current_status ? html `${this.wish.current_status}<br><br>` : ''}
-                    <a class="btn" href= "/wish-detail/${this.wish.id}">Detaljer</a>
+                    ${this.parentView ? this.renderparent() : this.renderChild()}
                 </article>
-        `;
+            `;
+
         }
     }
 }

@@ -5,9 +5,11 @@ import {apiResponse} from "./sharedInterfaces";
 import {ITasklist} from "../childComponents/childInterfaces";
 import {confirm_Task, getTask} from "../api/childApiRequests";
 import { router } from "../index";
+import {reject_Task} from "../api/parentApiRequests";
 
 @customElement("task-detail-page")
 export class TaskDetailPage extends LitElement {
+    @property({type: Boolean}) parentView: boolean = false;
     @property({type: String}) errorMessage: string | null = "";
     @property() taskID: string = "";
     @property() task!: ITasklist;
@@ -21,20 +23,56 @@ export class TaskDetailPage extends LitElement {
     }
 
     render() : TemplateResult{
-        console.log("TEST")
         if (!this.task) return html `Loading ...`;
-        return html`
-            <h1>Opgave: ${this.task.task_name}</h1>
-            <img src="${this.task.img}" alt="Task Icon" width="200" height="200"><br><br>
+        console.log("This is parentView: " + this.parentView)
 
-            <button @click=${() => this.goBack()}>Tilbage</button><br>
-            
-            <p> ${this.task.task_name} </p>
-            <p> ${this.task.content} </p>
-            <p> ${this.task.reward_amount} </p>
-            
-            <button @click=${() => this.confirmTask()}>Udført</button><br>
+        if(this.parentView){
+            return html`
+                <h1>Opgave:</h1>
+                ${this.renderParentView()}
+                <button @click=${() => this.rejectTask()}>Afvis</button><br>
+                <button @click=${() => this.parentConfirmTask()}>Godkend</button><br>
+            `;
+        }else{
+            return html`
+                <h1>Opgave: ${this.task.task_name}</h1>
+                <img src="${this.task.img}" alt="Task Icon" width="200" height="200"><br><br>
+    
+                <button @click=${() => this.goBack()}>Tilbage</button><br>
+                
+                <p> ${this.task.task_name} </p>
+                <p> ${this.task.content} </p>
+                <p> ${this.task.reward_amount} </p>
+                
+                <button @click=${() => this.confirmTask()}>Udført</button><br>
+            `;
+        }
+    }
+
+    renderParentView(){
+        return html `
+            <h3>${this.task.task_name}</h3><br>
+            <h3>${this.task.content}</h3><br>
+            <h3>${this.task.reward_amount}</h3><br>
+            <h3>Assigned Junior-konto here: </h3><br>
         `;
+    }
+
+    rejectTask(){
+        reject_Task("0", this.task.id).then((r : apiResponse) => {
+            this.errorMessage = r.error
+            // this.errorMessage = "r.error" //simulerer at der er en error besked
+        })
+        if(this.errorMessage){
+            this.renderError()
+        }else{
+            router.navigate("/parent");
+        }
+    }
+
+    parentConfirmTask(){
+        console.log("BØR VI BARE SLETTE DEN HER, ELLER SKAL VI LAVE EN NY BOOL VÆRDI I DATABASEN?");
+        //TODO, BØR VI BARE SLETTE DEN HER, ELLER SKAL VI LAVE EN NY BOOL VÆRDI I DATABASEN?
     }
 
     protected updated(_changedProperties: PropertyValues) {
@@ -47,6 +85,9 @@ export class TaskDetailPage extends LitElement {
                     this.task = tempTaskList[0]
                 }else{
                     this.errorMessage = r.error;
+                }
+                if(this.errorMessage){
+                    this.renderError()
                 }
             });
         }
@@ -67,7 +108,6 @@ export class TaskDetailPage extends LitElement {
         if(this.errorMessage){
             this.renderError()
         }else{
-            //TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             this.goBack()
         }
     }

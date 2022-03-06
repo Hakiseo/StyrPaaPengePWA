@@ -29,16 +29,28 @@ export class WishlistOverviewPage extends LitElement {
         }
     `];
 
+    //TODO OPDAGET FEJL. NÅR SIDEN NAVIGERER TILBAGE, SÅ OPDATERER DEN IKKE ELEMENTERNE.
+    // DETTE GØR, AT STATUS PÅ ELEMENTERNE IKKE BLIVER ÆNDRET, FÅR VI RELOADER SIDEN.
     constructor() {
         super();
         getWishlist().then((r : apiResponse) =>{
-            //TODO: TOMY make this correctly
             if (r.results !== null) {
                 this.wishlist = r.results
+            }else{
+                this.errorMessage = r.error
             }
-            this.errorMessage = r.error
-            // this.errorMessage = "r.error" //simulerer at der er en error besked
+            if(this.errorMessage){
+                this.renderError()
+            }
+            //this.errorMessage = "r.error" //simulerer at der er en error besked
         })
+    }
+
+    renderError(){
+        return html `
+            <p> ${this.errorMessage} </p>
+            <p> Error loading task info... </p>
+        `;
     }
 
     goBack(){

@@ -32,7 +32,6 @@ export function confirm_Task(current_status: string, id: string) {
     })
 }
 
-
 //TODO Wish Calls:
 
 //TODO SKAL KUN HENTE ØNSKER NED, SOM ER KNYTTET TIL DEN SPECIFIKKE JUNIOR-KONTO!!!!!!!!!!!!!!!
@@ -82,15 +81,12 @@ export function delete_Wish(id: string) {
     return apiPost("child/wish/delete/", {id: id})
 }
 
-//TODO MANGLER AT FÅ JUNIOR-KONTOENS ID MED (AUTOMATISK), UDEN AT SÆTTE DET MANUELT!!!!!!!!!!!!!!!
-//TODO MANGLER AT FÅ JUNIOR-KONTOENS ID MED (AUTOMATISK), UDEN AT SÆTTE DET MANUELT!!!!!!!!!!!!!!!
-export function create_Wishlist(saving_name: string, content: string, target_reward_balance: number) {
+export function create_Wishlist(creator_id: string, saving_name: string, content: string, target_reward_balance: number) {
     /*
     return fetch(apiUrl + 'child/wishlist/create/' + creator_id + '/' + saving_name + '/' + content + '/' + target_reward_balance, {
         method: 'POST'
     })
         .then(res => res.json())
     */
-    //TODO: Nat figure out how to get the ID automatically from child without having to set it manually (Not safe to set it manually)
-    return apiPost("child/wish/create/", {saving_name: saving_name, content: content, target_reward_balance: target_reward_balance})
+    return apiPost("child/wish/create/", {creator_id: creator_id, saving_name: saving_name, content: content, target_reward_balance: target_reward_balance})
 }
