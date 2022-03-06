@@ -36,7 +36,7 @@ export class CreateChild extends LitElement {
             <input type="password" name="password" id="password" @change="${(e: any) => this.password = e.target.value}">
 
             <label for="repeatedPassword"> Gentag Password: </label>
-            <input type="text" name="repeatedPassword" id="repeatedPassword" @change="${(e: any) => this.repeatedPassword = e.target.value}">
+            <input type="password" name="repeatedPassword" id="repeatedPassword" @change="${(e: any) => this.repeatedPassword = e.target.value}">
 
             <label for="startBalance"> Start beløb: </label>
             <input type="number" value="${this.startBalance}" name="startBalance" id="startBalance" @change="${(e: any) => this.startBalance = e.target.value}">
