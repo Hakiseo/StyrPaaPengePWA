@@ -17,7 +17,7 @@ import {apiFetch, apiPost, getIdentityToken} from "./api/apiUtils";
 import {UserType, VerifyTokenResponse} from "./sharedComponents/sharedInterfaces"
 
 import Navigo from "navigo";
-import {ChildData} from "./parentComponents/parentInterfaces";
+import {ChildData, MinimalChildrenData} from "./parentComponents/parentInterfaces";
 export const router = new Navigo('/');
 
 @customElement('index-element')
@@ -36,6 +36,7 @@ export class IndexElement extends LitElement {
     @property() loggedIn: boolean = false;
 
     @property() childData!: ChildData;
+    @property() minimalChildrenData: MinimalChildrenData[] = [];
 
     //TODO: Make it handle window.history too - currently you can press back and still access pages you shouldn't be able to
     connectedCallback() {
@@ -65,10 +66,8 @@ export class IndexElement extends LitElement {
 
             .on("/child", () => {
                 if (!this.parent && this.loggedIn) {
-                    console.log("Child path - child user")
                     this.route = html`<child-index-page></child-index-page>`
                 } else {
-                    console.log("Child path but parent user")
                     this.routeBackToIndex()
                 }
             })
@@ -79,7 +78,17 @@ export class IndexElement extends LitElement {
             .on("/wishlist-creating", () => {!this.parent && this.loggedIn ? this.route = html`<wish-create-page></wish-create-page>` : this.routeBackToIndex()})
             .on("/wish-detail/:id", (match: any) => {this.route = html`<wish-detail-page .wishID="${match.data.id}"></wish-detail-page>`})
 
-            .on("/parent", () => {this.parent && this.loggedIn ? this.route = html`<parent-index-page @indexEmitChildData="${(e: any) => this.childData = e.detail}"></parent-index-page>` : this.routeBackToIndex()})
+            .on("/parent", () => {
+                if (this.parent && this.loggedIn) {
+                    this.route = html`
+                        <parent-index-page 
+                            @indexEmitMinimalChildrenData="${(e:any) => this.minimalChildrenData = e.detail}" 
+                            @indexEmitChildData="${(e: any) => this.childData = e.detail}"
+                        ></parent-index-page>`
+                } else {
+                    this.routeBackToIndex()
+                }
+            })
             .on("/parent/createChild", () => {this.parent && this.loggedIn ? this.route = html`<create-child></create-child>` : this.routeBackToIndex()})
             .on("/parent/details", () => {this.parent && this.loggedIn ? this.route = html`<parent-details></parent-details>` : this.routeBackToIndex()})
             .on("/parent/details/changePassword", () => {this.parent && this.loggedIn ? this.route = html`<change-password .parent="${true}"></change-password>` : this.routeBackToIndex()})
@@ -116,6 +125,9 @@ export class IndexElement extends LitElement {
             ${this.renderFutureSideMenu()}
             <hr>
             ${this.route}
+            <hr>
+            <button @click="${() => this.test()}"> test to fail post (Posting to child api path when parent) </button>
+            <button @click="${() => this.test2()}"> test to fail get (Getting at child api path when parent) </button>
         `
     }
 
@@ -132,8 +144,6 @@ export class IndexElement extends LitElement {
             <button @click="${() => router.navigate("/parent/details")}"> Egen detalje side (Forælder) </button>
             <button @click="${() => router.navigate("/home")}"> index </button>
             <button @click="${() => this.logout()}"> Log Out </button>
-            <button @click="${() => this.test()}"> test to fail post (Posting to child api path when parent) </button>
-            <button @click="${() => this.test2()}"> test to fail get (Getting at child api path when parent) </button>
         `
     }
 

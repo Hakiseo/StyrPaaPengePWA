@@ -5,12 +5,13 @@ import "./childCard"
 import {getCurrentUserId} from "../api/apiUtils";
 import {fetchJuniors} from "../api/parentApiRequests";
 import {ApiResponse} from "../sharedComponents/sharedInterfaces";
-import {ChildData} from "./parentInterfaces";
+import {ChildData, MinimalChildrenData} from "./parentInterfaces";
 
 @customElement("parent-index-page")
 export class ParentIndexPage extends LitElement {
     @property({type: Number}) parentId!: number;
     @property() childrenData: ChildData[] = [];
+    @property() minimalChildrenData: MinimalChildrenData[] = [];
 
     connectedCallback() {
         super.connectedCallback();
@@ -23,8 +24,14 @@ export class ParentIndexPage extends LitElement {
             fetchJuniors(this.parentId).then((r: ApiResponse) => {
                 if (!r.error && r.results) {
                     this.childrenData = r.results
+                    this.minimalChildrenData = this.childrenData.map(r => {
+                        return {id: r.id, name: r.first_name + " " + r.last_name}
+                    })
                 }
             })
+        }
+        if (_changedProperties.has("minimalChildrenData") && this.minimalChildrenData.length > 0) {
+            this.dispatchEvent(new CustomEvent("indexEmitMinimalChildrenData", {detail: this.minimalChildrenData}))
         }
     }
 

@@ -9,6 +9,11 @@ export interface ChildData {
     reward_balance: number
 }
 
+export interface MinimalChildrenData {
+    id: number,
+    name: string
+}
+
 export interface ParentData {
     id: number,
     first_name: string,
