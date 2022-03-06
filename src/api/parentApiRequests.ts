@@ -1,14 +1,13 @@
 //parent component related api-requests
 
-import {apiFetch, apiPost, apiPut} from "./apiUtils";
+import {apiFetch, apiPost, apiPut, getCurrentUserId} from "./apiUtils";
 
 export function getAllParent(): Promise<any> {
     return apiFetch("parent")
 }
 
-//Make post parent properly
-export function postParent() {
-    apiPost("parent", {data: "tester"})
+export function getCurrentParent() {
+    return apiFetch("parent/" + getCurrentUserId())
 }
 
 export function createJuniorUser(data: {}) {

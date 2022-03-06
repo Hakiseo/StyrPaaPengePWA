@@ -2,21 +2,34 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {ParentData} from "./parentInterfaces";
 import {router} from "../index";
+import {getCurrentParent} from "../api/parentApiRequests";
+import {ApiResponse} from "../sharedComponents/sharedInterfaces";
 
 @customElement("parent-details")
 export class ParentDetails extends LitElement {
-    //TODO: Replace with real data
-    @property() parentData: ParentData = {id: 1, first_name: "test", last_name: "test", email: "tester@tester", age: 12};
+    @property() parentData!: ParentData;
     @property() editMode: boolean = false;
 
     @property() firstName: string = "";
     @property() lastName: string = "";
     @property() email: string = "";
     @property() age: number = 3;
-    @property() balance: number = 0;
+
+    connectedCallback() {
+        super.connectedCallback();
+        getCurrentParent().then((r: ApiResponse) => {
+            if (r.results) {
+                this.parentData = r.results[0]
+                this.firstName = this.parentData.first_name
+                this.lastName = this.parentData.last_name
+                this.email = this.parentData.email
+                this.age = this.parentData.age
+            }
+        })
+    }
 
     protected render(): TemplateResult {
-        // if (!this.childData) return html ` <p> Loading... </p>`
+        if (!this.parentData) return html ` <p> Loading... </p>`
         return html `
             ${this.editMode ? this.renderEdit() : this.renderView()}
             <div>
@@ -59,7 +72,6 @@ export class ParentDetails extends LitElement {
         console.log("Delete Parent user: ", this.parentData.email)
     }
 
-    //TODO: when changing username we need to somehow log the child user out?
     detailsAction() {
         if (!this.editMode) {
             this.editMode = true;
