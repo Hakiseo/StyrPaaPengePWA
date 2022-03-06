@@ -1,6 +1,9 @@
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {router} from "../index";
+import {getCurrentUserId} from "../api/apiUtils";
+import {changePasswordChild, changePasswordParent} from "../api/parentApiRequests";
+import {ApiResponse} from "../sharedComponents/sharedInterfaces";
 
 @customElement("change-password")
 export class ChangePassword extends LitElement {
@@ -11,9 +14,16 @@ export class ChangePassword extends LitElement {
     @property() password: string = ""
     @property() repeatedPassword: string = ""
 
+    connectedCallback() {
+        super.connectedCallback();
+        if (this.parent) this.id = getCurrentUserId()
+    }
+
     protected updated(_changedProperties: PropertyValues) {
         super.updated(_changedProperties);
-        console.log(`Parent: ${this.parent} & Id: ${this.id}`)
+        if (_changedProperties.has("parent") || _changedProperties.has("id")) {
+            console.log(`Parent: ${this.parent} & Id: ${this.id}`)
+        }
     }
 
     //TODO: validate input & visually show errors
@@ -44,8 +54,28 @@ export class ChangePassword extends LitElement {
     }
 
     changePassword() {
-        if (this.oldPassword && (this.password === this.repeatedPassword)) {
-            console.log("DO request")
+        if (this.oldPassword && this.password && this.repeatedPassword && (this.password === this.repeatedPassword)) {
+            changePasswordParent({id: this.id, newPassword: this.password, oldPassword: this.oldPassword})
+                .then((r: ApiResponse) => {
+                    console.log("PARENT: ", r)
+                    if (!r.error) {
+                        this.goBack()
+                    } else {
+                        //TODO: Handle error
+                    }
+                })
+            return;
+        }
+        if (this.password && this.repeatedPassword && (this.password === this.repeatedPassword)) {
+            changePasswordChild({id: this.id, newPassword: this.password})
+                .then((r: ApiResponse) => {
+                    console.log("CHILD: ", r)
+                    if (!r.error) {
+                        this.goBack()
+                    } else {
+                        //TODO: Handle error
+                    }
+                })
             return;
         }
         alert("All fields are required and password and repeated password must match!")
