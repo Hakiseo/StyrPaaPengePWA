@@ -2,7 +2,7 @@ import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {createJuniorUser} from "../api/parentApiRequests";
 import {ApiResponse} from "../sharedComponents/sharedInterfaces";
-import {getIdentityToken, getCurrentUserId} from "../api/apiUtils";
+import {getCurrentUserId} from "../api/apiUtils";
 import {router} from "../index";
 
 @customElement("create-child")
@@ -46,7 +46,6 @@ export class CreateChild extends LitElement {
     }
 
     createNewJuniorUser() {
-        console.log(getIdentityToken())
         if (this.password !== this.repeatedPassword) {
             window.alert("The inputted passwords does not match!")
             return;
