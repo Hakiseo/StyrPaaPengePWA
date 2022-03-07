@@ -15,3 +15,8 @@ export enum UserType {
     parent = "parent",
     child = "child"
 }
+
+export interface CustomErrorHandling {
+    errorMessage: string
+    validate: () => boolean
+}
