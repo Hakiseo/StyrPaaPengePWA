@@ -18,5 +18,5 @@ export enum UserType {
 
 export interface CustomErrorHandling {
     errorMessage: string
-    validate: () => boolean
+    validated: () => boolean
 }

@@ -1,9 +1,10 @@
-import {html, LitElement, TemplateResult} from "lit";
+import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {ParentData} from "./parentInterfaces";
 import {router} from "../index";
-import {getCurrentParent} from "../api/parentApiRequests";
+import {editParent, getCurrentParent} from "../api/parentApiRequests";
 import {ApiResponse, CustomErrorHandling} from "../sharedComponents/sharedInterfaces";
+import {getCurrentUserId} from "../api/apiUtils";
 
 @customElement("parent-details")
 export class ParentDetails extends LitElement implements CustomErrorHandling {
@@ -17,21 +18,23 @@ export class ParentDetails extends LitElement implements CustomErrorHandling {
 
     @property() errorMessage: string = "";
 
-    validate() {
+    validated() {
         return true;
     }
 
     connectedCallback() {
         super.connectedCallback();
-        getCurrentParent().then((r: ApiResponse) => {
-            if (r.results) {
-                this.parentData = r.results[0]
-                this.firstName = this.parentData.first_name
-                this.lastName = this.parentData.last_name
-                this.email = this.parentData.email
-                this.age = this.parentData.age
-            }
-        })
+        this.getParentData();
+    }
+
+    protected updated(_changedProperties: PropertyValues) {
+        super.updated(_changedProperties);
+        if (_changedProperties.has("parentData")) {
+            this.firstName = this.parentData.first_name
+            this.lastName = this.parentData.last_name
+            this.email = this.parentData.email
+            this.age = this.parentData.age
+        }
     }
 
     protected render(): TemplateResult {
@@ -83,8 +86,19 @@ export class ParentDetails extends LitElement implements CustomErrorHandling {
             this.editMode = true;
         } else {
             //check for changes
-            //make post-request to api
-            this.editMode = false; //this should be set on success
+            editParent({id: getCurrentUserId(), first_name: this.firstName, last_name: this.lastName, age: this.age, email: this.email})
+                .then((r:ApiResponse) => {
+                    console.log(r)
+                    this.getParentData().then(() => this.editMode = false)
+                })
         }
+    }
+
+    getParentData() {
+        return getCurrentParent().then((r: ApiResponse) => {
+            if (r.results) {
+                this.parentData = r.results[0]
+            }
+        })
     }
 }

@@ -17,7 +17,7 @@ export class CreateChild extends LitElement implements CustomErrorHandling {
 
     @property() errorMessage: string = "";
 
-    validate() {
+    validated() {
         return true;
     }
 

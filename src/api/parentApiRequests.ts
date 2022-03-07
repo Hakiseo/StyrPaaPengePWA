@@ -33,3 +33,7 @@ export function fetchChild(id: string) {
 export function editChild(data: {}) {
     return apiPut("parent/editChild/", data)
 }
+
+export function editParent(data: {}) {
+    return apiPut("parent/editParent/", data)
+}
