@@ -1,6 +1,6 @@
 //parent component related api-requests
 
-import {apiFetch, apiPost, apiPut, getCurrentUserId} from "./apiUtils";
+import {apiDelete, apiFetch, apiPost, apiPut, getCurrentUserId} from "./apiUtils";
 
 export function getAllParent(): Promise<any> {
     return apiFetch("parent")
@@ -36,4 +36,12 @@ export function editChild(data: {}) {
 
 export function editParent(data: {}) {
     return apiPut("parent/editParent/", data)
+}
+
+export function deleteChild(id: string) {
+    return apiDelete("parent/deleteChild/" + id)
+}
+
+export function deleteParent() {
+    return apiDelete("parent/parentChild/" + getCurrentUserId())
 }
