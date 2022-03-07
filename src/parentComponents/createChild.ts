@@ -1,12 +1,12 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {createJuniorUser} from "../api/parentApiRequests";
-import {ApiResponse} from "../sharedComponents/sharedInterfaces";
+import {ApiResponse, CustomErrorHandling} from "../sharedComponents/sharedInterfaces";
 import {getCurrentUserId} from "../api/apiUtils";
 import {router} from "../index";
 
 @customElement("create-child")
-export class CreateChild extends LitElement {
+export class CreateChild extends LitElement implements CustomErrorHandling {
     @property() firstName: string = "";
     @property() lastName: string = "";
     @property() age: number = 3;
@@ -14,6 +14,12 @@ export class CreateChild extends LitElement {
     @property() password: string = "";
     @property() repeatedPassword: string = "";
     @property() startBalance: number = 0;
+
+    @property() errorMessage: string = "";
+
+    validate() {
+        return true;
+    }
 
     //TODO: validate input & visually show errors
     protected render(): TemplateResult {

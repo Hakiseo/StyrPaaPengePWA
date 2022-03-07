@@ -3,10 +3,10 @@ import {customElement, property} from "lit/decorators.js";
 import {ChildData} from "./parentInterfaces";
 import {router} from "../index";
 import {editChild, fetchChild} from "../api/parentApiRequests";
-import {ApiResponse} from "../sharedComponents/sharedInterfaces";
+import {ApiResponse, CustomErrorHandling} from "../sharedComponents/sharedInterfaces";
 
 @customElement("child-details")
-export class ChildDetails extends LitElement {
+export class ChildDetails extends LitElement implements CustomErrorHandling{
     @property() childData!: ChildData;
     @property() childId: string = "";
     @property() editMode: boolean = false;
@@ -16,6 +16,12 @@ export class ChildDetails extends LitElement {
     @property() username: string = "";
     @property() age: number = 0;
     @property() balance: number = 0;
+
+    @property() errorMessage: string = "";
+
+    validate() {
+        return true;
+    }
 
     connectedCallback() {
         super.connectedCallback();

@@ -3,16 +3,22 @@ import {customElement, property} from "lit/decorators.js";
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
 import {changePasswordChild, changePasswordParent} from "../api/parentApiRequests";
-import {ApiResponse} from "../sharedComponents/sharedInterfaces";
+import {ApiResponse, CustomErrorHandling} from "../sharedComponents/sharedInterfaces";
 
 @customElement("change-password")
-export class ChangePassword extends LitElement {
+export class ChangePassword extends LitElement implements CustomErrorHandling{
     @property() parent: boolean = false;
     @property() id: string = ""
 
     @property() oldPassword: string = ""
     @property() password: string = ""
     @property() repeatedPassword: string = ""
+
+    @property() errorMessage: string = "";
+
+    validate() {
+        return true;
+    }
 
     connectedCallback() {
         super.connectedCallback();
