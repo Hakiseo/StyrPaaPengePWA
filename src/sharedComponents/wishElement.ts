@@ -1,6 +1,7 @@
 import {customElement, query, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import {IWishlist} from "../childComponents/childInterfaces";
+import {router} from "../index";
 
 @customElement("wish-element")
 export class WishElement extends LitElement {
@@ -78,14 +79,22 @@ export class WishElement extends LitElement {
 
     renderparent(){
         return html`
-            <a class="btn" href= "/wish-detail/${this.wish.id}/${this.parentView}"">Godkend</a>
+            <a class="btn" @click=${() => this.navigateParent()}>Godkend</a>
         `;
     }
 
     renderChild(){
         return html`
-            <a class="btn" href= "/wish-detail/${this.wish.id}/${this.parentView}">Detaljer</a>
+            <a class="btn" @click=${() => this.navigateChild()}>Detaljer</a>
         `;
+    }
+
+    navigateParent(){
+        router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
+    }
+
+    navigateChild(){
+        router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
     }
 
     render(): TemplateResult{
