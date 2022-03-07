@@ -2,7 +2,7 @@ import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {ChildData} from "./parentInterfaces";
 import {router} from "../index";
-import {editChild, fetchChild} from "../api/parentApiRequests";
+import {deleteChild, editChild, fetchChild} from "../api/parentApiRequests";
 import {ApiResponse, CustomErrorHandling} from "../sharedComponents/sharedInterfaces";
 
 @customElement("child-details")
@@ -87,6 +87,12 @@ export class ChildDetails extends LitElement implements CustomErrorHandling{
 
     deleteJunior() {
         console.log("Delete junior user: ", this.childData.username)
+        deleteChild(this.childId).then((r: ApiResponse) => {
+            console.log(r)
+            if (!r.error) {
+                router.navigate("/parent")
+            }
+        })
     }
 
     //TODO: add validation
