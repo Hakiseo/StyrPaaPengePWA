@@ -38,7 +38,6 @@ export class IndexElement extends LitElement {
     @property() childData!: ChildData;
     @property() minimalChildrenData: MinimalChildrenData[] = [];
 
-    //TODO: Make it handle window.history too - currently you can press back and still access pages you shouldn't be able to
     connectedCallback() {
         super.connectedCallback();
         if (window.location.href == "http://localhost:8000/" || window.location.href == "http://localhost:8000") {
