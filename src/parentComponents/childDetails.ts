@@ -67,6 +67,16 @@ export class ChildDetails extends LitElement implements CustomErrorHandling{
         `
     }
 
+    //TODO: ADD TASK PREVIEWS AFTER MERGE
+    renderTaskPreviews(): TemplateResult | void {
+        //TODO: Add a check for task and return empty if no task is found
+        return html `
+            <div>
+                <h3> Task Previews:</h3>
+            </div>
+        `
+    }
+
     //TODO: validate input & visually show errors
     renderEdit(): TemplateResult {
         return html `
