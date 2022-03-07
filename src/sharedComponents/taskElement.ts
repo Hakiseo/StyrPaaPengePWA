@@ -76,18 +76,6 @@ export class TaskElement extends LitElement {
         this.image.style.setProperty('--image-url',`url(${this.task.img})`)
     }
 
-    renderparent(){
-        return html`
-            <a class="btn" href= "/task-detail/${this.task.id}/${this.parentView}">Godkend</a>
-        `;
-    }
-
-    renderChild(){
-        return html`
-            <a class="btn" href= "/task-detail/${this.task.id}/${this.parentView}">Detaljer</a>
-        `;
-    }
-
     render(): TemplateResult{
         if(!this.task){
             return html `Loading...`
@@ -98,9 +86,24 @@ export class TaskElement extends LitElement {
                     <div id="img" alt=${this.task.task_name}></div>
                     <h5>${this.task.task_name}</h5>
                     ${this.task.current_status ? html `${this.task.current_status}<br><br>` : ''}
-                    ${this.parentView ? this.renderparent() : this.renderChild()}
+                    
+                    ${this.determineView()}
+                    
+                    
                 </article>
         `;
+        }
+    }
+
+    determineView(){
+        if(this.parentView){
+            return html`
+                <a class="btn" href= "/task-detail/${this.task.id}/${this.parentView}">Godkend</a>
+            `;
+        }else{
+            return html`
+                <a class="btn" href= "/task-detail/${this.task.id}/${this.parentView}">Detaljer</a>
+            `;
         }
     }
 }

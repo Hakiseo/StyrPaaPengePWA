@@ -5,12 +5,13 @@ import {apiResponse} from "./sharedInterfaces";
 import {ITasklist} from "../childComponents/childInterfaces";
 import {confirm_Task, getTask} from "../api/childApiRequests";
 import { router } from "../index";
-import {reject_Task} from "../api/parentApiRequests";
+import {reject_TaskParent} from "../api/parentApiRequests";
 
 @customElement("task-detail-page")
 export class TaskDetailPage extends LitElement {
     @property({type: Boolean}) parentView: boolean = false;
     @property({type: String}) errorMessage: string | null = "";
+
     @property() taskID: string = "";
     @property() task!: ITasklist;
 
@@ -26,7 +27,13 @@ export class TaskDetailPage extends LitElement {
         if (!this.task) return html `Loading ...`;
         console.log("This is parentView: " + this.parentView)
 
-        if(this.parentView){
+        //TODO PROBLEMER MED BOOL VÆRDIERNE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // KIG PÅ HVAD DER FOREGÅR HER:
+        if(this.parentView == true){
+
+            //TODO DETTE SKABER PROBLEMER HELE VEJEN NED
+            console.log("This is parentView - BØR VÆRE TRUE: " + this.parentView)
+
             return html`
                 <h1>Opgave:</h1>
                 ${this.renderParentView()}
@@ -34,6 +41,10 @@ export class TaskDetailPage extends LitElement {
                 <button @click=${() => this.parentConfirmTask()}>Godkend</button><br>
             `;
         }else{
+
+            //TODO DETTE SKABER PROBLEMER HELE VEJEN NED
+            console.log("This is parentView - BØR VÆRE FALSE: " + this.parentView)
+
             return html`
                 <h1>Opgave: ${this.task.task_name}</h1>
                 <img src="${this.task.img}" alt="Task Icon" width="200" height="200"><br><br>
@@ -59,7 +70,7 @@ export class TaskDetailPage extends LitElement {
     }
 
     rejectTask(){
-        reject_Task("0", this.task.id).then((r : apiResponse) => {
+        reject_TaskParent("0", this.task.id).then((r : apiResponse) => {
             this.errorMessage = r.error
             // this.errorMessage = "r.error" //simulerer at der er en error besked
         })

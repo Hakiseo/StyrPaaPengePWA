@@ -17,23 +17,22 @@ export class WishForm extends LitElement {
     `];
 
     protected render(): TemplateResult {
-        //console.log(this.wishListTarget)
         return html`
             <div>
                 <label> Name: </label>
                 <br>
                 <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" type="text" required="required" value="${this.wishListName}" 
-                       @change=${(e:any) => this.wishListName = e.target.value}>
+                    @change=${(e:any) => this.wishListName = e.target.value}>
                 <br>
                 <label> Content: </label>
                 <br>
                 <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" type="text" required="required" value="${this.wishListContent}"
-                @change=${(e:any) => this.wishListContent = e.target.value}>
+                    @change=${(e:any) => this.wishListContent = e.target.value}>
                 <br>
                 <label> Target: </label>
                 <br>
                 <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" type="number" minlength="2" required="required" pattern="[1-9]+{2}" value="${this.wishListTarget}"
-                @change=${(e:any) => this.wishListTarget = e.target.value}>
+                    @change=${(e:any) => this.wishListTarget = e.target.value}>
                 <br>
                 ${this.renderSubmitButton()}
             </div>

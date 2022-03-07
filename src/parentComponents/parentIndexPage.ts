@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import {router} from "../index";
-import {getWishlistTEST, getTasklistTEST} from "../api/parentApiRequests";
+import {getTasklistParent, getWishlistParent} from "../api/parentApiRequests";
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
 import {ITasklist, IWishlist} from "../childComponents/childInterfaces";
 import {getCurrentUserId} from "../api/apiUtils";
@@ -42,10 +42,7 @@ export class ParentIndexPage extends LitElement {
     constructor() {
         super();
         this.parentId = getCurrentUserId();
-
-
-        //TODO WISH-TESTER!!!!!!!:
-        getWishlistTEST().then((r : apiResponse) =>{
+        getWishlistParent(this.parentId).then((r : apiResponse) =>{
             if (r.results !== null) {
                 this.wishlist = r.results
             }else{
@@ -57,7 +54,7 @@ export class ParentIndexPage extends LitElement {
             console.log(this.wishlist)
             //this.errorMessage = "r.error" //simulerer at der er en error besked
         })
-        getTasklistTEST().then((r : apiResponse) =>{
+        getTasklistParent(this.parentId).then((r : apiResponse) =>{
             if (r.results !== null) {
                 this.tasklist = r.results
             }else{
@@ -69,37 +66,6 @@ export class ParentIndexPage extends LitElement {
             console.log(this.tasklist)
             //this.errorMessage = "r.error" //simulerer at der er en error besked
         })
-
-        //TODO DETTE ER DE RIGTIGE FUNKTIONER:
-        //TODO DETTE ER DE RIGTIGE FUNKTIONER:
-        /*
-        getWishlist(this.parentId).then((r : apiResponse) =>{
-            if (r.results !== null) {
-                this.wishlist = r.results
-            }else{
-                this.errorWishMessage = r.error
-            }
-            if(this.errorWishMessage){
-                this.renderWishError()
-            }
-            console.log(this.wishlist)
-            //this.errorMessage = "r.error" //simulerer at der er en error besked
-        })
-        getTasklist(this.parentId).then((r : apiResponse) =>{
-            if (r.results !== null) {
-                this.tasklist = r.results
-            }else{
-                this.errorTaskMessage = r.error
-            }
-            if(this.errorTaskMessage){
-                this.renderTaskError()
-            }
-            console.log(this.tasklist)
-            //this.errorMessage = "r.error" //simulerer at der er en error besked
-        })
-        */
-        //TODO DETTE ER DE RIGTIGE FUNKTIONER:
-        //TODO DETTE ER DE RIGTIGE FUNKTIONER:
     }
 
     renderWishError(){

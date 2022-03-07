@@ -3,8 +3,9 @@ import {css, html, LitElement, TemplateResult} from "lit";
 import "../sharedComponents/wishElement"
 import {ITasklist} from "./parentInterfaces";
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
-import {getCompleteTasklistTEST} from "../api/parentApiRequests";
+import {getCompleteTasklistParent} from "../api/parentApiRequests";
 import {router} from "../index";
+import {getCurrentUserId} from "../api/apiUtils";
 
 @customElement("tasklist-overview-page")
 export class TasklistOverviewPage extends LitElement {
@@ -31,8 +32,7 @@ export class TasklistOverviewPage extends LitElement {
 
     constructor() {
         super();
-        //getCompleteTasklist(getCurrentUserId()).then((r : apiResponse) =>{
-        getCompleteTasklistTEST().then((r : apiResponse) =>{
+        getCompleteTasklistParent(getCurrentUserId()).then((r : apiResponse) =>{
             if (r.results !== null) {
                 this.tasklist = r.results
             }else{
@@ -67,6 +67,8 @@ export class TasklistOverviewPage extends LitElement {
                 <p> Please try again or please go back to main page </p>
             `;
         }
+        //TODO PROBLEMER MED BOOL VÆRDIERNE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // KIG PÅ HVAD DER FOREGÅR HER:
         if(this.tasklist){
             return html `
                 <h1>Opgaver:</h1>

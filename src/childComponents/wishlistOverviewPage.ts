@@ -78,7 +78,7 @@ export class WishlistOverviewPage extends LitElement {
                     ${this.wishlist.map(wish => {
                         console.log(wish)
                         return html `
-                    <wish-element .wish=${wish}></wish-element>
+                    <wish-element .wish=${wish} .parentView="${false}"></wish-element>
                 `
                     })}
                 </section>

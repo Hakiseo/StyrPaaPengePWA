@@ -3,7 +3,7 @@ import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
 import {apiResponse} from "./sharedInterfaces";
 import {getWish, delete_Wish, confirm_Wish, update_Wish} from "../api/childApiRequests";
-import {reject_Wish} from "../api/parentApiRequests";
+import {reject_WishParent, getWishParent} from "../api/parentApiRequests";
 import {IWishlist} from "../childComponents/childInterfaces";
 import { router } from "../index";
 
@@ -11,6 +11,7 @@ import { router } from "../index";
 export class WishDetailPage extends LitElement {
     @property({type: Boolean}) parentView: boolean = false;
     @property({type: String}) errorMessage: string | null = "";
+
     @property() wishID: string = "";
     @property() wish!: IWishlist;
     @property() editMode: boolean = false;
@@ -25,9 +26,14 @@ export class WishDetailPage extends LitElement {
 
     render() : TemplateResult{
         if (!this.wish) return html `Loading ...`;
-        console.log("This is parentView: " + this.parentView)
 
-        if(this.parentView){
+        //TODO PROBLEMER MED BOOL VÆRDIERNE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // KIG PÅ HVAD DER FOREGÅR HER:
+        if(this.parentView == true){
+
+            //TODO DETTE SKABER PROBLEMER HELE VEJEN NED
+            console.log("This is parentView - BØR VÆRE TRUE: " + this.parentView)
+
             return html`
                 <h1>Ønskeliste:</h1>
                 ${this.renderParentView()}
@@ -35,6 +41,10 @@ export class WishDetailPage extends LitElement {
                 <button @click=${() => this.parentConfirmWish()}>Godkend</button><br>
             `;
         }else{
+
+            //TODO DETTE SKABER PROBLEMER HELE VEJEN NED
+            console.log("This is parentView - BØR VÆRE FALSE: " + this.parentView)
+
             return html`
                 <h1>Ønskeliste: ${this.wish.saving_name}</h1>
                 <img src="${this.wish.img}" alt="Wish Icon" width="200" height="200"><br><br>
@@ -59,7 +69,7 @@ export class WishDetailPage extends LitElement {
     }
 
     rejectWish(){
-        reject_Wish("0", this.wish.id).then((r : apiResponse) => {
+        reject_WishParent("0", this.wish.id).then((r : apiResponse) => {
             this.errorMessage = r.error
             // this.errorMessage = "r.error" //simulerer at der er en error besked
         })
@@ -106,14 +116,25 @@ export class WishDetailPage extends LitElement {
     }
 
     loadWish(){
-        getWish(this.wishID).then((r : apiResponse) => {
-            if(r.results !== null){
-                let tempWishList:IWishlist[] = r.results;
-                this.wish = tempWishList[0]
-            }else{
-                this.errorMessage = r.error;
-            }
-        });
+        if(this.parentView == true){
+            getWishParent(this.wishID).then((r : apiResponse) => {
+                if(r.results !== null){
+                    let tempWishList:IWishlist[] = r.results;
+                    this.wish = tempWishList[0]
+                }else{
+                    this.errorMessage = r.error;
+                }
+            });
+        }else{
+            getWish(this.wishID).then((r : apiResponse) => {
+                if(r.results !== null){
+                    let tempWishList:IWishlist[] = r.results;
+                    this.wish = tempWishList[0]
+                }else{
+                    this.errorMessage = r.error;
+                }
+            });
+        }
     }
 
     renderError(){
