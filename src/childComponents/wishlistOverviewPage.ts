@@ -5,6 +5,7 @@ import {getWishlist} from "../api/childApiRequests";
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/wishElement"
 import {router} from "../index";
+import {getCurrentUserId} from "../api/apiUtils";
 
 @customElement("wishlist-overview-page")
 export class WishlistOverviewPage extends LitElement {
@@ -33,7 +34,7 @@ export class WishlistOverviewPage extends LitElement {
     // DETTE GØR, AT STATUS PÅ ELEMENTERNE IKKE BLIVER ÆNDRET, FÅR VI RELOADER SIDEN.
     constructor() {
         super();
-        getWishlist().then((r : apiResponse) =>{
+        getWishlist(getCurrentUserId()).then((r : apiResponse) =>{
             if (r.results !== null) {
                 this.wishlist = r.results
             }else{

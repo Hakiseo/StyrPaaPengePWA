@@ -2,13 +2,13 @@ import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, TemplateResult} from "lit";
 
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
-import {create_Wishlist} from "../api/childApiRequests";
+import {create_Task} from "../api/parentApiRequests";
 import { router } from "../index";
-import "./wishForm";
+import "../parentComponents/taskForm";
 import {getCurrentUserId} from "../api/apiUtils";
 
-@customElement("wish-create-page")
-export class WishCreatePage extends LitElement {
+@customElement("task-create-page")
+export class TaskCreatePage extends LitElement {
     @property({type: String}) errorMessage: string | null = "";
 
     constructor(){
@@ -16,36 +16,35 @@ export class WishCreatePage extends LitElement {
     }
 
     goBack(){
-        router.navigate("/wishlist-overview")
+        router.navigate("/tasklist-overview")
     }
 
     render(): TemplateResult{
         return html`
-            <h1>Opret Ønskeliste:</h1>
+            <h1>Opret Opgave:</h1>
             <button @click=${() => this.goBack()}>Tilbage</button><br>
-            <wish-form .createForm="${true}" @submit="${(e: CustomEvent) => {
-                this.createWishList(e)
-            }}"></wish-form>
+            <task-form .createForm="${true}" @submit="${(e: CustomEvent) => {
+            this.createTask(e)
+        }}"></task-form>
         `;
     }
 
-    createWishList(e: CustomEvent){
-        console.log("New wishlist created: ", e.detail)
-        if (e.detail.wishListName && e.detail.wishListContent && e.detail.wishListTarget) {
-            create_Wishlist(
+    createTask(e: CustomEvent){
+        console.log("New task created: ", e.detail)
+        if (e.detail.taskName && e.detail.taskContent && e.detail.taskRewardAmount) {
+            create_Task(
                 getCurrentUserId(),
-                e.detail.wishListName,
-                e.detail.wishListContent,
-                e.detail.wishListTarget)
+                e.detail.taskName,
+                e.detail.taskContent,
+                e.detail.taskRewardAmount)
                 .then((r : apiResponse) => {
                     this.errorMessage = r.error
-            })
+                })
             if(this.errorMessage) {
                 window.alert("Fejl... " + this.errorMessage)
             }else{
-                window.alert("Oprettet Ønskeliste: " + e.detail.wishListName);
+                window.alert("Oprettet Opgave: " + e.detail.taskName);
                 this.goBack()
-                // this.resetWishCreation();
             }
         }else{
             window.alert("No fields may be left empty'!");

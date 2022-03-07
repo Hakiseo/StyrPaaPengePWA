@@ -2,10 +2,11 @@ import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
 import {apiResponse} from "./sharedInterfaces";
+import {IWishlist} from "../childComponents/childInterfaces";
 import {getWish, delete_Wish, confirm_Wish, update_Wish} from "../api/childApiRequests";
 import {reject_WishParent, getWishParent} from "../api/parentApiRequests";
-import {IWishlist} from "../childComponents/childInterfaces";
 import { router } from "../index";
+import "../childComponents/wishForm";
 
 @customElement("wish-detail-page")
 export class WishDetailPage extends LitElement {
@@ -20,90 +21,12 @@ export class WishDetailPage extends LitElement {
         super();
     }
 
-    goBack(){
-        router.navigate("/wishlist-overview")
-    }
-
     render() : TemplateResult{
         if (!this.wish) return html `Loading ...`;
-
-        //TODO PROBLEMER MED BOOL VÆRDIERNE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // KIG PÅ HVAD DER FOREGÅR HER:
-        if(this.parentView == true){
-
-            //TODO DETTE SKABER PROBLEMER HELE VEJEN NED
-            console.log("This is parentView - BØR VÆRE TRUE: " + this.parentView)
-
-            return html`
-                <h1>Ønskeliste:</h1>
-                ${this.renderParentView()}
-                <button @click=${() => this.rejectWish()}>Afvis</button><br>
-                <button @click=${() => this.parentConfirmWish()}>Godkend</button><br>
-            `;
-        }else{
-
-            //TODO DETTE SKABER PROBLEMER HELE VEJEN NED
-            console.log("This is parentView - BØR VÆRE FALSE: " + this.parentView)
-
-            return html`
-                <h1>Ønskeliste: ${this.wish.saving_name}</h1>
-                <img src="${this.wish.img}" alt="Wish Icon" width="200" height="200"><br><br>
-                
-                <button @click=${() => this.goBack()}>Tilbage</button><br>
-                
-                ${this.editMode ? this.renderEditForm() : this.renderInformation()}
-                
-                <button @click=${() => this.deleteWish()}>Delete Wish</button><br>
-                <button @click=${() => this.confirmWish()}>Godkend</button><br>
-            `;
-        }
-    }
-
-    renderParentView(){
-        return html `
-            <h3>${this.wish.saving_name}</h3><br>
-            <h3>${this.wish.target_reward_balance}</h3><br>
-            <h3>Assigned Junior-konto here: </h3><br>
-            <h3>${this.wish.creator_id}</h3><br>
-        `;
-    }
-
-    rejectWish(){
-        reject_WishParent("0", this.wish.id).then((r : apiResponse) => {
-            this.errorMessage = r.error
-            // this.errorMessage = "r.error" //simulerer at der er en error besked
-        })
-        if(this.errorMessage){
-            this.renderError()
-        }else{
-            router.navigate("/parent");
-        }
-    }
-
-    parentConfirmWish(){
-        console.log("BØR VI BARE SLETTE DEN HER, ELLER SKAL VI LAVE EN NY BOOL VÆRDI I DATABASEN?");
-        //TODO, BØR VI BARE SLETTE DEN HER, ELLER SKAL VI LAVE EN NY BOOL VÆRDI I DATABASEN?
-    }
-
-    renderInformation() {
-        return html `
-            <p> ${this.wish.saving_name} </p>
-            <p> ${this.wish.content} </p>
-            <p> ${this.wish.target_reward_balance} </p>
-            <button @click=${() => this.editMode = true}> Redigér ønskeliste</button><br>
-        `;
-    }
-
-    renderEditForm() {
-        return html `
-            <wish-form .detailForm="${true}"
-                       .wishListName="${this.wish.saving_name}"
-                       .wishListContent="${this.wish.content}"
-                       .wishListTarget="${this.wish.target_reward_balance}"
-                       @submit="${(e: CustomEvent) => {
-                           this.updateWish(e);
-                       }}"
-            ></wish-form>
+        return html`
+            <h1>Ønskeliste:${this.wish.saving_name}</h1>
+            <img src="${this.wish.img}" alt="Wish Icon" width="200" height="200"><br><br>
+            ${this.parentView ? this.renderParentInfoForm() : this.editMode ? this.renderChildEditForm() : this.renderChildInfoForm()}
         `;
     }
 
@@ -115,28 +38,6 @@ export class WishDetailPage extends LitElement {
         }
     }
 
-    loadWish(){
-        if(this.parentView == true){
-            getWishParent(this.wishID).then((r : apiResponse) => {
-                if(r.results !== null){
-                    let tempWishList:IWishlist[] = r.results;
-                    this.wish = tempWishList[0]
-                }else{
-                    this.errorMessage = r.error;
-                }
-            });
-        }else{
-            getWish(this.wishID).then((r : apiResponse) => {
-                if(r.results !== null){
-                    let tempWishList:IWishlist[] = r.results;
-                    this.wish = tempWishList[0]
-                }else{
-                    this.errorMessage = r.error;
-                }
-            });
-        }
-    }
-
     renderError(){
         return html `
             <p> ${this.errorMessage} </p>
@@ -144,7 +45,89 @@ export class WishDetailPage extends LitElement {
         `;
     }
 
-    updateWish(e : CustomEvent){
+    loadWish(){
+        this.getHandler().then((r : apiResponse) => {
+            if(r.results !== null){
+                let tempWishList:IWishlist[] = r.results;
+                this.wish = tempWishList[0]
+            }else{
+                this.errorMessage = r.error;
+            }
+        });
+    }
+
+    getHandler(){
+        if(this.parentView) {
+            return getWishParent(this.wishID)
+        }else{
+            return getWish(this.wishID)
+        }
+    }
+
+    //TODO Parent:
+    renderParentInfoForm(){
+        return html `
+            <button @click=${() => this.goBackParent()}>Tilbage</button><br>
+            <h3>${this.wish.saving_name}</h3><br>
+            <h3>${this.wish.target_reward_balance}</h3><br>
+            <h3>Assigned Junior-konto here: </h3><br>
+            <h3>${this.wish.creator_id}</h3><br>
+            <button @click=${() => this.rejectWishParent()}>Afvis</button><br>
+            <button @click=${() => this.confirmWishParent()}>Godkend</button><br>
+        `;
+    }
+
+    goBackParent(){
+        router.navigate("/parent")
+    }
+
+    rejectWishParent(){
+        reject_WishParent("0", this.wish.id).then((r : apiResponse) => {
+            this.errorMessage = r.error
+        })
+        if(this.errorMessage){
+            this.renderError()
+        }else{
+            router.navigate("/parent");
+        }
+    }
+
+    confirmWishParent(){
+        console.log("BØR VI BARE SLETTE DEN HER, ELLER SKAL VI LAVE EN NY BOOL VÆRDI I DATABASEN?");
+        //TODO, BØR VI BARE SLETTE DEN HER, ELLER SKAL VI LAVE EN NY BOOL VÆRDI I DATABASEN?
+    }
+
+    //TODO Child:
+    renderChildInfoForm() {
+        return html `
+            <button @click=${() => this.goBackChild()}>Tilbage</button><br>
+            <p> ${this.wish.saving_name} </p>
+            <p> ${this.wish.content} </p>
+            <p> ${this.wish.target_reward_balance} </p>
+            <button @click=${() => this.editMode = true}>Redigér Ønskeliste</button><br>
+            <button @click=${() => this.deleteWishChild()}>Slet Ønskeliste</button><br>
+            <button @click=${() => this.confirmWishChild()}>Indløs</button><br>
+        `;
+    }
+
+    renderChildEditForm() {
+        return html `
+            <button @click=${() => this.goBackChild()}>Tilbage</button><br>
+            <wish-form .detailForm="${true}"
+                       .wishListName="${this.wish.saving_name}"
+                       .wishListContent="${this.wish.content}"
+                       .wishListTarget="${this.wish.target_reward_balance}"
+                       @submit="${(e: CustomEvent) => {this.updateWishChild(e);}}"
+            ></wish-form>
+            <button @click=${this.editMode = false, () => this.loadWish()}>Annullere</button><br>
+        `;
+    }
+
+    goBackChild(){
+        router.navigate("/wishlist-overview")
+    }
+
+    updateWishChild(e : CustomEvent){
         console.log("Wishlist updated: ", e.detail)
         if (e.detail.wishListName && e.detail.wishListContent && e.detail.wishListTarget) {
             update_Wish(this.wish.id, e.detail.wishListName, e.detail.wishListContent, e.detail.wishListTarget).then((r : apiResponse) => {
@@ -161,27 +144,25 @@ export class WishDetailPage extends LitElement {
         }
     }
 
-    deleteWish(){
-        delete_Wish(this.wish.id).then((r : apiResponse) => {
+    confirmWishChild(){
+        confirm_Wish("1", this.wish.id).then((r : apiResponse) => {
             this.errorMessage = r.error
-            // this.errorMessage = "r.error" //simulerer at der er en error besked
         })
         if(this.errorMessage){
             this.renderError()
         }else{
-            this.goBack()
+            this.goBackChild()
         }
     }
 
-    confirmWish(){
-        confirm_Wish("1", this.wish.id).then((r : apiResponse) => {
+    deleteWishChild(){
+        delete_Wish(this.wish.id).then((r : apiResponse) => {
             this.errorMessage = r.error
-            // this.errorMessage = "r.error" //simulerer at der er en error besked
         })
         if(this.errorMessage){
             this.renderError()
         }else{
-            this.goBack()
+            this.goBackChild()
         }
     }
 }

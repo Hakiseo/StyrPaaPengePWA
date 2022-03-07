@@ -6,15 +6,20 @@ export function getAllChildren(): Promise<any> {
     return apiFetch("child")
 }
 
-//TODO Task Calls:
-//TODO SKAL KUN HENTE OPGAVER NED, SOM ER KNYTTET TIL DEN SPECIFIKKE JUNIOR-KONTO!!!!!!!!!!!!!!!
-export function getTasklist() {
-    return apiFetch("child/tasklist")
+
+
+//TODO CHILD INFO:
+export function getChildInfo(id: string) {
+    return apiFetch("child/account/info/" + id)
 }
 
-//TODO SKAL KUN HENTE ØNSKER NED, SOM ER KNYTTET TIL DEN SPECIFIKKE JUNIOR-KONTO!!!!!!!!!!!!!!!
+//TODO Task Calls:
+export function getAssignedTasklist(id: string) {
+    return apiFetch("child/tasklist/" + id)
+}
+
 export function getTask(id: string) {
-    return apiFetch("child/task/" +id)
+    return apiFetch("child/task/" + id)
 }
 
 export function confirm_Task(current_status: string, id: string) {
@@ -22,12 +27,10 @@ export function confirm_Task(current_status: string, id: string) {
 }
 
 //TODO Wish Calls:
-//TODO SKAL KUN HENTE ØNSKER NED, SOM ER KNYTTET TIL DEN SPECIFIKKE JUNIOR-KONTO!!!!!!!!!!!!!!!
-export function getWishlist() {
-    return apiFetch("child/wishlist")
+export function getWishlist(id: string) {
+    return apiFetch("child/wishlist/" + id)
 }
 
-//TODO SKAL KUN HENTE ØNSKER NED, SOM ER KNYTTET TIL DEN SPECIFIKKE JUNIOR-KONTO!!!!!!!!!!!!!!!
 export function getWish(id: string) {
     return apiFetch("child/wish/" + id)
 }

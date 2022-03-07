@@ -1,10 +1,12 @@
 import {customElement, query, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import {ITasklist} from "../childComponents/childInterfaces";
+import {router} from "../index";
 
 @customElement("task-element")
 export class TaskElement extends LitElement {
     @property({type: Boolean}) parentView: boolean = false;
+    @property({type: Boolean}) parentConfirmMode: boolean = false;
 
     static styles = [css`
 
@@ -86,24 +88,41 @@ export class TaskElement extends LitElement {
                     <div id="img" alt=${this.task.task_name}></div>
                     <h5>${this.task.task_name}</h5>
                     ${this.task.current_status ? html `${this.task.current_status}<br><br>` : ''}
-                    
-                    ${this.determineView()}
-                    
-                    
+                    ${!this.parentView ? this.renderChild() : this.parentConfirmMode ? this.renderConfirmmode() : this.renderparent()}
                 </article>
         `;
         }
     }
 
-    determineView(){
-        if(this.parentView){
-            return html`
-                <a class="btn" href= "/task-detail/${this.task.id}/${this.parentView}">Godkend</a>
-            `;
-        }else{
-            return html`
-                <a class="btn" href= "/task-detail/${this.task.id}/${this.parentView}">Detaljer</a>
-            `;
-        }
+    renderConfirmmode(){
+        return html`
+            <a class="btn" @click=${() => this.navigateParentConfirm()}>Godkend</a>
+        `;
+    }
+
+    renderparent(){
+        return html`
+            <a class="btn" @click=${() => this.navigateParent()}>Detaljer</a>
+        `;
+    }
+
+    renderChild(){
+        return html`
+            <a class="btn" @click=${() => this.navigateChild()}>Udfør</a>
+        `;
+    }
+
+    navigateParentConfirm(){
+        router.navigate("/parentConfirm-task-detail/" + this.task.id);
+    }
+
+    navigateParent(){
+        router.navigate("/parent-task-detail/" + this.task.id);
+        //router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
+    }
+
+    navigateChild(){
+        router.navigate("/child-task-detail/" + this.task.id);
+        //router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
     }
 }

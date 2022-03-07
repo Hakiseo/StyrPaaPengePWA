@@ -90,11 +90,13 @@ export class WishElement extends LitElement {
     }
 
     navigateParent(){
-        router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
+        router.navigate("/parent-wish-detail/" + this.wish.id);
+        //router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
     }
 
     navigateChild(){
-        router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
+        router.navigate("/child-wish-detail/" + this.wish.id);
+        //router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
     }
 
     render(): TemplateResult{

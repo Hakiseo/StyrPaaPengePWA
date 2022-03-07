@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import {router} from "../index";
-import {getTasklistParent, getWishlistParent} from "../api/parentApiRequests";
+import {getConfirmedTasklistParent, getConfirmedWishlistParent} from "../api/parentApiRequests";
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
 import {ITasklist, IWishlist} from "../childComponents/childInterfaces";
 import {getCurrentUserId} from "../api/apiUtils";
@@ -42,7 +42,7 @@ export class ParentIndexPage extends LitElement {
     constructor() {
         super();
         this.parentId = getCurrentUserId();
-        getWishlistParent(this.parentId).then((r : apiResponse) =>{
+        getConfirmedWishlistParent(this.parentId).then((r : apiResponse) =>{
             if (r.results !== null) {
                 this.wishlist = r.results
             }else{
@@ -54,7 +54,7 @@ export class ParentIndexPage extends LitElement {
             console.log(this.wishlist)
             //this.errorMessage = "r.error" //simulerer at der er en error besked
         })
-        getTasklistParent(this.parentId).then((r : apiResponse) =>{
+        getConfirmedTasklistParent(this.parentId).then((r : apiResponse) =>{
             if (r.results !== null) {
                 this.tasklist = r.results
             }else{
@@ -117,9 +117,9 @@ export class ParentIndexPage extends LitElement {
                     ${this.tasklist.map(task => {
                 console.log(task)
                 return html `
-                        <task-element .task=${task} .parentView="${true}"></task-element>
+                        <task-element .task=${task} .parentView="${true}" .parentConfirmMode="${true}"></task-element>
                     `
-            })}
+                })}
                 </section>
             `;
         }else{

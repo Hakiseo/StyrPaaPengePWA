@@ -21,3 +21,10 @@ export interface ITasklist {
     created_date_time:string;
     img:string;
 }
+
+export interface IAccountInfo {
+    first_name:string;
+    last_name:string;
+    age:string;
+    reward_balance:string;
+}

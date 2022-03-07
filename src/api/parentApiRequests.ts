@@ -22,7 +22,7 @@ export function getWishParent(id: string) {
     return apiFetch("parent/wish/" + id)
 }
 
-export function getWishlistParent(id: string): Promise<any> {
+export function getConfirmedWishlistParent(id: string): Promise<any> {
     return apiFetch("parent/wishlist/" + id)
 }
 
@@ -31,7 +31,11 @@ export function reject_WishParent(current_status: string, id: string) {
 }
 
 //TODO TASK:
-export function getTasklistParent(id: string) {
+export function getTaskParent(id: string) {
+    return apiFetch("parent/task/" + id)
+}
+
+export function getConfirmedTasklistParent(id: string) {
     return apiFetch("parent/tasklist/" + id)
 }
 
@@ -42,3 +46,25 @@ export function reject_TaskParent(current_status: string, id: string) {
 export function getCompleteTasklistParent(id: string) {
     return apiFetch("parent/CompleteTasklist/" + id)
 }
+
+export function delete_Task(id: string) {
+    return apiPost("parent/task/delete/", {id: id})
+}
+
+export function update_Task(id: string, task_name: string, content: string, reward_amount: number) {
+    return apiPost("parent/task/update/",
+        {id: id, task_name: task_name, content: content, reward_amount: reward_amount})
+}
+
+
+//TODO SKAL HAVE ID'ET MED PÅ DEN JUNIOR-KONTO, SOM OPGAVEN SKAL TILFØJES TIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//TODO SKAL HAVE ID'ET MED PÅ DEN JUNIOR-KONTO, SOM OPGAVEN SKAL TILFØJES TIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//TODO SKAL HAVE ID'ET MED PÅ DEN JUNIOR-KONTO, SOM OPGAVEN SKAL TILFØJES TIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+export function create_Task(creator_id: string, task_name: string, content: string, reward_amount: number) {
+    return apiPost("parent/task/create/", {creator_id: creator_id, task_name: task_name, content: content, reward_amount: reward_amount})
+}
+
+//TODO SKAL HAVE ID'ET MED PÅ DEN JUNIOR-KONTO, SOM OPGAVEN SKAL TILFØJES TIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//TODO SKAL HAVE ID'ET MED PÅ DEN JUNIOR-KONTO, SOM OPGAVEN SKAL TILFØJES TIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//TODO SKAL HAVE ID'ET MED PÅ DEN JUNIOR-KONTO, SOM OPGAVEN SKAL TILFØJES TIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

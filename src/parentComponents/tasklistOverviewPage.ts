@@ -57,7 +57,7 @@ export class TasklistOverviewPage extends LitElement {
     }
 
     createTaskList(){
-        router.navigate("") //TODO !!!!!!!!!!!!!!!!!!!!!! MISSING!!!
+        router.navigate("/task-creating")
     }
 
     private renderTasks(){
@@ -67,8 +67,6 @@ export class TasklistOverviewPage extends LitElement {
                 <p> Please try again or please go back to main page </p>
             `;
         }
-        //TODO PROBLEMER MED BOOL VÆRDIERNE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // KIG PÅ HVAD DER FOREGÅR HER:
         if(this.tasklist){
             return html `
                 <h1>Opgaver:</h1>
@@ -79,7 +77,7 @@ export class TasklistOverviewPage extends LitElement {
                     ${this.tasklist.map(task => {
                 console.log(task)
                 return html `
-                    <task-element .task=${task}></task-element>
+                    <task-element .task=${task} .parentView="${true}"></task-element>
                 `
             })}
                 </section>

@@ -1,17 +1,21 @@
 import {LitElement, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import Navigo from "navigo";
-import "./childComponents/childIndexPage";
-import "./childComponents/wishlistOverviewPage";
+
+import "./parentComponents/tasklistOverviewPage";
 import "./parentComponents/parentIndexPage";
-import "./parentComponents/tasklistOverviewPage"
-import "./sharedComponents/wishDetail";
-import "./childComponents/wishCreatePage";
-import "./sharedComponents/taskDetail";
-import "./home"
+import "./parentComponents/taskCreatePage";
 import "./parentComponents/createChild";
-import "./home";
+
+import "./childComponents/wishlistOverviewPage";
+import "./childComponents/childIndexPage";
+import "./childComponents/wishCreatePage";
+
+import "./sharedComponents/wishDetail";
+import "./sharedComponents/taskDetail";
 import "./sharedComponents/register";
+
+import "./home";
 
 export const router = new Navigo('/');
 
@@ -32,14 +36,21 @@ export class IndexElement extends LitElement {
     constructor() {
         super();
         router
+            .on("/parent-wish-detail/:id", (match: any) => {this.route = html`<wish-detail-page .wishID="${match.data.id}" .parentView="${true}"></wish-detail-page>`})
+            .on("/child-wish-detail/:id", (match: any) => {this.route = html`<wish-detail-page .wishID="${match.data.id}" .parentView="${false}"></wish-detail-page>`})
+
+            .on("/parentConfirm-task-detail/:id", (match: any) => {this.route = html`<task-detail-page .taskID="${match.data.id}" .parentView="${true}" .parentConfirmMode="${true}"></task-detail-page>`})
+            .on("/parent-task-detail/:id", (match: any) => {this.route = html`<task-detail-page .taskID="${match.data.id}" .parentView="${true}"></task-detail-page>`})
+            .on("/child-task-detail/:id", (match: any) => {this.route = html`<task-detail-page .taskID="${match.data.id}" .parentView="${false}"></task-detail-page>`})
+
+
             .on("/child", () => {this.route = html`<child-index-page></child-index-page>`})
 
-            .on("/task-detail/:id/:parentView", (match: any) => {this.route = html`<task-detail-page .taskID="${match.data.id}" .parentView="${match.data.parentView}"></task-detail-page>`})
             .on("/tasklist-overview", () => {this.route = html`<tasklist-overview-page></tasklist-overview-page>`})
 
             .on("/wishlist-overview", () => {this.route = html`<wishlist-overview-page></wishlist-overview-page>`})
             .on("/wishlist-creating", () => {this.route = html`<wish-create-page></wish-create-page>`})
-            .on("/wish-detail/:id/:parentView", (match: any) => {this.route = html`<wish-detail-page .wishID="${match.data.id}" .parentView="${match.data.parentView}"></wish-detail-page>`})
+            .on("/task-creating", () => {this.route = html`<task-create-page></task-create-page>`})
 
             .on("/parent", () => {this.route = html`<parent-index-page></parent-index-page>`})
             .on("/parent/createChild", () => {this.route = html`<create-child></create-child>`})
@@ -47,11 +58,9 @@ export class IndexElement extends LitElement {
             .on("/home", () => {this.route = html`<home-element></home-element>`})
             .on("*", () => {setTimeout(() => this.route = this.render404(), 200)})
         ;
-
         if (window.location.href == "http://localhost:8000/") {
             router.navigate("/home")
         }
-
         router.resolve();
     }
 

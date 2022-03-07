@@ -1,14 +1,16 @@
 import {customElement,property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
-import {ITasklist} from "./childInterfaces";
-import {getTasklist} from "../api/childApiRequests";
+import {IAccountInfo, ITasklist} from "./childInterfaces";
+import {getAssignedTasklist, getChildInfo} from "../api/childApiRequests";
 import {apiResponse} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/taskElement"
-//import {property} from "lit/decorators";
+import {router} from "../index";
+import {getCurrentUserId} from "../api/apiUtils";
+
 
 @customElement("child-index-page")
 export class ChildIndexPage extends LitElement {
-
+    @property() accountInfo!: IAccountInfo;
     @property() tasklist!: ITasklist[];
     @property({type: String}) errorMessage: string | null = "";
 
@@ -18,13 +20,16 @@ export class ChildIndexPage extends LitElement {
     }
 
     protected render(): TemplateResult {
+        if(!this.tasklist) return html `Loading ...`;
         return html `
             <h1> Hello from Child Index Page! </h1>
-            <a href= "/wishlist-overview">Wishlist</a>
-
+            
+            <h3> Saldo: ${this.accountInfo.reward_balance}</h3>
+            
             <div>
                 ${this.renderTasks()}
             </div>
+            <button @click="${() => router.navigate("/wishlist-overview")}"> Ønskelister </button>
         `
     }
 
@@ -38,7 +43,15 @@ export class ChildIndexPage extends LitElement {
 
     constructor() {
         super();
-        getTasklist().then((r : apiResponse) =>{
+        getChildInfo(getCurrentUserId()).then((r : apiResponse) =>{
+            if(r.results !== null){
+                let tempList:IAccountInfo[] = r.results;
+                this.accountInfo = tempList[0]
+            }else{
+                this.errorMessage = r.error;
+            }
+        })
+        getAssignedTasklist(getCurrentUserId()).then((r : apiResponse) =>{
             if (r.results !== null) {
                 this.tasklist = r.results
             }else{
@@ -47,7 +60,6 @@ export class ChildIndexPage extends LitElement {
             if(this.errorMessage){
                 this.renderError()
             }
-            //this.errorMessage = "r.error" //simulerer at der er en error besked
         })
     }
 
@@ -73,7 +85,7 @@ export class ChildIndexPage extends LitElement {
                     ${this.tasklist.map(task => {
                     console.log(task)
                     return html `
-                        <task-element .task=${task}></task-element>
+                        <task-element .task=${task} .parentView="${false}"></task-element>
                     `
                 })}
                 </section>
