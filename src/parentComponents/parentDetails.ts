@@ -2,7 +2,7 @@ import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {ParentData} from "./parentInterfaces";
 import {router} from "../index";
-import {editParent, getCurrentParent} from "../api/parentApiRequests";
+import {deleteParent, editParent, getCurrentParent} from "../api/parentApiRequests";
 import {ApiResponse, CustomErrorHandling} from "../sharedComponents/sharedInterfaces";
 import {getCurrentUserId} from "../api/apiUtils";
 
@@ -79,6 +79,12 @@ export class ParentDetails extends LitElement implements CustomErrorHandling {
 
     deleteParent() {
         console.log("Delete Parent user: ", this.parentData.email)
+        deleteParent().then((r: ApiResponse) => {
+            if (!r.error) {
+                localStorage.clear();
+                router.navigate("/home")
+            }
+        })
     }
 
     detailsAction() {
@@ -86,11 +92,15 @@ export class ParentDetails extends LitElement implements CustomErrorHandling {
             this.editMode = true;
         } else {
             //check for changes
-            editParent({id: getCurrentUserId(), first_name: this.firstName, last_name: this.lastName, age: this.age, email: this.email})
-                .then((r:ApiResponse) => {
-                    console.log(r)
-                    this.getParentData().then(() => this.editMode = false)
-                })
+            if (this.validated()) {
+                editParent({id: getCurrentUserId(), first_name: this.firstName, last_name: this.lastName, age: this.age, email: this.email})
+                    .then((r:ApiResponse) => {
+                        console.log(r)
+                        this.getParentData().then(() => this.editMode = false)
+                    })
+            } else {
+                this.errorMessage = ""
+            }
         }
     }
 

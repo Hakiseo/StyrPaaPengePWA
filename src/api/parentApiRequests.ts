@@ -43,5 +43,5 @@ export function deleteChild(id: string) {
 }
 
 export function deleteParent() {
-    return apiDelete("parent/parentChild/" + getCurrentUserId())
+    return apiDelete("parent/deleteParent/" + getCurrentUserId())
 }
