@@ -25,3 +25,11 @@ export function changePasswordParent(data: {}) {
 export function changePasswordChild(data: {}) {
     return apiPut("parent/changePassword/child", data)
 }
+
+export function fetchChild(id: string) {
+    return apiFetch("parent/child/" + id)
+}
+
+export function editChild(data: {}) {
+    return apiPut("parent/editChild/", data)
+}

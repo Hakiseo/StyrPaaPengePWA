@@ -2,6 +2,8 @@ import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {ChildData} from "./parentInterfaces";
 import {router} from "../index";
+import {editChild, fetchChild} from "../api/parentApiRequests";
+import {ApiResponse} from "../sharedComponents/sharedInterfaces";
 
 @customElement("child-details")
 export class ChildDetails extends LitElement {
@@ -19,6 +21,7 @@ export class ChildDetails extends LitElement {
         super.connectedCallback();
         if (!this.childData) {
             console.log("Make an API request with the id: ", this.childId)
+            this.getChildData()
         }
     }
 
@@ -80,15 +83,27 @@ export class ChildDetails extends LitElement {
         console.log("Delete junior user: ", this.childData.username)
     }
 
-    //TODO: when changing username we need to somehow log the child user out?
+    //TODO: add validation
     detailsAction() {
         if (!this.editMode) {
             this.editMode = true;
         } else {
-            //check for changes
+            //check for changes & valid inputs
             console.log(this.firstName, this.lastName, this.username, this.age, this.balance)
-            //make post-request to api
-            this.editMode = false; //this should be set on success
+
+            editChild({id: this.childId, first_name: this.firstName, last_name: this.lastName, username: this.username, age: this.age, balance: this.balance})
+                .then((r: ApiResponse) => {
+                    console.log(r)
+                    this.getChildData().then(() => this.editMode = false)
+                })
         }
+    }
+
+    getChildData(): Promise<void> {
+        return fetchChild(this.childId).then((r: ApiResponse) => {
+            if (r.results) {
+                this.childData = r.results[0]
+            }
+        })
     }
 }
