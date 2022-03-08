@@ -1,22 +1,44 @@
 import {customElement, property} from "lit/decorators.js";
-import {css, html, LitElement, TemplateResult} from "lit";
+import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {router} from "../index";
-import {getConfirmedTasklistParent, getConfirmedWishlistParent} from "../api/parentApiRequests";
-import {apiResponse} from "../sharedComponents/sharedInterfaces";
+import "./childCard"
+import {getConfirmedTasklistParent, getConfirmedWishlistParent, getCurrentUserId} from "../api/apiUtils";
+import {fetchJuniors} from "../api/parentApiRequests";
+import {ApiResponse} from "../sharedComponents/sharedInterfaces";
+import {ChildData, MinimalChildrenData} from "./parentInterfaces";
 import {ITasklist, IWishlist} from "../childComponents/childInterfaces";
 import {getCurrentUserId} from "../api/apiUtils";
 
 @customElement("parent-index-page")
 export class ParentIndexPage extends LitElement {
+    @property({type: Number}) parentId!: number;
+    @property() childrenData: ChildData[] = [];
+    @property() minimalChildrenData: MinimalChildrenData[] = [];
     @property() wishlist!: IWishlist[];
     @property() tasklist!: ITasklist[];
     @property({type: String}) errorWishMessage: string | null = "";
     @property({type: String}) errorTaskMessage: string | null = "";
-    @property({type: String}) parentId!: string;
 
     connectedCallback() {
         super.connectedCallback();
-        //Check and validate token with an api-call to see if we have access to the site
+        this.parentId = Number.parseInt(getCurrentUserId());
+    }
+
+    protected updated(_changedProperties: PropertyValues) {
+        super.updated(_changedProperties);
+        if (_changedProperties.has("parentId") && this.parentId) {
+            fetchJuniors(this.parentId).then((r: ApiResponse) => {
+                if (!r.error && r.results) {
+                    this.childrenData = r.results
+                    this.minimalChildrenData = this.childrenData.map(r => {
+                        return {id: r.id, name: r.first_name + " " + r.last_name}
+                    })
+                }
+            })
+        }
+        if (_changedProperties.has("minimalChildrenData") && this.minimalChildrenData.length > 0) {
+            this.dispatchEvent(new CustomEvent("indexEmitMinimalChildrenData", {detail: this.minimalChildrenData}))
+        }
     }
 
     protected render(): TemplateResult {
@@ -25,6 +47,10 @@ export class ParentIndexPage extends LitElement {
             ${this.parentId ? html`<h2> Parent Id: ${this.parentId}</h2>` : ''}
             ${this.renderWishListRedeemSection()}
             ${this.renderTaskApprovalSection()}
+            <button> Opgaver </button><br><br>
+            
+            ${this.renderJuniorUsers()} <br> <br>
+            
             <button @click="${() => router.navigate("/tasklist-overview")}"> Opgaver </button>
             ${this.renderJuniorUsers()}
             <button @click="${() => router.navigate("/parent/createChild")}"> Opret Junior Konto </button>
@@ -42,7 +68,7 @@ export class ParentIndexPage extends LitElement {
     constructor() {
         super();
         this.parentId = getCurrentUserId();
-        getConfirmedWishlistParent(this.parentId).then((r : apiResponse) =>{
+        getConfirmedWishlistParent(this.parentId).then((r : ApiResponse) =>{
             if (r.results !== null) {
                 this.wishlist = r.results
             }else{
@@ -54,7 +80,7 @@ export class ParentIndexPage extends LitElement {
             console.log(this.wishlist)
             //this.errorMessage = "r.error" //simulerer at der er en error besked
         })
-        getConfirmedTasklistParent(this.parentId).then((r : apiResponse) =>{
+        getConfirmedTasklistParent(this.parentId).then((r : ApiResponse) =>{
             if (r.results !== null) {
                 this.tasklist = r.results
             }else{
@@ -83,6 +109,11 @@ export class ParentIndexPage extends LitElement {
     }
 
     renderWishListRedeemSection(): TemplateResult | void {
+        return html `
+            <div> 
+                <h3> Indløste ønskelister: </h3> 
+            </div>
+        `
         if(this.wishlist){
             return html `
                 <div>
@@ -108,6 +139,11 @@ export class ParentIndexPage extends LitElement {
     }
 
     renderTaskApprovalSection(): TemplateResult | void {
+        return html `
+            <div> 
+                <h3> Opgaver til godkendelse: </h3>
+            </div>
+        `
         if(this.tasklist){
             return html `
                 <div>
@@ -132,11 +168,27 @@ export class ParentIndexPage extends LitElement {
         }
     }
 
-    renderJuniorUsers() {
+    renderJuniorUsers(): TemplateResult | void {
+        if (this.childrenData.length === 0) return;
+        //Add loop here for all juniors and route on click to user id
         return html `
-            <div> Junior 1 </div>
-            <div> Junior 2 </div>
-            <div> Junior 3 </div>
+            <div>
+                ${this.childrenData.map((d: ChildData) => {
+                    return html `
+                        <junior-card .firstName="${d.first_name}" .lastName="${d.last_name}" @click="${() => this.navigateToChild(d.id)}"></junior-card>
+                    `
+                })}
+            </div>
         `
+    }
+
+    navigateToChild(id: number) {
+        this.emitChildData(id)
+        router.navigate("/parent/childDetails/" + id)
+    }
+
+    emitChildData(id: number) {
+        //This is made to avoid unecessary new request
+        this.dispatchEvent(new CustomEvent("indexEmitChildData", {detail: this.childrenData.find(r => r.id === id)}))
     }
 }

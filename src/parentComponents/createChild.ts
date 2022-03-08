@@ -1,11 +1,12 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {createJuniorUser} from "../api/parentApiRequests";
-import {apiResponse} from "../sharedComponents/sharedInterfaces";
-import {apiFetch, apiPost, getIdentityToken, getCurrentUserId} from "../api/apiUtils";
+import {ApiResponse, CustomErrorHandling} from "../sharedComponents/sharedInterfaces";
+import {getCurrentUserId} from "../api/apiUtils";
+import {router} from "../index";
 
 @customElement("create-child")
-export class CreateChild extends LitElement {
+export class CreateChild extends LitElement implements CustomErrorHandling {
     @property() firstName: string = "";
     @property() lastName: string = "";
     @property() age: number = 3;
@@ -13,6 +14,12 @@ export class CreateChild extends LitElement {
     @property() password: string = "";
     @property() repeatedPassword: string = "";
     @property() startBalance: number = 0;
+
+    @property() errorMessage: string = "";
+
+    validated() {
+        return true;
+    }
 
     //TODO: validate input & visually show errors
     protected render(): TemplateResult {
@@ -35,30 +42,16 @@ export class CreateChild extends LitElement {
             <input type="password" name="password" id="password" @change="${(e: any) => this.password = e.target.value}">
 
             <label for="repeatedPassword"> Gentag Password: </label>
-            <input type="text" name="repeatedPassword" id="repeatedPassword" @change="${(e: any) => this.repeatedPassword = e.target.value}">
+            <input type="password" name="repeatedPassword" id="repeatedPassword" @change="${(e: any) => this.repeatedPassword = e.target.value}">
 
             <label for="startBalance"> Start beløb: </label>
             <input type="number" value="${this.startBalance}" name="startBalance" id="startBalance" @change="${(e: any) => this.startBalance = e.target.value}">
             
             <button @click="${() => this.createNewJuniorUser()}"> Opret ny Junior-bruger</button>
-            <button @click="${() => this.test()}"> test to fail post </button>
-            <button @click="${() => this.test2()}"> test to fail get </button>
         `;
     }
 
-    //TODO: Delete after testing
-    //Expect test to fail - Accessing child routes from Parent user
-    test() {
-        apiPost("child/test", {})
-    }
-
-    //TODO: Delete after testing
-    test2() {
-        apiFetch("child/test")
-    }
-
     createNewJuniorUser() {
-        console.log(getIdentityToken())
         if (this.password !== this.repeatedPassword) {
             window.alert("The inputted passwords does not match!")
             return;
@@ -72,7 +65,13 @@ export class CreateChild extends LitElement {
                 password: this.password,
                 startBalance: this.startBalance,
                 parentId: getCurrentUserId(),
-            }).then((r: apiResponse) => console.log(r))
+            }).then((r: ApiResponse) => {
+                if (!r.error) {
+                    router.navigate("/parent")
+                } else {
+                    //TODO: visually show errors
+                }
+            })
         } else {
             window.alert("All fields are required!")
         }

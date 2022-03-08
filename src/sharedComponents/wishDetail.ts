@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
-import {apiResponse} from "./sharedInterfaces";
+import {ApiResponse} from "./sharedInterfaces";
 import {IWishlist} from "../childComponents/childInterfaces";
 import {getWish, delete_Wish, confirm_Wish, update_Wish} from "../api/childApiRequests";
 import {reject_WishParent, getWishParent} from "../api/parentApiRequests";
@@ -46,7 +46,7 @@ export class WishDetailPage extends LitElement {
     }
 
     loadWish(){
-        this.getHandler().then((r : apiResponse) => {
+        this.getHandler().then((r : ApiResponse) => {
             if(r.results !== null){
                 let tempWishList:IWishlist[] = r.results;
                 this.wish = tempWishList[0]
@@ -130,7 +130,7 @@ export class WishDetailPage extends LitElement {
     updateWishChild(e : CustomEvent){
         console.log("Wishlist updated: ", e.detail)
         if (e.detail.wishListName && e.detail.wishListContent && e.detail.wishListTarget) {
-            update_Wish(this.wish.id, e.detail.wishListName, e.detail.wishListContent, e.detail.wishListTarget).then((r : apiResponse) => {
+            update_Wish(this.wish.id, e.detail.wishListName, e.detail.wishListContent, e.detail.wishListTarget).then((r : ApiResponse) => {
                 this.errorMessage = r.error
                 this.loadWish();
             })
@@ -145,7 +145,7 @@ export class WishDetailPage extends LitElement {
     }
 
     confirmWishChild(){
-        confirm_Wish("1", this.wish.id).then((r : apiResponse) => {
+        confirm_Wish("1", this.wish.id).then((r : ApiResponse) => {
             this.errorMessage = r.error
         })
         if(this.errorMessage){
@@ -156,7 +156,7 @@ export class WishDetailPage extends LitElement {
     }
 
     deleteWishChild(){
-        delete_Wish(this.wish.id).then((r : apiResponse) => {
+        delete_Wish(this.wish.id).then((r : ApiResponse) => {
             this.errorMessage = r.error
         })
         if(this.errorMessage){

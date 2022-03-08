@@ -1,16 +1,31 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, TemplateResult} from "lit";
-import {router} from "./index";
-import {getAllParent, postParent} from "./api/parentApiRequests";
+import {getAllParent} from "./api/parentApiRequests";
 import {getAllChildren} from "./api/childApiRequests";
 import "./sharedComponents/login"
 import "./sharedComponents/register"
+import {router} from "./index";
+import {apiPost, getIdentityToken} from "./api/apiUtils";
+import {UserType, VerifyTokenResponse} from "./sharedComponents/sharedInterfaces";
 
 @customElement('home-element')
 export class Home extends LitElement {
     @property() showRegister: boolean = false;
 
     //Show login & register only
+
+    connectedCallback() {
+        super.connectedCallback();
+        if (getIdentityToken().length > 0) {
+            apiPost("verifyToken", {})
+                .then((r: VerifyTokenResponse) => {
+                    if (r.success) {
+                        let parent = r.userType === UserType.parent
+                        parent ? router.navigate("/parent") : router.navigate("/child")
+                    }
+                })
+        }
+    }
 
     render(): TemplateResult {
         return html `
@@ -20,7 +35,6 @@ export class Home extends LitElement {
             <button @click="${() => router.navigate("child")}"> Go To Child index </button>
             <button @click="${() => getAllChildren().then(r => console.log(r))}"> Get Children </button>
             <button @click="${() => getAllParent().then(r => console.log(r))}"> Get Parents </button>
-            <button @click="${() => postParent()}"> Post test parent </button>
             <hr>
             ${this.renderHomeContent()}
         `;
@@ -32,7 +46,11 @@ export class Home extends LitElement {
         }
 
         return html `
-            <login-page @showRegister="${() => this.showRegister = true}"></login-page>
+            <login-page @showRegister="${() => this.showRegister = true}" @loginStatusChanged="${(e: any) => this.updateUserStatus(e)}"></login-page>
         `
+    }
+
+    updateUserStatus(e: any) {
+        this.dispatchEvent(new CustomEvent("updateUserStatus", {detail: e.detail}))
     }
 }

@@ -2,7 +2,7 @@ import {customElement,property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import {IAccountInfo, ITasklist} from "./childInterfaces";
 import {getAssignedTasklist, getChildInfo} from "../api/childApiRequests";
-import {apiResponse} from "../sharedComponents/sharedInterfaces";
+import {ApiResponse} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/taskElement"
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
@@ -43,7 +43,7 @@ export class ChildIndexPage extends LitElement {
 
     constructor() {
         super();
-        getChildInfo(getCurrentUserId()).then((r : apiResponse) =>{
+        getChildInfo(getCurrentUserId()).then((r : ApiResponse) =>{
             if(r.results !== null){
                 let tempList:IAccountInfo[] = r.results;
                 this.accountInfo = tempList[0]
@@ -51,7 +51,7 @@ export class ChildIndexPage extends LitElement {
                 this.errorMessage = r.error;
             }
         })
-        getAssignedTasklist(getCurrentUserId()).then((r : apiResponse) =>{
+        getAssignedTasklist(getCurrentUserId()).then((r : ApiResponse) =>{
             if (r.results !== null) {
                 this.tasklist = r.results
             }else{
