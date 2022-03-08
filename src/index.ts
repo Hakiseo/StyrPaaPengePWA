@@ -4,6 +4,9 @@ import "./parentComponents/tasklistOverviewPage";
 import "./parentComponents/parentIndexPage";
 import "./parentComponents/taskCreatePage";
 import "./parentComponents/createChild";
+import "./parentComponents/childDetails";
+import "./parentComponents/parentDetails";
+import "./parentComponents/changePassword";
 
 import "./childComponents/wishlistOverviewPage";
 import "./childComponents/childIndexPage";
@@ -11,9 +14,6 @@ import "./childComponents/wishCreatePage";
 
 import "./sharedComponents/wishDetail";
 import "./sharedComponents/taskDetail";
-import "./parentComponents/childDetails";
-import "./parentComponents/parentDetails";
-import "./parentComponents/changePassword";
 import "./sharedComponents/register";
 import "./home";
 

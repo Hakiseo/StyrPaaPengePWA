@@ -5,8 +5,8 @@ import "./childCard"
 import {getCurrentUserId} from "../api/apiUtils";
 import {fetchJuniors, getConfirmedTasklistParent, getConfirmedWishlistParent} from "../api/parentApiRequests";
 import {ApiResponse} from "../sharedComponents/sharedInterfaces";
-import {ChildData, MinimalChildrenData} from "./parentInterfaces";
-import {ITasklist, IWishlist} from "../childComponents/childInterfaces";
+import {ChildData, MinimalChildrenData, ITasklist, IWishlist} from "./parentInterfaces";
+//import {} from "../childComponents/childInterfaces";
 
 @customElement("parent-index-page")
 export class ParentIndexPage extends LitElement {
@@ -106,11 +106,6 @@ export class ParentIndexPage extends LitElement {
     }
 
     renderWishListRedeemSection(): TemplateResult | void {
-        return html `
-            <div> 
-                <h3> Indløste ønskelister: </h3> 
-            </div>
-        `
         if(this.wishlist){
             return html `
                 <div>
@@ -136,11 +131,6 @@ export class ParentIndexPage extends LitElement {
     }
 
     renderTaskApprovalSection(): TemplateResult | void {
-        return html `
-            <div> 
-                <h3> Opgaver til godkendelse: </h3>
-            </div>
-        `
         if(this.tasklist){
             return html `
                 <div>
