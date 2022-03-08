@@ -97,6 +97,7 @@ export class WishDetailPage extends LitElement {
         //TODO, BØR VI BARE SLETTE DEN HER, ELLER SKAL VI LAVE EN NY BOOL VÆRDI I DATABASEN?
     }
 
+
     //TODO Child:
     renderChildInfoForm() {
         return html `
