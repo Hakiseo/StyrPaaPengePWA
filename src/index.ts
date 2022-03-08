@@ -106,7 +106,7 @@ export class IndexElement extends LitElement {
                 }
             })
             .on("/parent/createChild", () => {this.parent && this.loggedIn ? this.route = html`<create-child></create-child>` : this.routeBackToIndex()})
-            .on("/parent/details", () => {this.parent && this.loggedIn ? this.route = html`<parent-details></parent-details>` : this.routeBackToIndex()})
+            .on("/parent/details", () => {this.parent && this.loggedIn ? this.route = html`<parent-details @logout="${() => this.logout()}"></parent-details>` : this.routeBackToIndex()})
             .on("/parent/details/changePassword", () => {this.parent && this.loggedIn ? this.route = html`<change-password .parent="${true}"></change-password>` : this.routeBackToIndex()})
             .on("/parent/childDetails/:id", (match: any) => {this.parent && this.loggedIn ? this.route = html`<child-details .childId="${match.data.id}" .childData="${this.childData}"></child-details>` : this.routeBackToIndex()})
             .on("/parent/childDetails/:id/changePassword", (match: any) => {this.parent && this.loggedIn ? this.route = html`<change-password .id="${match.data.id}" .parent="${false}"></change-password>` : this.routeBackToIndex()})

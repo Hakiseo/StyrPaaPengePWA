@@ -81,8 +81,7 @@ export class ParentDetails extends LitElement implements CustomErrorHandling {
         console.log("Delete Parent user: ", this.parentData.email)
         deleteParent().then((r: ApiResponse) => {
             if (!r.error) {
-                localStorage.clear();
-                router.navigate("/home")
+                this.dispatchEvent(new CustomEvent("logout"))
             }
         })
     }
