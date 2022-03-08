@@ -24,6 +24,7 @@ import {ChildData, MinimalChildrenData} from "./parentComponents/parentInterface
 import Navigo from "navigo";
 export const router = new Navigo('/');
 
+
 @customElement('index-element')
 export class IndexElement extends LitElement {
     get route() {
