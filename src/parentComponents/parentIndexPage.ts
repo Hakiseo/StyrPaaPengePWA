@@ -45,12 +45,11 @@ export class ParentIndexPage extends LitElement {
             ${this.parentId ? html`<h2> Parent Id: ${this.parentId}</h2>` : ''}
             ${this.renderWishListRedeemSection()}
             ${this.renderTaskApprovalSection()}
-            <button> Opgaver </button><br><br>
-            
-            ${this.renderJuniorUsers()} <br> <br>
             
             <button @click="${() => router.navigate("/tasklist-overview")}"> Opgaver </button>
+            
             ${this.renderJuniorUsers()}
+            
             <button @click="${() => router.navigate("/parent/createChild")}"> Opret Junior Konto </button>
         `
     }
