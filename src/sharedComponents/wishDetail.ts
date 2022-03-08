@@ -82,7 +82,7 @@ export class WishDetailPage extends LitElement {
     }
 
     rejectWishParent(){
-        reject_WishParent("0", this.wish.id).then((r : apiResponse) => {
+        reject_WishParent("0", this.wish.id).then((r : ApiResponse) => {
             this.errorMessage = r.error
         })
         if(this.errorMessage){

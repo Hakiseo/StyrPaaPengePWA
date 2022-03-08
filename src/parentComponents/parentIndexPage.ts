@@ -2,16 +2,15 @@ import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {router} from "../index";
 import "./childCard"
-import {getConfirmedTasklistParent, getConfirmedWishlistParent, getCurrentUserId} from "../api/apiUtils";
-import {fetchJuniors} from "../api/parentApiRequests";
+import {getCurrentUserId} from "../api/apiUtils";
+import {fetchJuniors, getConfirmedTasklistParent, getConfirmedWishlistParent} from "../api/parentApiRequests";
 import {ApiResponse} from "../sharedComponents/sharedInterfaces";
 import {ChildData, MinimalChildrenData} from "./parentInterfaces";
 import {ITasklist, IWishlist} from "../childComponents/childInterfaces";
-import {getCurrentUserId} from "../api/apiUtils";
 
 @customElement("parent-index-page")
 export class ParentIndexPage extends LitElement {
-    @property({type: Number}) parentId!: number;
+    @property({type: String}) parentId!: string;
     @property() childrenData: ChildData[] = [];
     @property() minimalChildrenData: MinimalChildrenData[] = [];
     @property() wishlist!: IWishlist[];
@@ -21,7 +20,6 @@ export class ParentIndexPage extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        this.parentId = Number.parseInt(getCurrentUserId());
     }
 
     protected updated(_changedProperties: PropertyValues) {
