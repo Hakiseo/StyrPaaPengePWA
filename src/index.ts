@@ -20,7 +20,7 @@ import ("./sharedComponents/register");
 import ("./sharedComponents/sideMenu");
 import ("./home");
 
-import {apiFetch, apiPost, getIdentityToken} from "./api/apiUtils";
+import {apiPost, getIdentityToken} from "./api/apiUtils";
 import {UserType, VerifyTokenResponse} from "./sharedComponents/sharedInterfaces"
 import {ChildData, MinimalChildrenData} from "./parentComponents/parentInterfaces";
 
@@ -141,12 +141,8 @@ export class IndexElement extends LitElement {
 
     render(): TemplateResult {
         return html `
-            ${this.renderFutureSideMenu()}
-            <hr>
+            <side-menu .loggedIn="${this.loggedIn}" .parentUser="${this.parent}" @logout="${() => this.logout()}"></side-menu>
             ${this.route}
-            <hr>
-            <button @click="${() => this.test()}"> test to fail post (Posting to child api path when parent) </button>
-            <button @click="${() => this.test2()}"> test to fail get (Getting at child api path when parent) </button>
         `
     }
 
@@ -156,15 +152,6 @@ export class IndexElement extends LitElement {
             return;
         }
         router.navigate("/home")
-    }
-
-    renderFutureSideMenu() {
-        return html `
-            <side-menu></side-menu>
-            <button @click="${() => router.navigate("/parent/details")}"> Egen detalje side (Forælder) </button>
-            <button @click="${() => router.navigate("/home")}"> index </button>
-            <button @click="${() => this.logout()}"> Log Out </button>
-        `
     }
 
     //TODO: Move logout into sidemenu
@@ -181,16 +168,5 @@ export class IndexElement extends LitElement {
             <button class="w3-button w3-blue-gray" @click="${() => this.routeBackToIndex()}"> Go back to main page </button> 
         </div>
         `
-    }
-
-    //TODO: Delete after testing
-    //Expect test to fail - Accessing child routes from Parent user
-    test() {
-        apiPost("child/test", {})
-    }
-
-    //TODO: Delete after testing
-    test2() {
-        apiFetch("child/test")
     }
 }
