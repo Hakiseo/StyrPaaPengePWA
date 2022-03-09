@@ -1,21 +1,24 @@
 import {LitElement, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import "./parentComponents/tasklistOverviewPage";
-import "./parentComponents/parentIndexPage";
-import "./parentComponents/taskCreatePage";
-import "./parentComponents/createChild";
-import "./parentComponents/childDetails";
-import "./parentComponents/parentDetails";
-import "./parentComponents/changePassword";
 
-import "./childComponents/wishlistOverviewPage";
-import "./childComponents/childIndexPage";
-import "./childComponents/wishCreatePage";
+//Dynamic load
+import ("./parentComponents/tasklistOverviewPage");
+import ("./parentComponents/parentIndexPage");
+import ("./parentComponents/taskCreatePage");
+import ("./parentComponents/createChild");
+import ("./parentComponents/childDetails");
+import ("./parentComponents/parentDetails");
+import ("./parentComponents/changePassword");
 
-import "./sharedComponents/wishDetail";
-import "./sharedComponents/taskDetail";
-import "./sharedComponents/register";
-import "./home";
+import ("./childComponents/wishlistOverviewPage");
+import ("./childComponents/childIndexPage");
+import ("./childComponents/wishCreatePage");
+
+import ("./sharedComponents/wishDetail");
+import ("./sharedComponents/taskDetail");
+import ("./sharedComponents/register");
+import ("./sharedComponents/sideMenu");
+import ("./home");
 
 import {apiFetch, apiPost, getIdentityToken} from "./api/apiUtils";
 import {UserType, VerifyTokenResponse} from "./sharedComponents/sharedInterfaces"
@@ -157,6 +160,7 @@ export class IndexElement extends LitElement {
 
     renderFutureSideMenu() {
         return html `
+            <side-menu></side-menu>
             <button @click="${() => router.navigate("/parent/details")}"> Egen detalje side (Forælder) </button>
             <button @click="${() => router.navigate("/home")}"> index </button>
             <button @click="${() => this.logout()}"> Log Out </button>
