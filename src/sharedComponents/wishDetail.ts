@@ -2,16 +2,18 @@ import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
 import {ApiResponse} from "./sharedInterfaces";
-import {IWishlist} from "../childComponents/childInterfaces";
-import {getWish, delete_Wish, confirm_Wish, update_Wish} from "../api/childApiRequests";
-import {reject_WishParent, getWishParent} from "../api/parentApiRequests";
+import {IAccountInfo, IWishlist} from "../childComponents/childInterfaces";
+import {getWish, delete_Wish, confirm_Wish, update_Wish, retract_Wish, getChildInfo} from "../api/childApiRequests";
+import {reject_WishParent, getWishParent, confirm_WishParent} from "../api/parentApiRequests";
 import { router } from "../index";
 import "../childComponents/wishForm";
+import {getCurrentUserId} from "../api/apiUtils";
 
 @customElement("wish-detail-page")
 export class WishDetailPage extends LitElement {
     @property({type: Boolean}) parentView: boolean = false;
     @property({type: String}) errorMessage: string | null = "";
+    @property() accountInfo!: IAccountInfo;
 
     @property() wishID: string = "";
     @property() wish!: IWishlist;
@@ -22,7 +24,8 @@ export class WishDetailPage extends LitElement {
     }
 
     render() : TemplateResult{
-        if (!this.wish) return html `Loading ...`;
+        if(!this.wish) return html `Loading ...`;
+        if(!this.parentView && !this.accountInfo) return html `Loading ...`;
         return html`
             <h1>Ønskeliste:${this.wish.saving_name}</h1>
             <img src="${this.wish.img}" alt="Wish Icon" width="200" height="200"><br><br>
@@ -54,6 +57,16 @@ export class WishDetailPage extends LitElement {
                 this.errorMessage = r.error;
             }
         });
+        if(!this.parentView){
+            getChildInfo(getCurrentUserId()).then((r : ApiResponse) =>{
+                if(r.results !== null){
+                    let tempList:IAccountInfo[] = r.results;
+                    this.accountInfo = tempList[0]
+                }else{
+                    this.errorMessage = r.error;
+                }
+            })
+        }
     }
 
     getHandler(){
@@ -82,7 +95,7 @@ export class WishDetailPage extends LitElement {
     }
 
     rejectWishParent(){
-        reject_WishParent("0", this.wish.id).then((r : ApiResponse) => {
+        reject_WishParent(this.wish.id).then((r : ApiResponse) => {
             this.errorMessage = r.error
         })
         if(this.errorMessage){
@@ -93,10 +106,15 @@ export class WishDetailPage extends LitElement {
     }
 
     confirmWishParent(){
-        console.log("BØR VI BARE SLETTE DEN HER, ELLER SKAL VI LAVE EN NY BOOL VÆRDI I DATABASEN?");
-        //TODO, BØR VI BARE SLETTE DEN HER, ELLER SKAL VI LAVE EN NY BOOL VÆRDI I DATABASEN?
+        confirm_WishParent(this.wish.id).then((r : ApiResponse) => {
+            this.errorMessage = r.error
+        })
+        if(this.errorMessage){
+            this.renderError()
+        }else{
+            router.navigate("/parent");
+        }
     }
-
 
     //TODO Child:
     renderChildInfoForm() {
@@ -107,7 +125,8 @@ export class WishDetailPage extends LitElement {
             <p> ${this.wish.target_reward_balance} </p>
             <button @click=${() => this.editMode = true}>Redigér Ønskeliste</button><br>
             <button @click=${() => this.deleteWishChild()}>Slet Ønskeliste</button><br>
-            <button @click=${() => this.confirmWishChild()}>Indløs</button><br>
+            ${this.wish.current_status ? html`<button @click=${() => this.retractWishChild()}>Annullere</button><br>` :
+                Number(this.accountInfo.reward_balance) >= Number(this.wish.target_reward_balance) ? html`<button class="" @click=${() => this.confirmWishChild()}>Indløs</button><br>` : ''}
         `;
     }
 
@@ -145,8 +164,19 @@ export class WishDetailPage extends LitElement {
         }
     }
 
+    retractWishChild(){
+        retract_Wish(this.wish.id).then((r : ApiResponse) => {
+            this.errorMessage = r.error
+        })
+        if(this.errorMessage){
+            this.renderError()
+        }else{
+            this.goBackChild()
+        }
+    }
+
     confirmWishChild(){
-        confirm_Wish("1", this.wish.id).then((r : ApiResponse) => {
+        confirm_Wish(this.wish.id).then((r : ApiResponse) => {
             this.errorMessage = r.error
         })
         if(this.errorMessage){

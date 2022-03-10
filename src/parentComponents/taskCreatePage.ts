@@ -8,8 +8,13 @@ import "../parentComponents/taskForm";
 import {getCurrentUserId} from "../api/apiUtils";
 
 @customElement("task-create-page")
-export class TaskCreatePage extends LitElement {
+export class TaskCreatePage extends LitElement { //implements CustomErrorHandling {
     @property({type: String}) errorMessage: string | null = "";
+    //@property() errorMessage: string = "";
+
+    validated() {
+        return true;
+    }
 
     constructor(){
         super();

@@ -22,8 +22,12 @@ export function getTask(id: string) {
     return apiFetch("child/task/" + id)
 }
 
-export function confirm_Task(current_status: string, id: string) {
-    return apiPost("child/task/confirm/", {current_status: current_status, id: id})
+export function retract_Task(id: string) {
+    return apiPost("child/task/retract/", {id: id})
+}
+
+export function confirm_Task(id: string) {
+    return apiPost("child/task/confirm/", {id: id})
 }
 
 //TODO Wish Calls:
@@ -35,8 +39,12 @@ export function getWish(id: string) {
     return apiFetch("child/wish/" + id)
 }
 
-export function confirm_Wish(current_status: string, id: string) {
-    return apiPost("child/wish/confirm/", {current_status: current_status, id: id})
+export function retract_Wish(id: string) {
+    return apiPost("child/wish/retract/", {id: id})
+}
+
+export function confirm_Wish(id: string) {
+    return apiPost("child/wish/confirm/", {id: id})
 }
 
 export function update_Wish(id: string, saving_name: string, content: string, target_reward_balance: number) {

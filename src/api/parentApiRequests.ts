@@ -57,8 +57,12 @@ export function getConfirmedWishlistParent(id: string): Promise<any> {
     return apiFetch("parent/wishlist/" + id)
 }
 
-export function reject_WishParent(current_status: string, id: string) {
-    return apiPost("parent/wish/reject/", {current_status: current_status, id: id})
+export function reject_WishParent(id: string) {
+    return apiPost("parent/wish/reject/", {id: id})
+}
+
+export function confirm_WishParent(id: string) {
+    return apiPost("parent/wish/confirm/", {id: id})
 }
 
 //TODO TASK:
@@ -70,8 +74,12 @@ export function getConfirmedTasklistParent(id: string) {
     return apiFetch("parent/tasklist/" + id)
 }
 
-export function reject_TaskParent(current_status: string, id: string) {
-    return apiPost("parent/task/reject/", {current_status: current_status, id: id})
+export function reject_TaskParent(id: string) {
+    return apiPost("parent/task/reject/", {id: id})
+}
+
+export function confirm_TaskParent(id: string) {
+    return apiPost("parent/task/confirm/", {id: id})
 }
 
 export function getCompleteTasklistParent(id: string) {

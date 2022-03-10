@@ -85,7 +85,7 @@ export class WishElement extends LitElement {
 
     renderChild(){
         return html`
-            <a class="btn" @click=${() => this.navigateChild()}>Detaljer</a>
+            <a class="btn" @click=${() => this.navigateChild()}> ${this.wish.current_status == '0' ? `Detaljer` : `Afventer`}</a>
         `;
     }
 
@@ -105,10 +105,9 @@ export class WishElement extends LitElement {
         }else{
             console.log(this.wish)
             return html`
-                <article class="wishElement">
+                <article class="wishElement" style="${this.wish.current_status == '1' ? `background-color:#006abf` : `background-color:#003865`}">
                     <div id="img" alt=${this.wish.saving_name}></div>
-                    <h5>${this.wish.saving_name}</h5>
-                    ${this.wish.current_status ? html `${this.wish.current_status}<br><br>` : ''}
+                    <h4>${this.wish.current_status.length > 14 ? this.wish.saving_name.substring(0,14) : this.wish.saving_name.substring(0,11)}</h4>
                     ${this.parentView ? this.renderparent() : this.renderChild()}
                 </article>
             `;

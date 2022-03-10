@@ -3,8 +3,8 @@ import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
 import {ApiResponse} from "./sharedInterfaces";
 import {ITasklist} from "../childComponents/childInterfaces";
-import {confirm_Task, getTask} from "../api/childApiRequests";
-import {reject_TaskParent, getTaskParent, delete_Task, update_Task} from "../api/parentApiRequests";
+import {confirm_Task, getTask, retract_Task} from "../api/childApiRequests";
+import {reject_TaskParent, getTaskParent, delete_Task, update_Task, confirm_TaskParent} from "../api/parentApiRequests";
 import { router } from "../index";
 import "../parentComponents/taskForm";
 
@@ -72,7 +72,9 @@ export class TaskDetailPage extends LitElement {
             <p> ${this.task.task_name} </p>
             <p> ${this.task.content} </p>
             <p> ${this.task.reward_amount} </p>
-            <button @click=${() => this.confirmTaskChild()}>Udført</button><br>
+            ${this.task.current_status ?
+                    html`<button @click=${() => this.retractTaskChild()}>Annullere</button><br>` :
+                    html`<button @click=${() => this.confirmTaskChild()}>Udført</button><br>`}
         `;
     }
 
@@ -80,8 +82,19 @@ export class TaskDetailPage extends LitElement {
         router.navigate("/child")
     }
 
+    retractTaskChild(){
+        retract_Task(this.task.id).then((r : ApiResponse) => {
+            this.errorMessage = r.error
+        })
+        if(this.errorMessage){
+            this.renderError()
+        }else{
+            this.goBackChild()
+        }
+    }
+
     confirmTaskChild(){
-        confirm_Task("1", this.task.id).then((r : ApiResponse) => {
+        confirm_Task(this.task.id).then((r : ApiResponse) => {
             this.errorMessage = r.error
         })
         if(this.errorMessage){
@@ -113,14 +126,14 @@ export class TaskDetailPage extends LitElement {
     renderDetailMode(){
         return html `
             <button @click=${() => this.confirmTaskParent()}>Godkend</button><br>
-            <button @click=${() => this.rejectTaskParent()}>Afvis</button><br>
+            ${this.task.current_status ? html `<button @click=${() => this.rejectTaskParent()}>Afvis</button><br>` : ''}
             <button @click=${() => this.editMode = true}>Redigér Opgave</button><br>
             <button @click=${() => this.deleteTaskParent()}>Slet Opgave</button><br>
         `;
     }
 
     rejectTaskParent(){
-        reject_TaskParent("0", this.task.id).then((r : ApiResponse) => {
+        reject_TaskParent(this.task.id).then((r : ApiResponse) => {
             this.errorMessage = r.error
         })
         if(this.errorMessage){
@@ -169,8 +182,14 @@ export class TaskDetailPage extends LitElement {
     }
 
     confirmTaskParent(){
-        console.log("BØR VI BARE SLETTE DEN HER, ELLER SKAL VI LAVE EN NY BOOL VÆRDI I DATABASEN?");
-        //TODO, BØR VI BARE SLETTE DEN HER, ELLER SKAL VI LAVE EN NY BOOL VÆRDI I DATABASEN?
+        confirm_TaskParent(this.task.id).then((r : ApiResponse) => {
+            this.errorMessage = r.error
+        })
+        if(this.errorMessage){
+            this.renderError()
+        }else{
+            router.navigate("/parent");
+        }
     }
 
     deleteTaskParent(){
