@@ -4,7 +4,7 @@ import "./sharedComponents/login"
 import "./sharedComponents/register"
 import {router} from "./index";
 import {apiPost, getIdentityToken} from "./api/apiUtils";
-import {IUserType, IVerifyTokenResponse} from "./sharedComponents/sharedInterfaces";
+import {UserType, IVerifyTokenResponse} from "./sharedComponents/sharedInterfaces";
 
 @customElement('home-element')
 export class Home extends LitElement {
@@ -18,7 +18,7 @@ export class Home extends LitElement {
             apiPost("verifyToken", {})
                 .then((r: IVerifyTokenResponse) => {
                     if (r.success) {
-                        let parent = r.userType === IUserType.parent
+                        let parent = r.userType === UserType.parent
                         parent ? router.navigate("/parent") : router.navigate("/child")
                     }
                 })

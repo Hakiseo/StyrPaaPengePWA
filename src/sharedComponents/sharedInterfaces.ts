@@ -11,7 +11,7 @@ export interface IVerifyTokenResponse {
     userType: string
 }
 
-export enum IUserType {
+export enum UserType {
     parent = "parent",
     child = "child"
 }

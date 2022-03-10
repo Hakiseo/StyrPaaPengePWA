@@ -21,7 +21,7 @@ import ("./sharedComponents/sideMenu");
 import ("./home");
 
 import {apiPost, getIdentityToken} from "./api/apiUtils";
-import {IUserType, IVerifyTokenResponse} from "./sharedComponents/sharedInterfaces"
+import {UserType, IVerifyTokenResponse} from "./sharedComponents/sharedInterfaces"
 import {IChildData, IMinimalChildrenData} from "./parentComponents/parentInterfaces";
 
 import Navigo from "navigo";
@@ -61,7 +61,7 @@ export class IndexElement extends LitElement {
                     this.route = html`
                         <home-element @updateUserStatus="${(e: any) => {
                             this.loggedIn = true;
-                            this.parent = e.detail === IUserType.parent;
+                            this.parent = e.detail === UserType.parent;
                             alert("CHANGED STATUS ON USER! User is: " + e.detail)
                         }}">
                         </home-element>
@@ -127,7 +127,7 @@ export class IndexElement extends LitElement {
                 .then((r: IVerifyTokenResponse) => {
                     if (r.success) {
                         this.loggedIn = true;
-                        this.parent = r.userType === IUserType.parent
+                        this.parent = r.userType === UserType.parent
                     }
                     console.log(r)
                     router.resolve();
