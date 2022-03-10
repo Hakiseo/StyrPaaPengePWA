@@ -132,11 +132,11 @@ export class SideMenu extends BaseStyleElement {
 
     renderParentMenu(): TemplateResult {
         return html `
-            <p @click="${() => this.menuNavigate("/home")}"> Index </p>
-            <p> Indløste ønskelister </p>
-            <p> Indløste opgaver </p>
-            <p> Opgave oversigt </p>
-            <p> Opret Opgave </p>
+            <p @click="${() => this.menuNavigate("/home")}"> Forside </p>
+<!--            <p> Indløste ønskelister </p>-->
+<!--            <p> Indløste opgaver </p>-->
+            <p @click="${() => this.menuNavigate("/tasklist-overview")}"> Opgave oversigt </p>
+            <p @click="${() => this.menuNavigate("/task-creating")}"> Opret Opgave </p>
             <p @click="${() => this.menuNavigate("/parent/details")}"> Egne detaljer </p>
             <p @click="${() => this.emitLogout()}"> Log Ud </p>
         `
@@ -144,8 +144,9 @@ export class SideMenu extends BaseStyleElement {
 
     renderJuniorMenu(): TemplateResult {
         return html `
-            <p> Ønskeliste oversigt </p>
-            <p> Opret ønskeliste </p>
+            <p @click="${() => this.menuNavigate("/home")}"> Forside </p>
+            <p @click="${() => this.menuNavigate("/wishlist-overview")}"> Ønskeliste oversigt </p>
+            <p @click="${() => this.menuNavigate("/wishlist-creating")}"> Opret ønskeliste </p>
             <p @click="${() => this.emitLogout()}"> Log Ud </p>
         `;
     }
@@ -156,6 +157,7 @@ export class SideMenu extends BaseStyleElement {
     }
 
     emitLogout() {
+        this.showMenu = false;
         this.dispatchEvent(new CustomEvent("logout"))
     }
 }
