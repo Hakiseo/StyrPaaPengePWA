@@ -1,4 +1,4 @@
-import {html, LitElement, TemplateResult} from "lit";
+import {css, html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {createJuniorUser} from "../api/parentApiRequests";
 import {IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
@@ -19,8 +19,30 @@ export class CreateChild extends LitElement implements ICustomErrorHandling {
 
     @property() errorMessage: string = "";
 
+    @property() firstNameValid: boolean = true;
+    @property() lastNameValid: boolean = true;
+    @property() ageValid: boolean = true;
+    @property() usernameValid: boolean = true;
+    @property() passwordValid: boolean = true;
+    @property() repeatedPasswordValid: boolean = true;
+    @property() startBalanceValid: boolean = true;
+
+    static get styles() {
+        return css`
+        `
+    }
+
     validated() {
-        return true;
+        this.firstNameValid = this.firstName.length > 0
+        this.lastNameValid = this.lastName.length > 0
+
+        if (this.firstNameValid) {
+            console.log("VALID")
+            return true;
+        }
+        this.errorMessage = "All fields are required!"
+        console.log("INVALID")
+        return false
     }
 
     //TODO: validate input & visually show errors
@@ -28,7 +50,7 @@ export class CreateChild extends LitElement implements ICustomErrorHandling {
         return html `
             <h1> Opret junior bruger </h1>
             
-            <input-element label="Fornavn" @changeValue="${(e: CustomEvent) => this.firstName = e.detail}"></input-element>
+            <input-element .valid="${this.firstNameValid}" label="Fornavn" @changeValue="${(e: CustomEvent) => this.firstName = e.detail}"></input-element>
             <input-element label="Efternavn" @changeValue="${(e: CustomEvent) => this.lastName = e.detail}"></input-element>
 
             <input-element .inputType="${InputType.number}" label="Alder" @changeValue="${(e: CustomEvent) => this.age = e.detail}"></input-element>
@@ -48,7 +70,7 @@ export class CreateChild extends LitElement implements ICustomErrorHandling {
             window.alert("The inputted passwords does not match!")
             return;
         }
-        if (this.firstName && this.lastName && this.age && this.username && this.password && this.repeatedPassword && this.startBalance) {
+        if (this.validated()) {
             createJuniorUser({
                 firstName: this.firstName,
                 lastName: this.lastName,
@@ -65,7 +87,7 @@ export class CreateChild extends LitElement implements ICustomErrorHandling {
                 }
             })
         } else {
-            window.alert("All fields are required!")
+            window.alert(this.errorMessage)
         }
     }
 }
