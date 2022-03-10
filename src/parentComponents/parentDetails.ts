@@ -22,6 +22,7 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
     @property() errorMessage: string = "";
 
     validated() {
+        //TODO: check if age can be parsed as int - Check if age is an int
         return true;
     }
 
