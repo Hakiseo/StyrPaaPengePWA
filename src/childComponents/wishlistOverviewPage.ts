@@ -2,7 +2,7 @@ import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import {IWishlist} from "./childInterfaces";
 import {getWishlist} from "../api/childApiRequests";
-import {ApiResponse} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/wishElement"
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
@@ -34,7 +34,7 @@ export class WishlistOverviewPage extends LitElement {
     // DETTE GØR, AT STATUS PÅ ELEMENTERNE IKKE BLIVER ÆNDRET, FÅR VI RELOADER SIDEN.
     constructor() {
         super();
-        getWishlist(getCurrentUserId()).then((r : ApiResponse) =>{
+        getWishlist(getCurrentUserId()).then((r : IApiResponse) =>{
             if (r.results !== null) {
                 this.wishlist = r.results
             }else{

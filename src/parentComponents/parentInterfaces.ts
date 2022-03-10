@@ -1,6 +1,6 @@
 //Add all interfaces directly related to parentComponents here
 
-export interface ChildData {
+export interface IChildData {
     id: number,
     first_name: string,
     last_name: string,
@@ -9,12 +9,12 @@ export interface ChildData {
     reward_balance: number
 }
 
-export interface MinimalChildrenData {
+export interface IMinimalChildrenData {
     id: number,
     name: string
 }
 
-export interface ParentData {
+export interface IParentData {
     id: number,
     first_name: string,
     last_name: string,

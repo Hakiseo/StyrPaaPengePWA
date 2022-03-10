@@ -4,15 +4,15 @@ import {router} from "../index";
 import "./childCard"
 import {getCurrentUserId} from "../api/apiUtils";
 import {fetchJuniors, getConfirmedTasklistParent, getConfirmedWishlistParent} from "../api/parentApiRequests";
-import {ApiResponse} from "../sharedComponents/sharedInterfaces";
-import {ChildData, MinimalChildrenData, ITasklist, IWishlist} from "./parentInterfaces";
+import {IApiResponse} from "../sharedComponents/sharedInterfaces";
+import {IChildData, IMinimalChildrenData, ITasklist, IWishlist} from "./parentInterfaces";
 //import {} from "../childComponents/childInterfaces";
 
 @customElement("parent-index-page")
 export class ParentIndexPage extends LitElement {
     @property({type: String}) parentId!: string;
-    @property() childrenData: ChildData[] = [];
-    @property() minimalChildrenData: MinimalChildrenData[] = [];
+    @property() childrenData: IChildData[] = [];
+    @property() minimalChildrenData: IMinimalChildrenData[] = [];
     @property() wishlist!: IWishlist[];
     @property() tasklist!: ITasklist[];
     @property({type: String}) errorWishMessage: string | null = "";
@@ -25,7 +25,7 @@ export class ParentIndexPage extends LitElement {
     protected updated(_changedProperties: PropertyValues) {
         super.updated(_changedProperties);
         if (_changedProperties.has("parentId") && this.parentId) {
-            fetchJuniors(this.parentId).then((r: ApiResponse) => {
+            fetchJuniors(this.parentId).then((r: IApiResponse) => {
                 if (!r.error && r.results) {
                     this.childrenData = r.results
                     this.minimalChildrenData = this.childrenData.map(r => {
@@ -65,7 +65,7 @@ export class ParentIndexPage extends LitElement {
     constructor() {
         super();
         this.parentId = getCurrentUserId();
-        getConfirmedWishlistParent(this.parentId).then((r : ApiResponse) =>{
+        getConfirmedWishlistParent(this.parentId).then((r : IApiResponse) =>{
             if (r.results !== null) {
                 this.wishlist = r.results
             }else{
@@ -77,7 +77,7 @@ export class ParentIndexPage extends LitElement {
             console.log(this.wishlist)
             //this.errorMessage = "r.error" //simulerer at der er en error besked
         })
-        getConfirmedTasklistParent(this.parentId).then((r : ApiResponse) =>{
+        getConfirmedTasklistParent(this.parentId).then((r : IApiResponse) =>{
             if (r.results !== null) {
                 this.tasklist = r.results
             }else{
@@ -160,7 +160,7 @@ export class ParentIndexPage extends LitElement {
         //Add loop here for all juniors and route on click to user id
         return html `
             <div>
-                ${this.childrenData.map((d: ChildData) => {
+                ${this.childrenData.map((d: IChildData) => {
                     return html `
                         <junior-card .firstName="${d.first_name}" .lastName="${d.last_name}" @click="${() => this.navigateToChild(d.id)}"></junior-card>
                     `

@@ -1,7 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {apiPost, identityTokenName, storageUserId} from "../api/apiUtils";
-import {ApiResponse, UserType} from "./sharedInterfaces";
+import {IApiResponse, IUserType} from "./sharedInterfaces";
 import {router} from "../index";
 
 @customElement("login-page")
@@ -37,7 +37,7 @@ export class Login extends LitElement {
             apiPost("login/", {
                 loginData: this.loginData,
                 password: this.password
-            }).then((r: ApiResponse) => {
+            }).then((r: IApiResponse) => {
                 if (r.error) {
                     window.alert(r.error)
                 } else if (r.results == null){
@@ -56,9 +56,9 @@ export class Login extends LitElement {
     }
 
     determineUserType(data: any[], userId: number) {
-        let userType = UserType.child;
+        let userType = IUserType.child;
         if (data[0]) {
-            userType = UserType.parent
+            userType = IUserType.parent
         }
 
         apiPost("token", {userId: userId, userType: userType}).then((r: any) => {
@@ -66,7 +66,7 @@ export class Login extends LitElement {
             localStorage.setItem(storageUserId, userId.toString())
         }).then(() => {
             this.loginStatusChanged(userType);
-            userType == UserType.parent ? router.navigate("/parent") : router.navigate("/child")
+            userType == IUserType.parent ? router.navigate("/parent") : router.navigate("/child")
         })
     }
 }

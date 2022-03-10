@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, TemplateResult} from "lit";
 
-import {ApiResponse} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse} from "../sharedComponents/sharedInterfaces";
 import {create_Wishlist} from "../api/childApiRequests";
 import { router } from "../index";
 import "./wishForm";
@@ -37,7 +37,7 @@ export class WishCreatePage extends LitElement {
                 e.detail.wishListName,
                 e.detail.wishListContent,
                 e.detail.wishListTarget)
-                .then((r : ApiResponse) => {
+                .then((r : IApiResponse) => {
                     this.errorMessage = r.error
             })
             if(this.errorMessage) {

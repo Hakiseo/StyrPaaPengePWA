@@ -3,10 +3,10 @@ import {customElement, property} from "lit/decorators.js";
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
 import {changePasswordChild, changePasswordParent} from "../api/parentApiRequests";
-import {ApiResponse, CustomErrorHandling} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse, ICustomErrorHandling} from "../sharedComponents/sharedInterfaces";
 
 @customElement("change-password")
-export class ChangePassword extends LitElement implements CustomErrorHandling{
+export class ChangePassword extends LitElement implements ICustomErrorHandling{
     @property() parent: boolean = false;
     @property() id: string = ""
 
@@ -62,7 +62,7 @@ export class ChangePassword extends LitElement implements CustomErrorHandling{
     changePassword() {
         if (this.oldPassword && this.password && this.repeatedPassword && (this.password === this.repeatedPassword)) {
             changePasswordParent({id: this.id, newPassword: this.password, oldPassword: this.oldPassword})
-                .then((r: ApiResponse) => {
+                .then((r: IApiResponse) => {
                     console.log("PARENT: ", r)
                     if (!r.error) {
                         this.goBack()
@@ -74,7 +74,7 @@ export class ChangePassword extends LitElement implements CustomErrorHandling{
         }
         if (this.password && this.repeatedPassword && (this.password === this.repeatedPassword)) {
             changePasswordChild({id: this.id, newPassword: this.password})
-                .then((r: ApiResponse) => {
+                .then((r: IApiResponse) => {
                     console.log("CHILD: ", r)
                     if (!r.error) {
                         this.goBack()

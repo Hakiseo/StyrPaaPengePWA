@@ -21,8 +21,8 @@ import ("./sharedComponents/sideMenu");
 import ("./home");
 
 import {apiPost, getIdentityToken} from "./api/apiUtils";
-import {UserType, VerifyTokenResponse} from "./sharedComponents/sharedInterfaces"
-import {ChildData, MinimalChildrenData} from "./parentComponents/parentInterfaces";
+import {IUserType, IVerifyTokenResponse} from "./sharedComponents/sharedInterfaces"
+import {IChildData, IMinimalChildrenData} from "./parentComponents/parentInterfaces";
 
 import Navigo from "navigo";
 export const router = new Navigo('/');
@@ -43,8 +43,8 @@ export class IndexElement extends LitElement {
     @property() parent: boolean = false;
     @property() loggedIn: boolean = false;
 
-    @property() childData!: ChildData;
-    @property() minimalChildrenData: MinimalChildrenData[] = [];
+    @property() childData!: IChildData;
+    @property() minimalChildrenData: IMinimalChildrenData[] = [];
 
     connectedCallback() {
         super.connectedCallback();
@@ -61,7 +61,7 @@ export class IndexElement extends LitElement {
                     this.route = html`
                         <home-element @updateUserStatus="${(e: any) => {
                             this.loggedIn = true;
-                            this.parent = e.detail === UserType.parent;
+                            this.parent = e.detail === IUserType.parent;
                             alert("CHANGED STATUS ON USER! User is: " + e.detail)
                         }}">
                         </home-element>
@@ -124,10 +124,10 @@ export class IndexElement extends LitElement {
         //Need this to handle on refresh and still validate routes
         if (getIdentityToken().length > 0) {
             apiPost("verifyToken", {})
-                .then((r: VerifyTokenResponse) => {
+                .then((r: IVerifyTokenResponse) => {
                     if (r.success) {
                         this.loggedIn = true;
-                        this.parent = r.userType === UserType.parent
+                        this.parent = r.userType === IUserType.parent
                     }
                     console.log(r)
                     router.resolve();

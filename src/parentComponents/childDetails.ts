@@ -1,13 +1,13 @@
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import {ChildData} from "./parentInterfaces";
+import {IChildData} from "./parentInterfaces";
 import {router} from "../index";
 import {deleteChild, editChild, fetchChild} from "../api/parentApiRequests";
-import {ApiResponse, CustomErrorHandling} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse, ICustomErrorHandling} from "../sharedComponents/sharedInterfaces";
 
 @customElement("child-details")
-export class ChildDetails extends LitElement implements CustomErrorHandling{
-    @property() childData!: ChildData;
+export class ChildDetails extends LitElement implements ICustomErrorHandling{
+    @property() childData!: IChildData;
     @property() childId: string = "";
     @property() editMode: boolean = false;
 
@@ -97,7 +97,7 @@ export class ChildDetails extends LitElement implements CustomErrorHandling{
 
     deleteJunior() {
         console.log("Delete junior user: ", this.childData.username)
-        deleteChild(this.childId).then((r: ApiResponse) => {
+        deleteChild(this.childId).then((r: IApiResponse) => {
             console.log(r)
             if (!r.error) {
                 router.navigate("/parent")
@@ -114,7 +114,7 @@ export class ChildDetails extends LitElement implements CustomErrorHandling{
             console.log(this.firstName, this.lastName, this.username, this.age, this.balance)
 
             editChild({id: this.childId, first_name: this.firstName, last_name: this.lastName, username: this.username, age: this.age, balance: this.balance})
-                .then((r: ApiResponse) => {
+                .then((r: IApiResponse) => {
                     console.log(r)
                     this.getChildData().then(() => this.editMode = false)
                 })
@@ -122,7 +122,7 @@ export class ChildDetails extends LitElement implements CustomErrorHandling{
     }
 
     getChildData(): Promise<void> {
-        return fetchChild(this.childId).then((r: ApiResponse) => {
+        return fetchChild(this.childId).then((r: IApiResponse) => {
             if (r.results) {
                 this.childData = r.results[0]
             }

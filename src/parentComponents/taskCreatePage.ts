@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, TemplateResult} from "lit";
 
-import {ApiResponse} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse} from "../sharedComponents/sharedInterfaces";
 import {create_Task} from "../api/parentApiRequests";
 import { router } from "../index";
 import "../parentComponents/taskForm";
@@ -37,7 +37,7 @@ export class TaskCreatePage extends LitElement {
                 e.detail.taskName,
                 e.detail.taskContent,
                 e.detail.taskRewardAmount)
-                .then((r : ApiResponse) => {
+                .then((r : IApiResponse) => {
                     this.errorMessage = r.error
                 })
             if(this.errorMessage) {

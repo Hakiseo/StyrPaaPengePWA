@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
-import {ApiResponse} from "./sharedInterfaces";
+import {IApiResponse} from "./sharedInterfaces";
 import {ITasklist} from "../childComponents/childInterfaces";
 import {confirm_Task, getTask} from "../api/childApiRequests";
 import {reject_TaskParent, getTaskParent, delete_Task, update_Task} from "../api/parentApiRequests";
@@ -47,7 +47,7 @@ export class TaskDetailPage extends LitElement {
     }
 
     loadTask(){
-        this.getHandler().then((r : ApiResponse) => {
+        this.getHandler().then((r : IApiResponse) => {
             if(r.results !== null){
                 let tempTaskList:ITasklist[] = r.results;
                 this.task = tempTaskList[0]
@@ -81,7 +81,7 @@ export class TaskDetailPage extends LitElement {
     }
 
     confirmTaskChild(){
-        confirm_Task("1", this.task.id).then((r : ApiResponse) => {
+        confirm_Task("1", this.task.id).then((r : IApiResponse) => {
             this.errorMessage = r.error
         })
         if(this.errorMessage){
@@ -120,7 +120,7 @@ export class TaskDetailPage extends LitElement {
     }
 
     rejectTaskParent(){
-        reject_TaskParent("0", this.task.id).then((r : ApiResponse) => {
+        reject_TaskParent("0", this.task.id).then((r : IApiResponse) => {
             this.errorMessage = r.error
         })
         if(this.errorMessage){
@@ -154,7 +154,7 @@ export class TaskDetailPage extends LitElement {
     updateTaskParent(e : CustomEvent){
         console.log("Task updated: ", e.detail)
         if (e.detail.taskName && e.detail.taskContent && e.detail.taskRewardAmount) {
-            update_Task(this.task.id, e.detail.taskName, e.detail.taskContent, e.detail.taskRewardAmount).then((r : ApiResponse) => {
+            update_Task(this.task.id, e.detail.taskName, e.detail.taskContent, e.detail.taskRewardAmount).then((r : IApiResponse) => {
                 this.errorMessage = r.error
                 this.loadTask();
             })
@@ -174,7 +174,7 @@ export class TaskDetailPage extends LitElement {
     }
 
     deleteTaskParent(){
-        delete_Task(this.task.id).then((r : ApiResponse) => {
+        delete_Task(this.task.id).then((r : IApiResponse) => {
             this.errorMessage = r.error
         })
         if(this.errorMessage){

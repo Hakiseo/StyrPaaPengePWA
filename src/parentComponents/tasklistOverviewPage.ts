@@ -2,7 +2,7 @@ import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import "../sharedComponents/wishElement"
 import {ITasklist} from "./parentInterfaces";
-import {ApiResponse} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse} from "../sharedComponents/sharedInterfaces";
 import {getCompleteTasklistParent} from "../api/parentApiRequests";
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
@@ -32,7 +32,7 @@ export class TasklistOverviewPage extends LitElement {
 
     constructor() {
         super();
-        getCompleteTasklistParent(getCurrentUserId()).then((r : ApiResponse) =>{
+        getCompleteTasklistParent(getCurrentUserId()).then((r : IApiResponse) =>{
             if (r.results !== null) {
                 this.tasklist = r.results
             }else{

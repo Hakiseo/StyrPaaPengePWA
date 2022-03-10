@@ -1,14 +1,14 @@
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import {ParentData} from "./parentInterfaces";
+import {IParentData} from "./parentInterfaces";
 import {router} from "../index";
 import {deleteParent, editParent, getCurrentParent} from "../api/parentApiRequests";
-import {ApiResponse, CustomErrorHandling} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse, ICustomErrorHandling} from "../sharedComponents/sharedInterfaces";
 import {getCurrentUserId} from "../api/apiUtils";
 
 @customElement("parent-details")
-export class ParentDetails extends LitElement implements CustomErrorHandling {
-    @property() parentData!: ParentData;
+export class ParentDetails extends LitElement implements ICustomErrorHandling {
+    @property() parentData!: IParentData;
     @property() editMode: boolean = false;
 
     @property() firstName: string = "";
@@ -79,7 +79,7 @@ export class ParentDetails extends LitElement implements CustomErrorHandling {
 
     deleteParent() {
         console.log("Delete Parent user: ", this.parentData.email)
-        deleteParent().then((r: ApiResponse) => {
+        deleteParent().then((r: IApiResponse) => {
             if (!r.error) {
                 this.dispatchEvent(new CustomEvent("logout"))
             }
@@ -93,7 +93,7 @@ export class ParentDetails extends LitElement implements CustomErrorHandling {
             //check for changes
             if (this.validated()) {
                 editParent({id: getCurrentUserId(), first_name: this.firstName, last_name: this.lastName, age: this.age, email: this.email})
-                    .then((r:ApiResponse) => {
+                    .then((r:IApiResponse) => {
                         console.log(r)
                         this.getParentData().then(() => this.editMode = false)
                     })
@@ -104,7 +104,7 @@ export class ParentDetails extends LitElement implements CustomErrorHandling {
     }
 
     getParentData() {
-        return getCurrentParent().then((r: ApiResponse) => {
+        return getCurrentParent().then((r: IApiResponse) => {
             if (r.results) {
                 this.parentData = r.results[0]
             }
