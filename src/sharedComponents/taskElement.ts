@@ -89,10 +89,7 @@ export class TaskElement extends LitElement {
                     <div id="img" alt=${this.task.task_name}></div>
 
                     <h4>${this.task.current_status.length > 14 ? this.task.task_name.substring(0,14) : this.task.task_name.substring(0,11)}</h4>
-
                     
-                        <!--<h4>${this.task.task_name.substring(0,14)}</h4>-->
-                        <!--${this.task.current_status ? html `${this.task.current_status}<br><br>` : ''}-->
                     ${!this.parentView ? this.renderChild() : this.parentConfirmMode ? this.renderConfirmmode() : this.renderparent()}
                 </article>
         `;

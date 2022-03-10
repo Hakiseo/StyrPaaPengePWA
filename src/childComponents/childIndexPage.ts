@@ -78,7 +78,6 @@ export class ChildIndexPage extends LitElement {
         if(this.tasklist){
             return html `
                 <h1>Opgaver:</h1>
-            
                 <section class="container">
                     ${this.tasklist.map(task => {
                     console.log(task)

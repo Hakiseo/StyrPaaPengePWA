@@ -1,5 +1,5 @@
 import {customElement, property} from "lit/decorators.js";
-import {css, html, LitElement, TemplateResult} from "lit";
+import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {IWishlist} from "./childInterfaces";
 import {getWishlist} from "../api/childApiRequests";
 import {IApiResponse} from "../sharedComponents/sharedInterfaces";
@@ -14,13 +14,56 @@ export class WishlistOverviewPage extends LitElement {
     @property() wishlist!: IWishlist[];
     @property({type: String}) errorMessage: string | null = "";
 
+    //TODO OPDAGET FEJL. NÅR SIDEN NAVIGERER TILBAGE, SÅ OPDATERER DEN IKKE ELEMENTERNE.
+    // DETTE GØR, AT STATUS PÅ ELEMENTERNE IKKE BLIVER ÆNDRET, FÅR VI RELOADER SIDEN.
+
+    connectedCallback() {
+        super.connectedCallback();
+        //this.loadWishlist();
+
+        /*
+        if(!this.wishlist){
+            console.log("Connected Callback")
+            this.loadWishlist();
+        }
+
+        */
+    }
+
+    protected updated(_changedProperties: PropertyValues) {
+        super.updated(_changedProperties);
+        if(_changedProperties.has("wishlist")){
+
+
+            console.log("Updated Wishlist")
+
+
+        }
+    }
+
+    loadWishlist(){
+        getWishlist(getCurrentUserId()).then((r : IApiResponse) =>{
+            if (r.results !== null) {
+                console.log("Setting Wishlist")
+                this.wishlist = r.results
+            }else{
+                this.errorMessage = r.error
+            }
+            if(this.errorMessage){
+                this.renderError()
+            }
+            this.requestUpdate()
+            //this.errorMessage = "r.error" //simulerer at der er en error besked
+        })
+    }
+
     protected render(): TemplateResult {
         if (!this.wishlist) return html `Loading ...`;
         return html `
             <div>
                 ${this.renderWishes()}
             </div>
-        `
+        `;
     }
 
     static styles = [css`
@@ -31,21 +74,12 @@ export class WishlistOverviewPage extends LitElement {
         }
     `];
 
-    //TODO OPDAGET FEJL. NÅR SIDEN NAVIGERER TILBAGE, SÅ OPDATERER DEN IKKE ELEMENTERNE.
-    // DETTE GØR, AT STATUS PÅ ELEMENTERNE IKKE BLIVER ÆNDRET, FÅR VI RELOADER SIDEN.
     constructor() {
         super();
-        getWishlist(getCurrentUserId()).then((r : IApiResponse) =>{
-            if (r.results !== null) {
-                this.wishlist = r.results
-            }else{
-                this.errorMessage = r.error
-            }
-            if(this.errorMessage){
-                this.renderError()
-            }
-            //this.errorMessage = "r.error" //simulerer at der er en error besked
-        })
+        if(!this.wishlist){
+            console.log("Connected Callback")
+            this.loadWishlist();
+        }
     }
 
     renderError(){
@@ -70,26 +104,24 @@ export class WishlistOverviewPage extends LitElement {
                 <p> Please try again or please go back to main page </p>
             `;
         }
-        if(this.wishlist){
+        if(!this.wishlist){
+            return html `
+                <p> Error loading Wishlist...</p>
+            `;
+        }else{
+            console.log("Render Wishlist")
             return html `
                 <h1>Ønskelister:</h1>
                 <button-element .action=${() => this.goBack()}>Tilbage</button-element><br>
                 <button-element .action=${() => this.createWishList()}>Opret Ønskeliste</button-element><br>
-
                 <section class="container">
                     ${this.wishlist.map(wish => {
-                        console.log(wish)
                         return html `
-                    <wish-element .wish=${wish} .parentView="${false}"></wish-element>
-                `
+                            <wish-element .wish=${wish} .parentView="${false}"></wish-element>
+                        `
                     })}
                 </section>
-            `;
-        }else{
-            return html `
-                <p> Error loading Wishlist...</p>
             `;
         }
     }
 }
-

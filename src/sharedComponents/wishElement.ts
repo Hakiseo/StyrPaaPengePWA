@@ -103,7 +103,6 @@ export class WishElement extends LitElement {
         if(!this.wish){
             return html `Loading...`
         }else{
-            console.log(this.wish)
             return html`
                 <article class="wishElement" style="${this.wish.current_status == '1' ? `background-color:#006abf` : `background-color:#003865`}">
                     <div id="img" alt=${this.wish.saving_name}></div>

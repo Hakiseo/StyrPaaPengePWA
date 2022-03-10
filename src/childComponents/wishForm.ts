@@ -1,4 +1,4 @@
-import {css, html, LitElement, TemplateResult} from "lit";
+import {html, LitElement, TemplateResult} from "lit";
 import {property} from "lit/decorators.js";
 import {customElement} from "lit/decorators.js";
 import "../sharedComponents/inputElement";
@@ -7,44 +7,56 @@ import {ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfa
 
 @customElement("wish-form")
 export class WishForm extends LitElement implements ICustomErrorHandling {
-    @property() errorMessage: string | undefined;
     @property({type: Boolean}) createForm: boolean = false;
     @property({type: Boolean}) detailForm: boolean = false;
     @property({type: String}) wishListName: string = "";
     @property({type: String}) wishListContent: string = "";
     @property({type: String}) wishListTarget: number = 100; //We can set the standard target to whatever we want
 
-    static styles = [css`
-        input:invalid {
-            border: 3px solid red;
-        }
-    `];
+    @property() errorMessage: string = "";
+
+    @property() wishListNameValid: boolean = true;
+    @property() wishListContentValid: boolean = true;
+    @property() wishListTargetValid: boolean = true;
 
     validated() {
-        //Insert logic and return the corresponding boolean value
-        return true
+        this.wishListNameValid = this.wishListName.length > 0
+        this.wishListContentValid = this.wishListContent.length > 0
+        this.wishListTargetValid = this.wishListTarget.toString().length > 0
+
+        if (this.wishListNameValid && this.wishListContentValid && this.wishListTargetValid) {
+            return true;
+        }else{
+            this.errorMessage = "All fields are required!"
+            return false
+        }
     }
 
     protected render(): TemplateResult {
         return html`
             <div>
-                <input-element label="Navn" .value="${this.wishListName}" @changeValue="${(e: CustomEvent) => this.wishListName = e.detail}"></input-element>
-                <input-element label="Beskrivelse" .value="${this.wishListContent}" @changeValue="${(e: CustomEvent) => this.wishListContent = e.detail}"></input-element>
-                <input-element .inputType="${InputType.number}" label="Beløb" .value="${this.wishListTarget}" @changeValue="${(e: CustomEvent) => this.wishListTarget = e.detail}"></input-element>
+                <input-element .valid="${this.wishListNameValid}" label="Navn" .value="${this.wishListName}" @changeValue="${(e: CustomEvent) => this.wishListName = e.detail}"></input-element>
+                <input-element .valid="${this.wishListContentValid}" label="Beskrivelse" .value="${this.wishListContent}" @changeValue="${(e: CustomEvent) => this.wishListContent = e.detail}"></input-element>
+                <input-element .valid="${this.wishListTargetValid}" .inputType="${InputType.number}" label="Beløb" .value="${this.wishListTarget}" @changeValue="${(e: CustomEvent) => this.wishListTarget = e.detail}"></input-element>
                 ${this.renderSubmitButton()}
             </div>
         `;
     }
 
     submitForm() {
-        this.dispatchEvent(
-            new CustomEvent("submit", {
-                detail: {
-                    wishListName: this.wishListName,
-                    wishListContent: this.wishListContent,
-                    wishListTarget: this.wishListTarget
-                }
-            }))
+        if(this.validated()){
+            this.dispatchEvent(
+                new CustomEvent("submit", {
+                    detail: {
+                        wishListName: this.wishListName,
+                        wishListContent: this.wishListContent,
+                        wishListTarget: this.wishListTarget
+                    }
+                })
+            )
+        }else{
+            window.alert(this.errorMessage)
+        }
     }
 
     //kunne være skrevet inline i render funktionen men adskiller det for at gøre det mere læsbart.
