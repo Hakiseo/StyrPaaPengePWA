@@ -1,9 +1,12 @@
-import {css, html, LitElement, TemplateResult} from "lit";
+import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {property} from "lit/decorators.js";
 import {customElement} from "lit/decorators.js";
-import {InputType} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse, InputType} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/inputElement"
+import {IMinimalChildrenData} from "./parentInterfaces";
+import {fetchJuniors} from "../api/parentApiRequests";
+import {getCurrentUserId} from "../api/apiUtils";
 
 @customElement("task-form")
 export class TaskForm extends LitElement {
@@ -13,18 +16,48 @@ export class TaskForm extends LitElement {
     @property({type: String}) taskContent: string = "";
     @property({type: String}) taskRewardAmount: number = 100; //We can set the standard target to whatever we want
 
+    @property() minChildData: IMinimalChildrenData[] = []
+    @property() chosenChildId: number = 0; //TODO: Når du validerer så husk at tjekke for at den her ikke må være 0!
+
     static styles = [css`
         input:invalid {
             border: 3px solid red;
         }
     `];
 
+    connectedCallback() {
+        super.connectedCallback();
+        if (this.minChildData.length < 1) {
+            fetchJuniors(getCurrentUserId()).then((r: IApiResponse) => {
+                if (r.results) {
+                    this.minChildData = r.results.map(child => {
+                        return {id: child.id, firstName: child.first_name, lastName: child.last_name}
+                    })
+                }
+            })
+        }
+    }
+
+    protected updated(_changedProperties: PropertyValues) {
+        super.updated(_changedProperties);
+        if (_changedProperties.has("minChildData") && this.minChildData.length > 0) {
+            this.chosenChildId = this.minChildData[0].id
+        }
+    }
+
     protected render(): TemplateResult {
+        if (this.minChildData.length < 1) {
+            return html`
+                <p> Not possible to make a task without children to assign them to. </p>
+                <p> Go back and make some children! *wink wink*</p>
+            `
+        }
         return html`
             <div>
                 <input-element label="Navn" .value="${this.taskName}" @changeValue="${(e: CustomEvent) => this.taskName = e.detail}"></input-element>
                 <input-element label="Beskrivelse" .value="${this.taskContent}" @changeValue="${(e: CustomEvent) => this.taskContent = e.detail}"></input-element>
                 <input-element .inputType="${InputType.number}" label="Beløb" .value="${this.taskRewardAmount}" @changeValue="${(e: CustomEvent) => this.taskRewardAmount = e.detail}"></input-element>
+                ${this.renderJuniorChoices()}
                 ${this.renderSubmitButton()}
             </div>
         `;
@@ -37,9 +70,24 @@ export class TaskForm extends LitElement {
                 detail: {
                     taskName: this.taskName,
                     taskContent: this.taskContent,
-                    taskRewardAmount: this.taskRewardAmount
+                    taskRewardAmount: this.taskRewardAmount,
+                    childId: this.chosenChildId
                 }
             }))
+    }
+
+    //TODO Remember to style
+    renderJuniorChoices() {
+        if (!this.minChildData) return html `<p> Loading child Data... </p>`
+        return html `
+            <select @change="${(e: any) => this.chosenChildId = parseInt(e.target.value)}">
+                ${this.minChildData.map((child) => {
+                    return html `
+                    <option value="${child.id}"> ${child.firstName + " " + child.lastName}</option>
+                `
+                })}
+            </select>
+        `
     }
 
     //kunne være skrevet inline i render funktionen men adskiller det for at gøre det mere læsbart.

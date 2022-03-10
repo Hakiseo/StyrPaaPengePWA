@@ -29,7 +29,7 @@ export class ParentIndexPage extends LitElement {
                 if (!r.error && r.results){
                     this.childrenData = r.results
                     this.minimalChildrenData = this.childrenData.map(r => {
-                        return {id: r.id, name: r.first_name + " " + r.last_name}
+                        return {id: r.id, firstName: r.first_name, lastName: r.last_name}
                     })
                 }
             })
