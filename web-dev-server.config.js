@@ -9,6 +9,7 @@ export default {
   nodeResolve: {exportConditions: mode === 'dev' ? ['development'] : []},
   preserveSymlinks: true,
   appIndex: './index.html',
+  esbuildTarget: "auto",
   plugins: [
     legacyPlugin({
       polyfills: {
