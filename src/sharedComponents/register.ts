@@ -1,11 +1,12 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {apiPost} from "../api/apiUtils";
+import {InputType} from "./sharedInterfaces";
 
 @customElement("register-page")
 export class Register extends LitElement {
     @property() firstName: string = ""
-    @property() surname: string = ""
+    @property() lastName: string = ""
     @property() age: number = 18 //Standard value
     @property() email: string = ""
     @property() password: string = ""
@@ -14,26 +15,17 @@ export class Register extends LitElement {
     //TODO: validate input & visually show errors
     protected render(): TemplateResult {
         return html `
-            <label for="firstname"> Fornavn: </label>
-            <input type="text" id="firstname" name="firstname" @change="${(e: any) => this.firstName = e.target.value}"><br><br>
+            <input-element label="Fornavn" @changeValue="${(e: CustomEvent) => this.firstName = e.detail}"></input-element>
+            <input-element label="Efternavn" @changeValue="${(e: CustomEvent) => this.lastName = e.detail}"></input-element>
+            <input-element .inputType="${InputType.number}" label="Alder" @changeValue="${(e: CustomEvent) => this.age = e.detail}"></input-element>
 
-            <label for="surname"> Efternavn: </label>
-            <input type="text" id="surname" name="surname" @change="${(e: any) => this.surname = e.target.value}"><br><br>
+            <input-element .inputType="${InputType.email}" label="Email" @changeValue="${(e: CustomEvent) => this.email = e.detail}"></input-element>
 
-            <label for="age"> Alder: </label>
-            <input type="number" id="age" name="age" value="${this.age}" @change="${(e: any) => this.age = e.target.value}"><br><br>
+            <input-element label="Password" @changeValue="${(e: CustomEvent) => this.password = e.detail}"></input-element>
+            <input-element label="Gentag password" @changeValue="${(e: CustomEvent) => this.repeatedPassword = e.detail}"></input-element>
             
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" @change="${(e: any) => this.email = e.target.value}"><br><br>
-            
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" @change="${(e: any) => this.password = e.target.value}"><br><br>
-            
-            <label for="repeatedPassword">Repeat Password:</label>
-            <input type="password" id="repeatedPassword" name="repeatedPassword" @change="${(e: any) => this.repeatedPassword = e.target.value}"><br><br>
-            
-            <button type="button" @click="${() => this.register()}"> Register </button>
-            <button type="button" @click="${() => this.showLogin()}"> Go back </button>
+            <button-element .action="${() => this.register()}"> Register </button-element>
+            <button-element .action="${() => this.showLogin()}"> Go back </button-element>
         `;
     }
 
@@ -49,7 +41,7 @@ export class Register extends LitElement {
         if (this.email && this.password && this.repeatedPassword) {
             apiPost("register/", {
                 firstName: this.firstName,
-                surname: this.surname,
+                surname: this.lastName,
                 age: this.age,
                 email: this.email,
                 password: this.password,

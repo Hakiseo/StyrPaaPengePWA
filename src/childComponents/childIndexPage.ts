@@ -6,7 +6,7 @@ import {IApiResponse} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/taskElement"
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
-
+import "../sharedComponents/buttonElement";
 
 @customElement("child-index-page")
 export class ChildIndexPage extends LitElement {
@@ -27,7 +27,7 @@ export class ChildIndexPage extends LitElement {
             <div>
                 ${this.renderTasks()}
             </div>
-            <button @click="${() => router.navigate("/wishlist-overview")}"> Ønskelister </button>
+            <button-element .action="${() => router.navigate("/wishlist-overview")}"> Ønskelister </button-element>
         `
     }
 

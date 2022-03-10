@@ -1,9 +1,11 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {createJuniorUser} from "../api/parentApiRequests";
-import {IApiResponse, ICustomErrorHandling} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
 import {getCurrentUserId} from "../api/apiUtils";
 import {router} from "../index";
+import "../sharedComponents/buttonElement";
+import "../sharedComponents/inputElement";
 
 @customElement("create-child")
 export class CreateChild extends LitElement implements ICustomErrorHandling {
@@ -26,28 +28,18 @@ export class CreateChild extends LitElement implements ICustomErrorHandling {
         return html `
             <h1> Opret junior bruger </h1>
             
-            <label for="firstName"> Fornavn: </label>
-            <input type="text" name="firstName" id="firstName" @change="${(e: any) => this.firstName = e.target.value}">
+            <input-element label="Fornavn" @changeValue="${(e: CustomEvent) => this.firstName = e.detail}"></input-element>
+            <input-element label="Efternavn" @changeValue="${(e: CustomEvent) => this.lastName = e.detail}"></input-element>
 
-            <label for="lastName"> Efternavn: </label>
-            <input type="text" name="lastName" id="lastName" @change="${(e: any) => this.lastName = e.target.value}">
+            <input-element .inputType="${InputType.number}" label="Alder" @changeValue="${(e: CustomEvent) => this.age = e.detail}"></input-element>
+            <input-element label="Brugernavn" @changeValue="${(e: CustomEvent) => this.username = e.detail}"></input-element>
 
-            <label for="age"> Alder: </label>
-            <input type="number" value="${this.age}" name="age" id="age" @change="${(e: any) => this.age = e.target.value}">
-
-            <label for="username"> Brugernavn: </label>
-            <input type="text" name="username" id="username" @change="${(e: any) => this.username = e.target.value}">
-
-            <label for="password"> Password: </label>
-            <input type="password" name="password" id="password" @change="${(e: any) => this.password = e.target.value}">
-
-            <label for="repeatedPassword"> Gentag Password: </label>
-            <input type="password" name="repeatedPassword" id="repeatedPassword" @change="${(e: any) => this.repeatedPassword = e.target.value}">
-
-            <label for="startBalance"> Start beløb: </label>
-            <input type="number" value="${this.startBalance}" name="startBalance" id="startBalance" @change="${(e: any) => this.startBalance = e.target.value}">
+            <input-element label="Password" @changeValue="${(e: CustomEvent) => this.password = e.detail}"></input-element>
+            <input-element label="Gentag password" @changeValue="${(e: CustomEvent) => this.repeatedPassword = e.detail}"></input-element>
             
-            <button @click="${() => this.createNewJuniorUser()}"> Opret ny Junior-bruger</button>
+            <input-element .inputType="${InputType.number}" label="Start Saldo" @changeValue="${(e: CustomEvent) => this.startBalance = e.detail}"></input-element>
+            
+            <button-element .action="${() => this.createNewJuniorUser()}"> Opret ny Junior-bruger</button-element>
         `;
     }
 

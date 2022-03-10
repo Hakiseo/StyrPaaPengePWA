@@ -6,7 +6,7 @@ import {getCurrentUserId} from "../api/apiUtils";
 import {fetchJuniors, getConfirmedTasklistParent, getConfirmedWishlistParent} from "../api/parentApiRequests";
 import {IApiResponse} from "../sharedComponents/sharedInterfaces";
 import {IChildData, IMinimalChildrenData, ITasklist, IWishlist} from "./parentInterfaces";
-//import {} from "../childComponents/childInterfaces";
+import "../sharedComponents/buttonElement";
 
 @customElement("parent-index-page")
 export class ParentIndexPage extends LitElement {
@@ -46,11 +46,11 @@ export class ParentIndexPage extends LitElement {
             ${this.renderWishListRedeemSection()}
             ${this.renderTaskApprovalSection()}
             
-            <button @click="${() => router.navigate("/tasklist-overview")}"> Opgaver </button>
+            <button-element .action="${() => router.navigate("/tasklist-overview")}"> Opgaver </button-element>
             
             ${this.renderJuniorUsers()}
             
-            <button @click="${() => router.navigate("/parent/createChild")}"> Opret Junior Konto </button>
+            <button-element .action="${() => router.navigate("/parent/createChild")}"> Opret Junior Konto </button-element>
         `
     }
 

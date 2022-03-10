@@ -16,12 +16,13 @@ export class ChildCard extends LitElement {
           line-height: 50px;
           border-radius: 25px;
           background-color: #f1f1f1;
+          cursor: pointer;
         }
     `
 
     protected render(): TemplateResult {
         return html `
-            <div class="chip" style="cursor: pointer">
+            <div class="chip">
                 ${this.firstName} ${this.lastName}
             </div>
         `;

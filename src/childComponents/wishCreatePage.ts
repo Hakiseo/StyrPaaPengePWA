@@ -1,18 +1,24 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, TemplateResult} from "lit";
 
-import {IApiResponse} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse, ICustomErrorHandling} from "../sharedComponents/sharedInterfaces";
 import {create_Wishlist} from "../api/childApiRequests";
 import { router } from "../index";
 import "./wishForm";
 import {getCurrentUserId} from "../api/apiUtils";
+import "../sharedComponents/buttonElement";
 
 @customElement("wish-create-page")
-export class WishCreatePage extends LitElement {
-    @property({type: String}) errorMessage: string | null = "";
+export class WishCreatePage extends LitElement implements ICustomErrorHandling {
+    @property({type: String}) errorMessage: string | undefined = "";
 
     constructor(){
         super();
+    }
+
+    validated() {
+        //Insert logic and return the corresponding boolean value
+        return true;
     }
 
     goBack(){
@@ -22,7 +28,7 @@ export class WishCreatePage extends LitElement {
     render(): TemplateResult{
         return html`
             <h1>Opret Ønskeliste:</h1>
-            <button @click=${() => this.goBack()}>Tilbage</button><br>
+            <button-element .action=${() => this.goBack()}>Tilbage</button-element>
             <wish-form .createForm="${true}" @submit="${(e: CustomEvent) => {
                 this.createWishList(e)
             }}"></wish-form>
@@ -38,7 +44,7 @@ export class WishCreatePage extends LitElement {
                 e.detail.wishListContent,
                 e.detail.wishListTarget)
                 .then((r : IApiResponse) => {
-                    this.errorMessage = r.error
+                    if (r.error) this.errorMessage = r.error
             })
             if(this.errorMessage) {
                 window.alert("Fejl... " + this.errorMessage)

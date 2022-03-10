@@ -1,4 +1,4 @@
-import {css, html, LitElement, TemplateResult} from "lit";
+import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {InputType} from "./sharedInterfaces";
 
@@ -6,6 +6,7 @@ import {InputType} from "./sharedInterfaces";
 export class InputElement extends LitElement {
     @property() value: string = ""
     @property() label: string = ""
+    @property() inputId: string = ""
 
     @property() inputType: InputType = InputType.text;
 
@@ -16,10 +17,21 @@ export class InputElement extends LitElement {
         `
     }
 
+    protected updated(_changedProperties: PropertyValues) {
+        super.updated(_changedProperties);
+        if (_changedProperties.has("label")) {
+            if (this.label.includes("/")) {
+                this.inputId = this.label.split("/").join()
+            } else {
+                this.inputId = this.label.split(" ").join()
+            }
+        }
+    }
+
     protected render(): TemplateResult {
         return html `
-            <label for="${this.label}"> ${this.label}: </label>
-            <input type="${this.inputType}" value="${this.formatValue()}" id="${this.label}" name="${this.label}" @change="${(e: any) => this.emitChange(e)}">
+            <label for="${this.inputId}"> ${this.label}: </label>
+            <input type="${this.inputType}" value="${this.formatValue()}" id="${this.inputId}" name="${this.inputId}" @change="${(e: any) => this.emitChange(e)}">
         `;
     }
 

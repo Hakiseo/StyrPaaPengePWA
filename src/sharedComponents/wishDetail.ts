@@ -8,6 +8,8 @@ import {reject_WishParent, getWishParent, confirm_WishParent} from "../api/paren
 import { router } from "../index";
 import "../childComponents/wishForm";
 import {getCurrentUserId} from "../api/apiUtils";
+import "./textDisplayElement"
+import "./buttonElement"
 
 @customElement("wish-detail-page")
 export class WishDetailPage extends LitElement {
@@ -80,13 +82,13 @@ export class WishDetailPage extends LitElement {
     //TODO Parent:
     renderParentInfoForm(){
         return html `
-            <button @click=${() => this.goBackParent()}>Tilbage</button><br>
+            <button-element .action=${() => this.goBackParent()}>Tilbage</button-element><br>
             <h3>${this.wish.saving_name}</h3><br>
             <h3>${this.wish.target_reward_balance}</h3><br>
             <h3>Assigned Junior-konto here: </h3><br>
             <h3>${this.wish.creator_id}</h3><br>
-            <button @click=${() => this.rejectWishParent()}>Afvis</button><br>
-            <button @click=${() => this.confirmWishParent()}>Godkend</button><br>
+            <button-element .action=${() => this.rejectWishParent()}>Afvis</button-element><br>
+            <button-element .action=${() => this.confirmWishParent()}>Godkend</button-element><br>
         `;
     }
 
@@ -119,10 +121,10 @@ export class WishDetailPage extends LitElement {
     //TODO Child:
     renderChildInfoForm() {
         return html `
-            <button @click=${() => this.goBackChild()}>Tilbage</button><br>
-            <p> ${this.wish.saving_name} </p>
-            <p> ${this.wish.content} </p>
-            <p> ${this.wish.target_reward_balance} </p>
+            <button-element .action=${() => this.goBackChild()}>Tilbage</button-element><br>
+            <p-element> ${this.wish.saving_name} </p-element>
+            <p-element> ${this.wish.content} </p-element>
+            <p-element> ${this.wish.target_reward_balance} </p-element>
             ${this.renderInfoForm()}
         `;
     }
@@ -130,14 +132,14 @@ export class WishDetailPage extends LitElement {
     renderInfoForm(){
         if(!this.wish.current_status){
             return html `
-                <button @click=${() => this.editMode = true}>Redigér Ønskeliste</button><br>
-                <button @click=${() => this.deleteWishChild()}>Slet Ønskeliste</button><br>
-                ${this.wish.current_status ? html`<button @click=${() => this.retractWishChild()}>Annullere</button><br>` :
+                <button-element .action=${() => this.editMode = true}>Redigér Ønskeliste</button-element><br>
+                <button-element .action=${() => this.deleteWishChild()}>Slet Ønskeliste</button-element><br>
+                ${this.wish.current_status ? html`<button-element .action=${() => this.retractWishChild()}>Annullere</button-element><br>` :
                     Number(this.accountInfo.reward_balance) >= Number(this.wish.target_reward_balance) ? html`<button class="" @click=${() => this.confirmWishChild()}>Indløs</button><br>` : ''}
             `;
         }else{
             return html `
-                ${this.wish.current_status ? html`<button @click=${() => this.retractWishChild()}>Annullere</button><br>` :
+                ${this.wish.current_status ? html`<button-element .action=${() => this.retractWishChild()}>Annullere</button-element><br>` :
                     Number(this.accountInfo.reward_balance) >= Number(this.wish.target_reward_balance) ? html`<button class="" @click=${() => this.confirmWishChild()}>Indløs</button><br>` : ''}
             `;
         }
@@ -145,14 +147,14 @@ export class WishDetailPage extends LitElement {
 
     renderChildEditForm() {
         return html `
-            <button @click=${() => this.goBackChild()}>Tilbage</button><br>
+            <button-element .action=${() => this.goBackChild()}>Tilbage</button-element><br>
             <wish-form .detailForm="${true}"
                        .wishListName="${this.wish.saving_name}"
                        .wishListContent="${this.wish.content}"
                        .wishListTarget="${this.wish.target_reward_balance}"
                        @submit="${(e: CustomEvent) => {this.updateWishChild(e);}}"
             ></wish-form>
-            <button @click=${this.editMode = false, () => this.loadWish()}>Annullere</button><br>
+            <button-element .action=${this.editMode = false, () => this.loadWish()}>Annullere</button-element><br>
         `;
     }
 

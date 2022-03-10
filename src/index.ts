@@ -18,6 +18,7 @@ import ("./sharedComponents/wishDetail");
 import ("./sharedComponents/taskDetail");
 import ("./sharedComponents/register");
 import ("./sharedComponents/sideMenu");
+import ("./sharedComponents/buttonElement");
 import ("./home");
 
 import {apiPost, getIdentityToken} from "./api/apiUtils";
@@ -163,9 +164,9 @@ export class IndexElement extends LitElement {
 
     render404() {
         return html ` 
-        <div class="w3-container">
+        <div>
             <h2> 404 - Not found </h2>
-            <button class="w3-button w3-blue-gray" @click="${() => this.routeBackToIndex()}"> Go back to main page </button> 
+            <button-element .action="${() => this.routeBackToIndex()}"> Go back to main page </button-element> 
         </div>
         `
     }

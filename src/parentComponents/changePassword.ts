@@ -3,7 +3,9 @@ import {customElement, property} from "lit/decorators.js";
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
 import {changePasswordChild, changePasswordParent} from "../api/parentApiRequests";
-import {IApiResponse, ICustomErrorHandling} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
+import "../sharedComponents/inputElement"
+import "../sharedComponents/buttonElement"
 
 @customElement("change-password")
 export class ChangePassword extends LitElement implements ICustomErrorHandling{
@@ -37,16 +39,13 @@ export class ChangePassword extends LitElement implements ICustomErrorHandling{
         return html`
             
             ${this.renderOldPasswordField()}
-
-            <label for="password"> Nyt password: </label>
-            <input type="password" id="password" name="password" @change="${(e: any) => this.password = e.target.value}"><br><br>
-
-            <label for="repeatedPassword"> Gentag nyt password:</label>
-            <input type="password" id="repeatedPassword" name="repeatedPassword" @change="${(e: any) => this.repeatedPassword = e.target.value}"><br><br>
+            
+            <input-element .inputType="${InputType.password}" label="Nyt Password" @changeValue="${(e: CustomEvent) => this.password = e.detail}"></input-element>
+            <input-element .inputType="${InputType.password}" label="Gentag nyt password" @changeValue="${(e: CustomEvent) => this.repeatedPassword = e.detail}"></input-element>
             
             <div>
-                <button @click="${() => this.changePassword()}"> Ændre Password </button>
-                <button @click="${() => this.goBack()}"> Annuller </button>
+                <button-element .action="${() => this.changePassword()}"> Ændre Password </button-element>
+                <button-element .action="${() => this.goBack()}"> Annuller </button-element>
             </div>
         `
     }
@@ -54,8 +53,7 @@ export class ChangePassword extends LitElement implements ICustomErrorHandling{
     renderOldPasswordField(): TemplateResult | void {
         if (!this.parent) return;
         return html `
-            <label for="oldPassword"> Gammelt password: </label>
-            <input type="password" id="oldPassword" name="oldPassword" @change="${(e: any) => this.oldPassword = e.target.value}"><br><br>
+            <input-element .inputType="${InputType.password}" label="Gammelt Password" @changeValue="${(e: CustomEvent) => this.oldPassword = e.detail}"></input-element>
         `
     }
 

@@ -1,6 +1,9 @@
 import {css, html, LitElement, TemplateResult} from "lit";
 import {property} from "lit/decorators.js";
 import {customElement} from "lit/decorators.js";
+import {InputType} from "../sharedComponents/sharedInterfaces";
+import "../sharedComponents/buttonElement"
+import "../sharedComponents/inputElement"
 
 @customElement("task-form")
 export class TaskForm extends LitElement {
@@ -19,26 +22,15 @@ export class TaskForm extends LitElement {
     protected render(): TemplateResult {
         return html`
             <div>
-                <label> Navn: </label>
-                <br>
-                <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" type="text" required="required" value="${this.taskName}" 
-                    @change=${(e:any) => this.taskName = e.target.value}>
-                <br>
-                <label> Beskrivelse: </label>
-                <br>
-                <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" type="text" required="required" value="${this.taskContent}"
-                    @change=${(e:any) => this.taskContent = e.target.value}>
-                <br>
-                <label> Beløb: </label>
-                <br>
-                <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" type="number" minlength="2" required="required" pattern="[1-9]+{2}" value="${this.taskRewardAmount}"
-                    @change=${(e:any) => this.taskRewardAmount = e.target.value}>
-                <br>
+                <input-element label="Navn" .value="${this.taskName}" @changeValue="${(e: CustomEvent) => this.taskName = e.detail}"></input-element>
+                <input-element label="Beskrivelse" .value="${this.taskContent}" @changeValue="${(e: CustomEvent) => this.taskContent = e.detail}"></input-element>
+                <input-element .inputType="${InputType.number}" label="Beløb" .value="${this.taskRewardAmount}" @changeValue="${(e: CustomEvent) => this.taskRewardAmount = e.detail}"></input-element>
                 ${this.renderSubmitButton()}
             </div>
         `;
     }
 
+    //TODO: Add assigned To
     submitForm() {
         this.dispatchEvent(
             new CustomEvent("submit", {
@@ -55,17 +47,14 @@ export class TaskForm extends LitElement {
     renderSubmitButton() {
         if (this.createForm) {
             return html `
-            <button class="w3-btn w3-margin-left w3-margin-right w3-blue w3-border w3-border-blue w3-round w3-right"
-                    @click="${() => this.submitForm()}"> Opret </button>
+            <button-element .action="${() => this.submitForm()}"> Opret </button-element>
         `}
         if(this.detailForm){
             return html `
-            <button class="w3-btn w3-margin-left w3-margin-right w3-blue w3-border w3-border-blue w3-round w3-right"
-                    @click="${() => this.submitForm()}"> Gem Ændringer </button>
+            <button-element .action="${() => this.submitForm()}"> Gem Ændringer </button>
         `}
         return html `
-            <button class="w3-btn w3-margin-left w3-margin-right w3-blue w3-border w3-border-blue w3-round w3-right"
-                    @click="${() => this.submitForm()}"> Redigere </button>
+            <button-element .action="${() => this.submitForm()}"> Redigere </button>
         `
     }
 }

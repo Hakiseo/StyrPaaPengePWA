@@ -1,9 +1,13 @@
 import {css, html, LitElement, TemplateResult} from "lit";
 import {property} from "lit/decorators.js";
 import {customElement} from "lit/decorators.js";
+import "../sharedComponents/inputElement";
+import "../sharedComponents/buttonElement";
+import {ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
 
 @customElement("wish-form")
-export class WishForm extends LitElement {
+export class WishForm extends LitElement implements ICustomErrorHandling {
+    @property() errorMessage: string | undefined;
     @property({type: Boolean}) createForm: boolean = false;
     @property({type: Boolean}) detailForm: boolean = false;
     @property({type: String}) wishListName: string = "";
@@ -16,24 +20,17 @@ export class WishForm extends LitElement {
         }
     `];
 
+    validated() {
+        //Insert logic and return the corresponding boolean value
+        return true
+    }
+
     protected render(): TemplateResult {
         return html`
             <div>
-                <label> Navn: </label>
-                <br>
-                <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" type="text" required="required" value="${this.wishListName}" 
-                    @change=${(e:any) => this.wishListName = e.target.value}>
-                <br>
-                <label> Beskrivelse: </label>
-                <br>
-                <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" type="text" required="required" value="${this.wishListContent}"
-                    @change=${(e:any) => this.wishListContent = e.target.value}>
-                <br>
-                <label> Beløb: </label>
-                <br>
-                <input class="w3-input w3-border w3-light-grey" style="max-width: 140px" type="number" minlength="2" required="required" pattern="[1-9]+{2}" value="${this.wishListTarget}"
-                    @change=${(e:any) => this.wishListTarget = e.target.value}>
-                <br>
+                <input-element label="Navn" .value="${this.wishListName}" @changeValue="${(e: CustomEvent) => this.wishListName = e.detail}"></input-element>
+                <input-element label="Beskrivelse" .value="${this.wishListContent}" @changeValue="${(e: CustomEvent) => this.wishListContent = e.detail}"></input-element>
+                <input-element .inputType="${InputType.number}" label="Beløb" .value="${this.wishListTarget}" @changeValue="${(e: CustomEvent) => this.wishListTarget = e.detail}"></input-element>
                 ${this.renderSubmitButton()}
             </div>
         `;
@@ -55,17 +52,14 @@ export class WishForm extends LitElement {
     renderSubmitButton() {
         if (this.createForm) {
             return html `
-            <button class="w3-btn w3-margin-left w3-margin-right w3-blue w3-border w3-border-blue w3-round w3-right"
-                    @click="${() => this.submitForm()}"> Opret </button>
+            <button-element .action="${() => this.submitForm()}"> Opret </button-element>
         `}
         if(this.detailForm){
             return html `
-            <button class="w3-btn w3-margin-left w3-margin-right w3-blue w3-border w3-border-blue w3-round w3-right"
-                    @click="${() => this.submitForm()}"> Gem Ændringer </button>
+            <button-element .action="${() => this.submitForm()}"> Gem Ændringer </button-element>
         `}
         return html `
-            <button class="w3-btn w3-margin-left w3-margin-right w3-blue w3-border w3-border-blue w3-round w3-right"
-                    @click="${() => this.submitForm()}"> Redigere </button>
+            <button-element .action="${() => this.submitForm()}"> Redigere </button-element>
         `
     }
 }

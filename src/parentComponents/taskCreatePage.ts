@@ -5,16 +5,13 @@ import {IApiResponse} from "../sharedComponents/sharedInterfaces";
 import {create_Task} from "../api/parentApiRequests";
 import { router } from "../index";
 import "../parentComponents/taskForm";
+import "../sharedComponents/buttonElement";
 import {getCurrentUserId} from "../api/apiUtils";
 
 @customElement("task-create-page")
 export class TaskCreatePage extends LitElement { //implements CustomErrorHandling {
     @property({type: String}) errorMessage: string | null = "";
     //@property() errorMessage: string = "";
-
-    validated() {
-        return true;
-    }
 
     constructor(){
         super();
@@ -27,7 +24,7 @@ export class TaskCreatePage extends LitElement { //implements CustomErrorHandlin
     render(): TemplateResult{
         return html`
             <h1>Opret Opgave:</h1>
-            <button @click=${() => this.goBack()}>Tilbage</button><br>
+            <button-element .action=${() => this.goBack()}>Tilbage</button-element><br>
             <task-form .createForm="${true}" @submit="${(e: CustomEvent) => {
             this.createTask(e)
         }}"></task-form>

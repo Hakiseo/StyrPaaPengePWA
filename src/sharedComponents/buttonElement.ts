@@ -14,7 +14,7 @@ export class ButtonElement extends LitElement {
 
     render(): TemplateResult {
         return html`
-            <button @click="${() => this.action()}"> <slot></slot> </button>
+            <button type="button" @click="${() => this.action()}"> <slot></slot> </button>
         `;
     }
 }

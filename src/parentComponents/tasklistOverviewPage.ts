@@ -6,6 +6,7 @@ import {IApiResponse} from "../sharedComponents/sharedInterfaces";
 import {getCompleteTasklistParent} from "../api/parentApiRequests";
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
+import "../sharedComponents/buttonElement"
 
 @customElement("tasklist-overview-page")
 export class TasklistOverviewPage extends LitElement {
@@ -70,8 +71,8 @@ export class TasklistOverviewPage extends LitElement {
         if(this.tasklist){
             return html `
                 <h1>Opgaver:</h1>
-                <button @click=${() => this.goBack()}>Tilbage</button><br>
-                <button @click=${() => this.createTaskList()}>Opret Opgave</button><br>
+                <button-element .action=${() => this.goBack()}>Tilbage</button-element>
+                <button-element .action=${() => this.createTaskList()}>Opret Opgave</button-element>
 
                 <section class="container">
                     ${this.tasklist.map(task => {

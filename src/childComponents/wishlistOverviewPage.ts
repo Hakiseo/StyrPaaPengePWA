@@ -4,6 +4,7 @@ import {IWishlist} from "./childInterfaces";
 import {getWishlist} from "../api/childApiRequests";
 import {IApiResponse} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/wishElement"
+import "../sharedComponents/buttonElement"
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
 
@@ -72,8 +73,8 @@ export class WishlistOverviewPage extends LitElement {
         if(this.wishlist){
             return html `
                 <h1>Ønskelister:</h1>
-                <button @click=${() => this.goBack()}>Tilbage</button><br>
-                <button @click=${() => this.createWishList()}>Opret Ønskeliste</button><br>
+                <button-element .action=${() => this.goBack()}>Tilbage</button-element><br>
+                <button-element .action=${() => this.createWishList()}>Opret Ønskeliste</button-element><br>
 
                 <section class="container">
                     ${this.wishlist.map(wish => {

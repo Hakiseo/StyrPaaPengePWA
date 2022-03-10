@@ -24,6 +24,6 @@ export enum InputType {
 }
 
 export interface ICustomErrorHandling {
-    errorMessage: string
+    errorMessage: string | undefined
     validated: () => boolean
 }

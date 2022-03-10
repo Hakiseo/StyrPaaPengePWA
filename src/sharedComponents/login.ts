@@ -1,8 +1,10 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {apiPost, identityTokenName, storageUserId} from "../api/apiUtils";
-import {IApiResponse, UserType} from "./sharedInterfaces";
+import {IApiResponse, InputType, UserType} from "./sharedInterfaces";
 import {router} from "../index";
+import "../sharedComponents/buttonElement"
+import "../sharedComponents/inputElement"
 
 @customElement("login-page")
 export class Login extends LitElement {
@@ -12,13 +14,10 @@ export class Login extends LitElement {
     //TODO: validate input & visually show errors
     protected render(): TemplateResult {
         return html `
-            <label for="username">Username/email:</label>
-            <input type="text" id="username" name="username" @change="${(e: any) => this.loginData = e.target.value}"><br><br>
+            <input-element label="Username/email" @changeValue="${(e: CustomEvent) => this.loginData = e.detail}"></input-element>
+            <input-element .inputType="${InputType.password}" label="Password" @changeValue="${(e: CustomEvent) => this.password = e.detail}"></input-element>
             
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" @change="${(e: any) => this.password = e.target.value}"><br><br>
-            
-            <button type="button" @click="${() => this.login()}"> Login </button>
+            <button-element .action="${() => this.login()}"> Login </button-element>
 
             <p style="cursor: pointer; text-decoration: underline" @click="${() => this.showRegister()}"> Register an account </p>
         `;
