@@ -30,7 +30,6 @@ export function apiFetch(path: string): Promise<any> {
     }).then(res => res.json());
 }
 
-
 export function apiDelete(path: string): Promise<any> {
     return fetch(apiUrl + path, {
         method: 'DELETE',

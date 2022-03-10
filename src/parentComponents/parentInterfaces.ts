@@ -29,6 +29,7 @@ export interface IWishlist {
     content:string;
     target_reward_balance:string;
     current_status:string;
+    done_status:string;
     img:string;
 }
 

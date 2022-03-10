@@ -83,11 +83,16 @@ export class TaskElement extends LitElement {
             return html `Loading...`
         }else{
             console.log(this.task)
+            console.log(this.task.current_status)
             return html`
-                <article class="taskElement">
+                <article class="taskElement" style="${this.task.current_status == '1' ? `background-color:#006abf` : `background-color:#003865`}">
                     <div id="img" alt=${this.task.task_name}></div>
-                    <h5>${this.task.task_name}</h5>
-                    ${this.task.current_status ? html `${this.task.current_status}<br><br>` : ''}
+
+                    <h4>${this.task.current_status.length > 14 ? this.task.task_name.substring(0,14) : this.task.task_name.substring(0,11)}</h4>
+
+                    
+                        <!--<h4>${this.task.task_name.substring(0,14)}</h4>-->
+                        <!--${this.task.current_status ? html `${this.task.current_status}<br><br>` : ''}-->
                     ${!this.parentView ? this.renderChild() : this.parentConfirmMode ? this.renderConfirmmode() : this.renderparent()}
                 </article>
         `;
@@ -102,13 +107,13 @@ export class TaskElement extends LitElement {
 
     renderparent(){
         return html`
-            <a class="btn" @click=${() => this.navigateParent()}>Detaljer</a>
+            <a class="btn" @click=${() => this.navigateParent()}> ${this.task.current_status == '0' ? `Detaljer` : `Afventer`}</a>
         `;
     }
 
     renderChild(){
         return html`
-            <a class="btn" @click=${() => this.navigateChild()}>Udfør</a>
+            <a class="btn" @click=${() => this.navigateChild()}> ${this.task.current_status == '0' ? `Udfør` : `Afventer`}</a>
         `;
     }
 

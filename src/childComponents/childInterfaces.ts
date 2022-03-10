@@ -7,6 +7,7 @@ export interface IWishlist {
     content:string;
     target_reward_balance:string;
     current_status:string;
+    done_status:string;
     img:string;
 }
 
@@ -26,5 +27,5 @@ export interface IAccountInfo {
     first_name:string;
     last_name:string;
     age:string;
-    reward_balance:string;
+    reward_balance:number;
 }

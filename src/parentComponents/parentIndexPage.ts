@@ -22,11 +22,11 @@ export class ParentIndexPage extends LitElement {
         super.connectedCallback();
     }
 
-    protected updated(_changedProperties: PropertyValues) {
+    protected updated(_changedProperties: PropertyValues){
         super.updated(_changedProperties);
-        if (_changedProperties.has("parentId") && this.parentId) {
+        if (_changedProperties.has("parentId") && this.parentId){
             fetchJuniors(this.parentId).then((r: IApiResponse) => {
-                if (!r.error && r.results) {
+                if (!r.error && r.results){
                     this.childrenData = r.results
                     this.minimalChildrenData = this.childrenData.map(r => {
                         return {id: r.id, name: r.first_name + " " + r.last_name}

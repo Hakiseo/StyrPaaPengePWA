@@ -22,10 +22,8 @@ export class ChildIndexPage extends LitElement {
     protected render(): TemplateResult {
         if(!this.tasklist) return html `Loading ...`;
         return html `
-            <h1> Hello from Child Index Page! </h1>
-            
+            <h1> Velkommen tilbage ${this.accountInfo.first_name}!</h1>
             <h3> Saldo: ${this.accountInfo.reward_balance}</h3>
-            
             <div>
                 ${this.renderTasks()}
             </div>
