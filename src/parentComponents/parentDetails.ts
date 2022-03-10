@@ -5,6 +5,7 @@ import {router} from "../index";
 import {deleteParent, editParent, getCurrentParent} from "../api/parentApiRequests";
 import {IApiResponse, ICustomErrorHandling} from "../sharedComponents/sharedInterfaces";
 import {getCurrentUserId} from "../api/apiUtils";
+import "../sharedComponents/buttonElement";
 
 @customElement("parent-details")
 export class ParentDetails extends LitElement implements ICustomErrorHandling {
@@ -42,9 +43,9 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
         return html `
             ${this.editMode ? this.renderEdit() : this.renderView()}
             <div>
-                <button @click="${() => this.deleteParent()}"> Slet </button>
-                <button @click="${() => router.navigate(`/parent/details/changePassword`)}"> Ændre Password </button>
-                <button @click="${() => this.detailsAction()}"> ${this.editMode ? "Gem" : "Rediger"} </button>
+                <button-element .action="${() => this.deleteParent()}"> Slet </button-element>
+                <button-element .action="${() => router.navigate(`/parent/details/changePassword`)}"> Ændre Password </button-element>
+                <button-element .action="${() => this.detailsAction()}"> ${this.editMode ? "Gem" : "Rediger"} </button-element>
             </div>
         `
     }
