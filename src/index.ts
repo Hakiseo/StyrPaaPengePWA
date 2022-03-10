@@ -48,7 +48,7 @@ export class IndexElement extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        if (window.location.href == "http://localhost:8000/" || window.location.href == "http://localhost:8000") {
+        if (window.location.href == "http://localhost:8000/" || window.location.href == "http://localhost:8000" || window.location.href == "https://localhost:8000" || window.location.href == "https://localhost:8000/") {
             this.routeBackToIndex()
         }
     }
