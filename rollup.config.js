@@ -12,7 +12,8 @@ import replace from '@rollup/plugin-replace';
 export default {
   input: './src/index.js',
   output: {
-    file: 'index.bundled.js',
+    dir: "dist",
+    // file: 'index.bundled.js',
     format: 'esm',
   },
   onwarn(warning) {
