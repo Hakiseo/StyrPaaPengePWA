@@ -3,9 +3,11 @@ import {customElement, property} from "lit/decorators.js";
 import {IParentData} from "./parentInterfaces";
 import {router} from "../index";
 import {deleteParent, editParent, getCurrentParent} from "../api/parentApiRequests";
-import {IApiResponse, ICustomErrorHandling} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
 import {getCurrentUserId} from "../api/apiUtils";
 import "../sharedComponents/buttonElement";
+import "../sharedComponents/inputElement";
+import "../sharedComponents/textDisplayElement";
 
 @customElement("parent-details")
 export class ParentDetails extends LitElement implements ICustomErrorHandling {
@@ -53,11 +55,11 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
     renderView(): TemplateResult {
         return html `
             <div>
-                <p> Id: ${this.parentData.id} </p>
-                <p> Fornavn: ${this.parentData.first_name} </p>
-                <p> Efternavn: ${this.parentData.last_name} </p>
-                <p> Email: ${this.parentData.email} </p>
-                <p> Alder: ${this.parentData.age} </p>
+                <p-element> Id: ${this.parentData.id} </p-element>
+                <p-element> Fornavn: ${this.parentData.first_name} </p-element>
+                <p-element> Efternavn: ${this.parentData.last_name} </p-element>
+                <p-element> Email: ${this.parentData.email} </p-element>
+                <p-element> Alder: ${this.parentData.age} </p-element>
             </div>
         `
     }
@@ -66,20 +68,15 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
     renderEdit(): TemplateResult {
         return html `
             <div>
-                <label for="firstName"> Fornavn: </label>
-                <input type="text" value="${this.parentData.first_name}" id="firstName" name="firstName" @change="${(e: any) => this.firstName = e.target.value}"><br><br>
-                <label for="lastName"> Efternavn: </label>
-                <input type="text" value="${this.parentData.last_name}" id="lastName" name="lastName" @change="${(e: any) => this.lastName = e.target.value}"><br><br>
-                <label for="email"> Email: </label>
-                <input type="text" value="${this.parentData.email}" id="email" name="email" @change="${(e: any) => this.email = e.target.value}"><br><br>
-                <label for="age"> Alder: </label>
-                <input type="number" value="${this.parentData.age}" id="age" name="age" @change="${(e: any) => this.age = e.target.value}"><br><br>
+                <input-element label="Fornavn" .value="${this.parentData.first_name}" @changeValue="${(e: CustomEvent) => this.firstName = e.detail}"></input-element>
+                <input-element label="Efternavn" .value="${this.parentData.last_name}" @changeValue="${(e: CustomEvent) => this.lastName = e.detail}"></input-element>
+                <input-element .inputType="${InputType.email}" label="Email" .value="${this.parentData.email}" @changeValue="${(e: CustomEvent) => this.email = e.detail}"></input-element>
+                <input-element .inputType="${InputType.number}" label="Alder" .value="${this.parentData.age}" @changeValue="${(e: CustomEvent) => this.age = e.detail}"></input-element>
             </div>
         `
     }
 
     deleteParent() {
-        console.log("Delete Parent user: ", this.parentData.email)
         deleteParent().then((r: IApiResponse) => {
             if (!r.error) {
                 this.dispatchEvent(new CustomEvent("logout"))

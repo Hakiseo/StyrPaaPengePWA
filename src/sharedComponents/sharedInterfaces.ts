@@ -16,6 +16,13 @@ export enum UserType {
     child = "child"
 }
 
+export enum InputType {
+    text = "text",
+    password = "password",
+    email = "email",
+    number = "number"
+}
+
 export interface ICustomErrorHandling {
     errorMessage: string
     validated: () => boolean
