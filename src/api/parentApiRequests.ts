@@ -53,7 +53,7 @@ export function getWishParent(id: string) {
     return apiFetch("parent/wish/" + id)
 }
 
-export function getConfirmedWishlistParent(id: string): Promise<any> {
+export function getConfirmedWishlistParent(id: string) {
     return apiFetch("parent/wishlist/" + id)
 }
 

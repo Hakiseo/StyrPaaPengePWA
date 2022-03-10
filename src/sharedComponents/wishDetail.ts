@@ -123,11 +123,24 @@ export class WishDetailPage extends LitElement {
             <p> ${this.wish.saving_name} </p>
             <p> ${this.wish.content} </p>
             <p> ${this.wish.target_reward_balance} </p>
-            <button @click=${() => this.editMode = true}>Redigér Ønskeliste</button><br>
-            <button @click=${() => this.deleteWishChild()}>Slet Ønskeliste</button><br>
-            ${this.wish.current_status ? html`<button @click=${() => this.retractWishChild()}>Annullere</button><br>` :
-                Number(this.accountInfo.reward_balance) >= Number(this.wish.target_reward_balance) ? html`<button class="" @click=${() => this.confirmWishChild()}>Indløs</button><br>` : ''}
+            ${this.renderInfoForm()}
         `;
+    }
+
+    renderInfoForm(){
+        if(!this.wish.current_status){
+            return html `
+                <button @click=${() => this.editMode = true}>Redigér Ønskeliste</button><br>
+                <button @click=${() => this.deleteWishChild()}>Slet Ønskeliste</button><br>
+                ${this.wish.current_status ? html`<button @click=${() => this.retractWishChild()}>Annullere</button><br>` :
+                    Number(this.accountInfo.reward_balance) >= Number(this.wish.target_reward_balance) ? html`<button class="" @click=${() => this.confirmWishChild()}>Indløs</button><br>` : ''}
+            `;
+        }else{
+            return html `
+                ${this.wish.current_status ? html`<button @click=${() => this.retractWishChild()}>Annullere</button><br>` :
+                    Number(this.accountInfo.reward_balance) >= Number(this.wish.target_reward_balance) ? html`<button class="" @click=${() => this.confirmWishChild()}>Indløs</button><br>` : ''}
+            `;
+        }
     }
 
     renderChildEditForm() {
