@@ -14,6 +14,7 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
     @property() parentData!: IParentData;
     @property() editMode: boolean = false;
 
+
     @property() firstName: string = "";
     @property() lastName: string = "";
     @property() email: string = "";
