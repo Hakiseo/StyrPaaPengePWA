@@ -58,7 +58,7 @@ export class WishDetailPage extends LitElement {
             }
         });
         if(!this.parentView){
-            getChildInfo(getCurrentUserId()).then((r : ApiResponse) =>{
+            getChildInfo(getCurrentUserId()).then((r : IApiResponse) =>{
                 if(r.results !== null){
                     let tempList:IAccountInfo[] = r.results;
                     this.accountInfo = tempList[0]
