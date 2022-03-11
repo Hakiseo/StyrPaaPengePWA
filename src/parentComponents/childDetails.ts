@@ -17,12 +17,39 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
     @property() firstName: string = "";
     @property() lastName: string = "";
     @property() username: string = "";
-    @property() age: number = 0;
+    @property() age: number = 5;
     @property() balance: number = 0;
+
+    @property() firstNameValid: boolean = true;
+    @property() lastNameValid: boolean = true;
+    @property() ageValid: boolean = true;
+    @property() usernameValid: boolean = true;
+    @property() balanceValid: boolean = true;
 
     @property() errorMessage: string = "";
 
     validated() {
+        this.firstNameValid = this.firstName.length > 0
+        this.lastNameValid = this.lastName.length > 0
+        this.ageValid = this.age >= 5
+        this.usernameValid = this.username.length > 0
+        this.balanceValid = this.balance >= 0;
+
+        if (!this.ageValid) {
+            this.errorMessage = "The child must be at least 5 years old!"
+            return false;
+        }
+
+        if (!this.balanceValid) {
+            this.errorMessage = "The starting balance must not be less than 0! (I know you feel like the kids are in your debt but still...)"
+            return false;
+        }
+
+        if (!this.firstNameValid || !this.lastNameValid || !this.ageValid || !this.usernameValid) {
+            this.errorMessage = "All fields are required!"
+            return false;
+        }
+
         return true;
     }
 
@@ -99,6 +126,8 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
             console.log(r)
             if (!r.error) {
                 router.navigate("/parent")
+            } else {
+                this.errorMessage = r.error
             }
         })
     }
@@ -107,15 +136,21 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
     detailsAction() {
         if (!this.editMode) {
             this.editMode = true;
-        } else {
-            //check for changes & valid inputs
-            console.log(this.firstName, this.lastName, this.username, this.age, this.balance)
+            return;
+        }
 
+        if (this.validated()) {
             editChild({id: this.childId, first_name: this.firstName, last_name: this.lastName, username: this.username, age: this.age, balance: this.balance})
                 .then((r: IApiResponse) => {
-                    console.log(r)
-                    this.getChildData().then(() => this.editMode = false)
+                    if (r.error) {
+                        this.errorMessage = r.error
+                    } else {
+                        console.log(r)
+                        this.getChildData().then(() => this.editMode = false)
+                    }
                 })
+        } else {
+            window.alert(this.errorMessage)
         }
     }
 
