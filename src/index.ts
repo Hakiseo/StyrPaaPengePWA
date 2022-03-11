@@ -96,7 +96,7 @@ export class IndexElement extends LitElement {
             .on("/wish-detail/:id", (match: any) => {this.route = html`<wish-detail-page .wishID="${match.data.id}"></wish-detail-page>`})
             .on("/wishlist-overview", () => {this.route = html`<wishlist-overview-page></wishlist-overview-page>`})
             .on("/wishlist-creating", () => {this.route = html`<wish-create-page></wish-create-page>`})
-            .on("/task-creating", () => {this.route = html`<task-create-page></task-create-page>`})
+            .on("/task-creating", () => {this.route = html`<task-create-page .minChildData="${this.minimalChildrenData}"></task-create-page>`})
 
             .on("/parent", () => {
                 if (this.parent && this.loggedIn) {

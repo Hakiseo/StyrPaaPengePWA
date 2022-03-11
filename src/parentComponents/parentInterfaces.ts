@@ -11,7 +11,8 @@ export interface IChildData {
 
 export interface IMinimalChildrenData {
     id: number,
-    name: string
+    firstName: string,
+    lastName: string
 }
 
 export interface IParentData {
