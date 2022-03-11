@@ -145,6 +145,7 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
                     if (r.error) {
                         this.errorMessage = r.error
                     } else {
+                        this.errorMessage = ""
                         console.log(r)
                         this.getChildData().then(() => this.editMode = false)
                     }
