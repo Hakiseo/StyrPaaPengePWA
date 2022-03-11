@@ -19,26 +19,22 @@ export class WishlistOverviewPage extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        //this.loadWishlist();
-
-        /*
-        if(!this.wishlist){
-            console.log("Connected Callback")
-            this.loadWishlist();
-        }
-
-        */
+        console.log("Returned to Overview-Page")
+        console.log("Wishlist data" , this.wishlist)
     }
 
     protected updated(_changedProperties: PropertyValues) {
         super.updated(_changedProperties);
         if(_changedProperties.has("wishlist")){
-
-
-            console.log("Updated Wishlist")
-
-
+            console.log("Updated Wishlist" , this.wishlist)
+            if(this.wishlist.length == 0){
+                this.loadWishlist();
+            }
         }
+    }
+
+    displayError(){
+        window.alert(this.errorMessage)
     }
 
     loadWishlist(){
@@ -46,14 +42,11 @@ export class WishlistOverviewPage extends LitElement {
             if (r.results !== null) {
                 console.log("Setting Wishlist")
                 this.wishlist = r.results
-            }else{
-                this.errorMessage = r.error
             }
-            if(this.errorMessage){
-                this.renderError()
+            if(r.error){
+                this.errorMessage = "Error loading task data..."
+                this.displayError()
             }
-            this.requestUpdate()
-            //this.errorMessage = "r.error" //simulerer at der er en error besked
         })
     }
 

@@ -26,6 +26,10 @@ export class TaskCreatePage extends LitElement implements ICustomErrorHandling {
         router.navigate("/tasklist-overview")
     }
 
+    displayError(){
+        window.alert(this.errorMessage)
+    }
+
     render(): TemplateResult{
         console.log("creat page: ", this.minChildData)
         return html`
@@ -47,16 +51,13 @@ export class TaskCreatePage extends LitElement implements ICustomErrorHandling {
                 reward_amount: e.detail.taskRewardAmount,
                 junior_id: e.detail.childId
             }).then((r : IApiResponse) => {
-                    if (r.error) {
-                        this.errorMessage = r.error
-                    }
-                })
-            if(this.errorMessage) {
-                window.alert("Fejl... " + this.errorMessage)
-            }else{
-                window.alert("Oprettet Opgave: " + e.detail.taskName);
-                this.goBack()
-            }
+                if(r.error){
+                    this.errorMessage = "Error creating task..."
+                    this.displayError()
+                }else{
+                    this.goBack()
+                }
+            })
         }else{
             window.alert("No fields may be left empty'!");
         }

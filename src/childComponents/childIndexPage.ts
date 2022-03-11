@@ -31,6 +31,10 @@ export class ChildIndexPage extends LitElement {
         `
     }
 
+    displayError(){
+        window.alert(this.errorMessage)
+    }
+
     static styles = [css`
         .container {
             display: flex;
@@ -45,27 +49,21 @@ export class ChildIndexPage extends LitElement {
             if(r.results !== null){
                 let tempList:IAccountInfo[] = r.results;
                 this.accountInfo = tempList[0]
-            }else{
-                this.errorMessage = r.error;
+            }
+            if(r.error){
+                this.errorMessage = "Error child data..."
+                this.displayError()
             }
         })
         getAssignedTasklist(getCurrentUserId()).then((r : IApiResponse) =>{
             if (r.results !== null) {
                 this.tasklist = r.results
-            }else{
-                this.errorMessage = r.error
             }
-            if(this.errorMessage){
-                this.renderError()
+            if(r.error){
+                this.errorMessage = "Error loading task data..."
+                this.displayError()
             }
         })
-    }
-
-    renderError(){
-        return html `
-            <p> ${this.errorMessage} </p>
-            <p> Error loading task info... </p>
-        `;
     }
 
     private renderTasks(){

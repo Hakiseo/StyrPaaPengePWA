@@ -26,7 +26,6 @@ export class WishDetailPage extends LitElement {
     @property() minChildData!: IMinimalChildrenData;
     @property() wish!: IWishlist;
 
-
     @property() wishID: string = "";
     @property() editMode: boolean = false;
 
@@ -48,11 +47,8 @@ export class WishDetailPage extends LitElement {
         }
     }
 
-    renderError(){
-        return html `
-            <p> ${this.errorMessage} </p>
-            <p> Please try again or please go back to main page </p>
-        `;
+    displayError(){
+        window.alert(this.errorMessage)
     }
 
     loadWish(){
@@ -60,12 +56,12 @@ export class WishDetailPage extends LitElement {
             if(r.results !== null){
                 let tempWishList:IWishlist[] = r.results;
                 this.wish = tempWishList[0]
-            }else{
-                this.errorMessage = r.error;
+            }
+            if(r.error){
+                this.errorMessage = "Error loading wish data..."
+                this.displayError()
             }
             if(this.parentView && this.wish){
-                console.log("ERROR HERE!")
-                //console.log(`Call with assigned to: ${this.task.assigned_to}`)
                 this.loadChildData();
             }
         });
@@ -74,10 +70,12 @@ export class WishDetailPage extends LitElement {
                 if(r.results !== null){
                     let tempList:IAccountInfo[] = r.results;
                     this.accountInfo = tempList[0]
-                }else{
-                    this.errorMessage = r.error;
                 }
-            })
+                if(r.error){
+                    this.errorMessage = "Error loading account data..."
+                    this.displayError()
+                }
+            });
         }
     }
 
@@ -95,8 +93,10 @@ export class WishDetailPage extends LitElement {
                 if(r.results !== null){
                     let tempList:any = r.results[0];
                     this.minChildData ={id:tempList.id, firstName:tempList.first_name, lastName:tempList.last_name}
-                }else{
-                    this.errorMessage = r.error;
+                }
+                if(r.error){
+                    this.errorMessage = "Error loading child data..."
+                    this.displayError()
                 }
             })
         }
@@ -122,24 +122,24 @@ export class WishDetailPage extends LitElement {
 
     rejectWishParent(){
         reject_WishParent(this.wish.id).then((r : IApiResponse) => {
-            this.errorMessage = r.error
+            if(r.error){
+                this.errorMessage = "Error rejecting wish..."
+                this.displayError()
+            }else{
+                router.navigate("/parent");
+            }
         })
-        if(this.errorMessage){
-            this.renderError()
-        }else{
-            router.navigate("/parent");
-        }
     }
 
     confirmWishParent(){
         confirm_WishParent(this.wish.id).then((r : IApiResponse) => {
-            this.errorMessage = r.error
+            if(r.error){
+                this.errorMessage = "Error confirming wish..."
+                this.displayError()
+            }else{
+                router.navigate("/parent");
+            }
         })
-        if(this.errorMessage){
-            this.renderError()
-        }else{
-            router.navigate("/parent");
-        }
     }
 
     //TODO Child:
@@ -190,49 +190,49 @@ export class WishDetailPage extends LitElement {
         console.log("Wishlist updated: ", e.detail)
         if (e.detail.wishListName && e.detail.wishListContent && e.detail.wishListTarget) {
             update_Wish(this.wish.id, e.detail.wishListName, e.detail.wishListContent, e.detail.wishListTarget).then((r : IApiResponse) => {
-                this.errorMessage = r.error
+                if(r.error){
+                    this.errorMessage = "Error updating wish..."
+                    this.displayError()
+                }else{
+                    this.editMode = false;
+                }
                 this.loadWish();
             })
-            if(this.errorMessage || this.errorMessage == ""){
-                this.renderError()
-            }else{
-                this.editMode = false;
-            }
-        } else {
+        }else{
             window.alert("No fields may be left empty'!");
         }
     }
 
     retractWishChild(){
         retract_Wish(this.wish.id).then((r : IApiResponse) => {
-            this.errorMessage = r.error
+            if(r.error){
+                this.errorMessage = "Error rejecting wish..."
+                this.displayError()
+            }else{
+                this.goBackChild()
+            }
         })
-        if(this.errorMessage){
-            this.renderError()
-        }else{
-            this.goBackChild()
-        }
     }
 
     confirmWishChild(){
         confirm_Wish(this.wish.id).then((r : IApiResponse) => {
-            this.errorMessage = r.error
+            if(r.error){
+                this.errorMessage = "Error confirming wish..."
+                this.displayError()
+            }else{
+                this.goBackChild()
+            }
         })
-        if(this.errorMessage){
-            this.renderError()
-        }else{
-            this.goBackChild()
-        }
     }
 
     deleteWishChild(){
         delete_Wish(this.wish.id).then((r : IApiResponse) => {
-            this.errorMessage = r.error
+            if(r.error){
+                this.errorMessage = "Error deleting wish..."
+                this.displayError()
+            }else{
+                this.goBackChild()
+            }
         })
-        if(this.errorMessage){
-            this.renderError()
-        }else{
-            this.goBackChild()
-        }
     }
 }

@@ -12,17 +12,20 @@ import "../sharedComponents/buttonElement";
 export class WishCreatePage extends LitElement implements ICustomErrorHandling {
     @property({type: String}) errorMessage: string | undefined = "";
 
+    validated() {
+        return true;
+    }
+
     constructor(){
         super();
     }
 
-    validated() {
-        //Insert logic and return the corresponding boolean value
-        return true;
-    }
-
     goBack(){
         router.navigate("/wishlist-overview")
+    }
+
+    displayError(){
+        window.alert(this.errorMessage)
     }
 
     render(): TemplateResult{
@@ -44,15 +47,14 @@ export class WishCreatePage extends LitElement implements ICustomErrorHandling {
                 e.detail.wishListContent,
                 e.detail.wishListTarget)
                 .then((r : IApiResponse) => {
-                    if (r.error) this.errorMessage = r.error
-            })
-            if(this.errorMessage) {
-                window.alert("Fejl... " + this.errorMessage)
-            }else{
-                window.alert("Oprettet Ønskeliste: " + e.detail.wishListName);
-                this.goBack()
-                // this.resetWishCreation();
-            }
+                    if(r.error){
+                        this.errorMessage = "Error creating wish..."
+                        this.displayError()
+                    }else{
+                        this.goBack()
+                    }
+                }
+            )
         }else{
             window.alert("No fields may be left empty'!");
         }

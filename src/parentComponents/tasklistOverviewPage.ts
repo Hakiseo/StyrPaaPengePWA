@@ -23,6 +23,10 @@ export class TasklistOverviewPage extends LitElement {
         `
     }
 
+    displayError(){
+        window.alert(this.errorMessage)
+    }
+
     static styles = [css`
         .container {
             display: flex;
@@ -36,21 +40,12 @@ export class TasklistOverviewPage extends LitElement {
         getCompleteTasklistParent(getCurrentUserId()).then((r : IApiResponse) =>{
             if (r.results !== null) {
                 this.tasklist = r.results
-            }else{
-                this.errorMessage = r.error
             }
-            if(this.errorMessage){
-                this.renderError()
+            if(r.error){
+                this.errorMessage = "Error loading task data..."
+                this.displayError()
             }
-            //this.errorMessage = "r.error" //simulerer at der er en error besked
         })
-    }
-
-    renderError(){
-        return html `
-            <p> ${this.errorMessage} </p>
-            <p> Error loading task info... </p>
-        `;
     }
 
     goBack(){

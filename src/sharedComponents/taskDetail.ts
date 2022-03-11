@@ -46,11 +46,8 @@ export class TaskDetailPage extends LitElement {
         }
     }
 
-    renderError(){
-        return html `
-            <p> ${this.errorMessage} </p>
-            <p> Error loading task info... </p>
-        `;
+    displayError(){
+        window.alert(this.errorMessage)
     }
 
     loadTask(){
@@ -58,11 +55,12 @@ export class TaskDetailPage extends LitElement {
             if(r.results !== null){
                 let tempTaskList:ITasklist[] = r.results;
                 this.task = tempTaskList[0]
-            }else{
-                this.errorMessage = r.error;
+            }
+            if(r.error){
+                this.errorMessage = "Error loading task data..."
+                this.displayError()
             }
             if(this.parentView && this.task){
-                //console.log(`Call with assigned to: ${this.task.assigned_to}`)
                 this.loadChildData();
             }
         });
@@ -82,8 +80,10 @@ export class TaskDetailPage extends LitElement {
                 if(r.results !== null){
                     let tempList:any = r.results[0];
                     this.minChildData ={id:tempList.id, firstName:tempList.first_name, lastName:tempList.last_name}
-                }else{
-                    this.errorMessage = r.error;
+                }
+                if(r.error){
+                    this.errorMessage = "Error loading child data..."
+                    this.displayError()
                 }
             })
         }
@@ -108,27 +108,26 @@ export class TaskDetailPage extends LitElement {
 
     retractTaskChild(){
         retract_Task(this.task.id).then((r : IApiResponse) => {
-            this.errorMessage = r.error
+            if(r.error){
+                this.errorMessage = "Error rejecting wish..."
+                this.displayError()
+            }else{
+                this.goBackChild()
+            }
         })
-        if(this.errorMessage){
-            this.renderError()
-        }else{
-            this.goBackChild()
-        }
     }
 
     confirmTaskChild(){
         confirm_Task(this.task.id).then((r : IApiResponse) => {
-            this.errorMessage = r.error
+            if(r.error){
+                this.errorMessage = "Error confirming wish..."
+                this.displayError()
+            }else{
+                this.goBackChild()
+            }
         })
-        if(this.errorMessage){
-            this.renderError()
-        }else{
-            this.goBackChild()
-        }
     }
 
-    //TODO: Add assigned Junior Konto visually
     //TODO Parent:
     renderParentInfoForm(){
         return html `
@@ -140,8 +139,6 @@ export class TaskDetailPage extends LitElement {
             ${this.parentConfirmMode ? this.renderConfirmMode() : this.renderDetailMode()}
         `;
     }
-
-    //<p-element>${this.minChildData.firstName} ${this.minChildData.lastName}</p-element>
 
     renderConfirmMode(){
         return html `
@@ -161,13 +158,13 @@ export class TaskDetailPage extends LitElement {
 
     rejectTaskParent(){
         reject_TaskParent(this.task.id).then((r : IApiResponse) => {
-            this.errorMessage = r.error
+            if(r.error){
+                this.errorMessage = "Error rejecting wish..."
+                this.displayError()
+            }else{
+                router.navigate("/parent");
+            }
         })
-        if(this.errorMessage){
-            this.renderError()
-        }else{
-            router.navigate("/parent");
-        }
     }
 
     renderParentEditForm(){
@@ -197,38 +194,38 @@ export class TaskDetailPage extends LitElement {
         if (e.detail.taskName && e.detail.taskContent && e.detail.taskRewardAmount) {
             console.log("child id" + e.detail.childId)
             update_Task(this.task.id, e.detail.taskName, e.detail.taskContent, e.detail.taskRewardAmount, e.detail.childId).then((r : IApiResponse) => {
-                this.errorMessage = r.error
+                if(r.error){
+                    this.errorMessage = "Error updating task..."
+                    this.displayError()
+                }else{
+                    this.editMode = false;
+                }
                 this.loadTask();
             })
-            if(this.errorMessage || this.errorMessage == ""){
-                this.renderError()
-            }else{
-                this.editMode = false;
-            }
-        } else {
+        }else{
             window.alert("No fields may be left empty'!");
         }
     }
 
     confirmTaskParent(){
         confirm_TaskParent(this.task.id).then((r : IApiResponse) => {
-            this.errorMessage = r.error
+            if(r.error){
+                this.errorMessage = "Error confirming wish..."
+                this.displayError()
+            }else{
+                this.goBackParent()
+            }
         })
-        if(this.errorMessage){
-            this.renderError()
-        }else{
-            router.navigate("/parent");
-        }
     }
 
     deleteTaskParent(){
         delete_Task(this.task.id).then((r : IApiResponse) => {
-            this.errorMessage = r.error
+            if(r.error){
+                this.errorMessage = "Error deleting wish..."
+                this.displayError()
+            }else{
+                this.goBackParent()
+            }
         })
-        if(this.errorMessage){
-            this.renderError()
-        }else{
-            this.goBackParent()
-        }
     }
 }
