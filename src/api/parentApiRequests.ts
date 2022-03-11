@@ -26,6 +26,10 @@ export function changePasswordChild(data: {}) {
     return apiPut("parent/changePassword/child", data)
 }
 
+export function fetchMinimalChild(id: string) {
+    return apiFetch("parent//minimal/child/" + id)
+}
+
 export function fetchChild(id: string) {
     return apiFetch("parent/child/" + id)
 }
@@ -90,9 +94,9 @@ export function delete_Task(id: string) {
     return apiPost("parent/task/delete/", {id: id})
 }
 
-export function update_Task(id: string, task_name: string, content: string, reward_amount: number) {
+export function update_Task(id: string, task_name: string, content: string, reward_amount: number, assigned_to: string) {
     return apiPost("parent/task/update/",
-        {id: id, task_name: task_name, content: content, reward_amount: reward_amount})
+        {id: id, task_name: task_name, content: content, reward_amount: reward_amount, assigned_to: assigned_to})
 }
 
 

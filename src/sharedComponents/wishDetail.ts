@@ -4,30 +4,35 @@ import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {IApiResponse} from "./sharedInterfaces";
 import {IAccountInfo, IWishlist} from "../childComponents/childInterfaces";
 import {getWish, delete_Wish, confirm_Wish, update_Wish, retract_Wish, getChildInfo} from "../api/childApiRequests";
-import {reject_WishParent, getWishParent, confirm_WishParent} from "../api/parentApiRequests";
+import {
+    reject_WishParent,
+    getWishParent,
+    confirm_WishParent,
+    fetchMinimalChild
+} from "../api/parentApiRequests";
 import { router } from "../index";
 import "../childComponents/wishForm";
 import {getCurrentUserId} from "../api/apiUtils";
 import "./textDisplayElement"
 import "./buttonElement"
+import {IMinimalChildrenData} from "../parentComponents/parentInterfaces";
 
 @customElement("wish-detail-page")
 export class WishDetailPage extends LitElement {
     @property({type: Boolean}) parentView: boolean = false;
     @property({type: String}) errorMessage: string | null = "";
+
     @property() accountInfo!: IAccountInfo;
+    @property() minChildData!: IMinimalChildrenData;
+    @property() wish!: IWishlist;
+
 
     @property() wishID: string = "";
-    @property() wish!: IWishlist;
     @property() editMode: boolean = false;
 
-    constructor() {
-        super();
-    }
-
     render() : TemplateResult{
-        if(!this.wish) return html `Loading ...`;
-        if(!this.parentView && !this.accountInfo) return html `Loading ...`;
+        if(!this.wish) return html `Error loading wish data`;
+        if(!this.parentView && !this.accountInfo) return html `Error loading account data`;
         return html`
             <h1>Ønskeliste:${this.wish.saving_name}</h1>
             <img src="${this.wish.img}" alt="Wish Icon" width="200" height="200"><br><br>
@@ -58,6 +63,11 @@ export class WishDetailPage extends LitElement {
             }else{
                 this.errorMessage = r.error;
             }
+            if(this.parentView && this.wish){
+                console.log("ERROR HERE!")
+                //console.log(`Call with assigned to: ${this.task.assigned_to}`)
+                this.loadChildData();
+            }
         });
         if(!this.parentView){
             getChildInfo(getCurrentUserId()).then((r : IApiResponse) =>{
@@ -79,13 +89,27 @@ export class WishDetailPage extends LitElement {
         }
     }
 
+    loadChildData(){
+        if(this.parentView && this.wish) {
+            fetchMinimalChild(this.wish.creator_id).then((r : IApiResponse) =>{
+                if(r.results !== null){
+                    let tempList:any = r.results[0];
+                    this.minChildData ={id:tempList.id, firstName:tempList.first_name, lastName:tempList.last_name}
+                }else{
+                    this.errorMessage = r.error;
+                }
+            })
+        }
+    }
+
     //TODO Parent:
     renderParentInfoForm(){
+        if(!this.minChildData) return html `Error loading child data`;
         return html `
             <button-element .action=${() => this.goBackParent()}>Tilbage</button-element><br>
             <h3>${this.wish.saving_name}</h3><br>
             <h3>${this.wish.target_reward_balance}</h3><br>
-            <h3>Assigned Junior-konto here: </h3><br>
+            <p-element>${this.minChildData.firstName} ${this.minChildData.lastName}</p-element>
             <h3>${this.wish.creator_id}</h3><br>
             <button-element .action=${() => this.rejectWishParent()}>Afvis</button-element><br>
             <button-element .action=${() => this.confirmWishParent()}>Godkend</button-element><br>

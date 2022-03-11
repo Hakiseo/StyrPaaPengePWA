@@ -1,9 +1,7 @@
-import {html, LitElement, TemplateResult} from "lit";
-import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
+import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {property} from "lit/decorators.js";
 import {customElement} from "lit/decorators.js";
-import {ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
-import {IApiResponse, InputType} from "../sharedComponents/sharedInterfaces";
+import {ICustomErrorHandling, InputType, IApiResponse} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/inputElement"
 import {IMinimalChildrenData} from "./parentInterfaces";
@@ -14,6 +12,7 @@ import {getCurrentUserId} from "../api/apiUtils";
 export class TaskForm extends LitElement implements ICustomErrorHandling {
     @property({type: Boolean}) createForm: boolean = false;
     @property({type: Boolean}) detailForm: boolean = false;
+    @property({type: String}) assignedID: string = "";
     @property({type: String}) taskName: string = "";
     @property({type: String}) taskContent: string = "";
     @property({type: String}) taskRewardAmount: number = 100; //We can set the standard target to whatever we want
@@ -98,12 +97,13 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
 
     //TODO Remember to style
     renderJuniorChoices() {
+        console.log("Assigned ID: " + this.assignedID)
         if (!this.minChildData) return html `<p> Loading child Data... </p>`
         return html `
-            <select @change="${(e: any) => this.chosenChildId = parseInt(e.target.value)}">
+            <select id="2" @change="${(e: any) => this.chosenChildId = parseInt(e.target.value)}">
                 ${this.minChildData.map((child) => {
                     return html `
-                    <option value="${child.id}"> ${child.firstName + " " + child.lastName}</option>
+                    <option value="${child.id}" ?selected=${Number(this.assignedID) === child.id} > ${child.firstName + " " + child.lastName}</option>
                 `
                 })}
             </select>

@@ -4,11 +4,18 @@ import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {IApiResponse} from "./sharedInterfaces";
 import {ITasklist} from "../childComponents/childInterfaces";
 import {confirm_Task, getTask, retract_Task} from "../api/childApiRequests";
-import {reject_TaskParent, getTaskParent, delete_Task, update_Task, confirm_TaskParent} from "../api/parentApiRequests";
+import {
+    reject_TaskParent,
+    getTaskParent,
+    delete_Task,
+    update_Task,
+    confirm_TaskParent, fetchMinimalChild
+} from "../api/parentApiRequests";
 import { router } from "../index";
 import "../parentComponents/taskForm";
 import "./buttonElement";
 import "./textDisplayElement";
+import {IMinimalChildrenData} from "../parentComponents/parentInterfaces";
 
 @customElement("task-detail-page")
 export class TaskDetailPage extends LitElement {
@@ -16,13 +23,11 @@ export class TaskDetailPage extends LitElement {
     @property({type: Boolean}) parentConfirmMode: boolean = false;
     @property({type: String}) errorMessage: string | null = "";
 
-    @property() taskID: string = "";
     @property() task!: ITasklist;
-    @property() editMode: boolean = false;
+    @property() minChildData!: IMinimalChildrenData;
 
-    constructor() {
-        super();
-    }
+    @property() taskID: string = "";
+    @property() editMode: boolean = false;
 
     render() : TemplateResult{
         if (!this.task) return html `Loading ...`;
@@ -56,6 +61,10 @@ export class TaskDetailPage extends LitElement {
             }else{
                 this.errorMessage = r.error;
             }
+            if(this.parentView && this.task){
+                //console.log(`Call with assigned to: ${this.task.assigned_to}`)
+                this.loadChildData();
+            }
         });
     }
 
@@ -64,6 +73,19 @@ export class TaskDetailPage extends LitElement {
             return getTaskParent(this.taskID)
         }else{
             return getTask(this.taskID)
+        }
+    }
+
+    loadChildData(){
+        if(this.parentView && this.task) {
+            fetchMinimalChild(this.task.assigned_to).then((r : IApiResponse) =>{
+                if(r.results !== null){
+                    let tempList:any = r.results[0];
+                    this.minChildData ={id:tempList.id, firstName:tempList.first_name, lastName:tempList.last_name}
+                }else{
+                    this.errorMessage = r.error;
+                }
+            })
         }
     }
 
@@ -114,10 +136,12 @@ export class TaskDetailPage extends LitElement {
             <p-element>${this.task.task_name}</p-element>
             <p-element>${this.task.content}</p-element>
             <p-element>${this.task.reward_amount}</p-element>
-            <p-element>Assigned Junior-konto here: </p-element>
+            <p-element>${this.minChildData.firstName} ${this.minChildData.lastName}</p-element>
             ${this.parentConfirmMode ? this.renderConfirmMode() : this.renderDetailMode()}
         `;
     }
+
+    //<p-element>${this.minChildData.firstName} ${this.minChildData.lastName}</p-element>
 
     renderConfirmMode(){
         return html `
@@ -150,6 +174,7 @@ export class TaskDetailPage extends LitElement {
         return html `
             <button-element .action=${() => this.goBackParent()}>Tilbage</button-element>
             <task-form .detailForm="${true}"
+                       .assignedID="${this.task.assigned_to}"
                        .taskName="${this.task.task_name}"
                        .taskContent="${this.task.content}"
                        .taskRewardAmount="${this.task.reward_amount}"
@@ -170,7 +195,8 @@ export class TaskDetailPage extends LitElement {
     updateTaskParent(e : CustomEvent){
         console.log("Task updated: ", e.detail)
         if (e.detail.taskName && e.detail.taskContent && e.detail.taskRewardAmount) {
-            update_Task(this.task.id, e.detail.taskName, e.detail.taskContent, e.detail.taskRewardAmount).then((r : IApiResponse) => {
+            console.log("child id" + e.detail.childId)
+            update_Task(this.task.id, e.detail.taskName, e.detail.taskContent, e.detail.taskRewardAmount, e.detail.childId).then((r : IApiResponse) => {
                 this.errorMessage = r.error
                 this.loadTask();
             })
