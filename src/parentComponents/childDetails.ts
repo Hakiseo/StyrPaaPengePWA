@@ -77,10 +77,23 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
         return html `
             ${this.editMode ? this.renderEdit() : this.renderView()}
             <div>
-                <button-element .action="${() => this.deleteJunior()}"> Slet </button-element>
-                <button-element .action="${() => router.navigate(`/parent/childDetails/${this.childData.id}/changePassword`)}"> Ændre Password </button-element>
-                <button-element .action="${() => this.detailsAction()}"> ${this.editMode ? "Gem" : "Rediger"} </button-element>
+                ${this.renderButtons()}
             </div>
+        `
+    }
+
+    renderButtons() {
+        if (this.editMode) {
+            return html `
+                <button-element .action="${() => this.editMode = false}"> Annuller </button-element>
+                <button-element .action="${() => this.detailsAction()}"> Gem </button-element>
+            `
+        }
+        return html `
+            <button-element .action="${() => router.navigate("/parent")}"> Tilbage </button-element>
+            <button-element .action="${() => this.deleteJunior()}"> Slet </button-element>
+            <button-element .action="${() => router.navigate(`/parent/childDetails/${this.childData.id}/changePassword`)}"> Ændre Password </button-element>
+            <button-element .action="${() => this.detailsAction()}"> Rediger </button-element>
         `
     }
 
@@ -132,7 +145,6 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
         })
     }
 
-    //TODO: add validation
     detailsAction() {
         if (!this.editMode) {
             this.editMode = true;

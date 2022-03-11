@@ -70,11 +70,23 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
         return html `
             ${this.editMode ? this.renderEdit() : this.renderView()}
             <div>
-                <button-element .action="${() => this.deleteParent()}"> Slet </button-element>
-                <button-element .action="${() => router.navigate(`/parent/details/changePassword`)}"> Ændre Password </button-element>
-                <button-element .action="${() => this.detailsAction()}"> ${this.editMode ? "Gem" : "Rediger"} </button-element>
+                ${this.renderButtons()}
             </div>
             <error-message> ${this.errorMessage} </error-message>
+        `
+    }
+
+    renderButtons() {
+        if (this.editMode) {
+            return html `
+                <button-element .action="${() => this.editMode = false}"> Annuller </button-element>
+                <button-element .action="${() => this.detailsAction()}"> Gem </button-element>
+            `
+        }
+        return html `
+            <button-element .action="${() => this.deleteParent()}"> Slet </button-element>
+            <button-element .action="${() => router.navigate(`/parent/details/changePassword`)}"> Ændre Password </button-element>
+            <button-element .action="${() => this.detailsAction()}"> Rediger </button-element>
         `
     }
 

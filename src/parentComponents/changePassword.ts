@@ -74,8 +74,8 @@ export class ChangePassword extends LitElement implements ICustomErrorHandling{
             <input-element .valid="${this.repeatedPasswordValid}" .inputType="${InputType.password}" label="Gentag nyt password" @changeValue="${(e: CustomEvent) => this.repeatedPassword = e.detail}"></input-element>
             
             <div>
-                <button-element .action="${() => this.changePassword()}"> Ændre Password </button-element>
                 <button-element .action="${() => this.goBack()}"> Annuller </button-element>
+                <button-element .action="${() => this.changePassword()}"> Ændre Password </button-element>
             </div>
             <error-message> ${this.errorMessage} </error-message>
         `

@@ -84,8 +84,9 @@ export class CreateChild extends LitElement implements ICustomErrorHandling {
             <input-element .valid="${this.repeatedPasswordValid}" .inputType="${InputType.password}" label="Gentag password" @changeValue="${(e: CustomEvent) => this.repeatedPassword = e.detail}"></input-element>
             
             <input-element .valid="${this.startBalanceValid}" .inputType="${InputType.number}" label="Start Saldo" @changeValue="${(e: CustomEvent) => this.startBalance = e.detail}"></input-element>
-            
-            <button-element .action="${() => this.createNewJuniorUser()}"> Opret ny Junior-bruger</button-element>
+
+            <button-element .action="${() => router.navigate("/parent")}"> Annuller </button-element>
+            <button-element .action="${() => this.createNewJuniorUser()}"> Opret ny Junior-bruger </button-element>
             
             <error-message> ${this.errorMessage} </error-message>
         `;
