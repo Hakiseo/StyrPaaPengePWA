@@ -96,7 +96,7 @@ export class ChangePassword extends LitElement implements ICustomErrorHandling{
                     if (!r.error) {
                         this.goBack()
                     } else {
-                        //TODO: Handle error
+                        this.errorMessage = r.error;
                     }
                 })
             return;
@@ -109,7 +109,7 @@ export class ChangePassword extends LitElement implements ICustomErrorHandling{
                     if (!r.error) {
                         this.goBack()
                     } else {
-                        //TODO: Handle error
+                        this.errorMessage = r.error;
                     }
                 })
             return;
