@@ -56,8 +56,13 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
     connectedCallback() {
         super.connectedCallback();
         if (!this.childData) {
-            console.log("Make an API request with the id: ", this.childId)
-            this.getChildData()
+            let temp = router.lastResolved()
+            if (temp && temp[0].data && temp[0].data.id) {
+                this.childId = temp[0].data.id
+                this.getChildData()
+            } else {
+                router.navigate("/parent")
+            }
         }
     }
 
