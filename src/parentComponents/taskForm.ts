@@ -123,6 +123,6 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
         `}
         return html `
             <button-element .action="${() => this.submitForm()}"> Redigere </button>
-        `
+        `;
     }
 }
