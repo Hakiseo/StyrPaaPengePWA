@@ -75,13 +75,6 @@ export class WishlistOverviewPage extends LitElement {
         }
     }
 
-    renderError(){
-        return html `
-            <p> ${this.errorMessage} </p>
-            <p> Error loading task info... </p>
-        `;
-    }
-
     goBack(){
         router.navigate("/child")
     }
@@ -92,9 +85,17 @@ export class WishlistOverviewPage extends LitElement {
 
     private renderWishes(){
         if (this.errorMessage) {
+
+
+            //TODO RET DETTE TIL I DE ANDRE FILER:
+            //<p> ${this.errorMessage} </p>
+            //<p> Please try again or please go back to main page </p>
+            //TODO DETTE SKAL ÆNDRES TIL AT BENYTTE VORES ERROR-ELEMENT
+            //<error-message> ${this.errorMessage} Please try again or please go back to main page </error-message>
+
+
             return html `
-                <p> ${this.errorMessage} </p>
-                <p> Please try again or please go back to main page </p>
+                <error-message> ${this.errorMessage} Please try again or please go back to main page </error-message>
             `;
         }
         if(!this.wishlist){
