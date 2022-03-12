@@ -39,7 +39,6 @@ export class Login extends LitElement implements ICustomErrorHandling {
         return valid;
     }
 
-    //TODO: validate input & visually show errors
     protected render(): TemplateResult {
         return html `
             <input-element .valid="${this.loginDataValid}" label="Username/email" @changeValue="${(e: CustomEvent) => this.loginData = e.detail}"></input-element>

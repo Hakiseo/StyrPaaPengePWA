@@ -6,6 +6,7 @@ import {changePasswordChild, changePasswordParent} from "../api/parentApiRequest
 import {IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/inputElement"
 import "../sharedComponents/buttonElement"
+import "../sharedComponents/errorMessage"
 
 @customElement("change-password")
 export class ChangePassword extends LitElement implements ICustomErrorHandling{
@@ -64,7 +65,6 @@ export class ChangePassword extends LitElement implements ICustomErrorHandling{
         }
     }
 
-    //TODO: validate input & visually show errors
     protected render(): TemplateResult {
         return html`
             

@@ -99,13 +99,6 @@ export function update_Task(id: string, task_name: string, content: string, rewa
         {id: id, task_name: task_name, content: content, reward_amount: reward_amount, assigned_to: assigned_to})
 }
 
-
-//TODO SKAL HAVE ID'ET MED PÅ DEN JUNIOR-KONTO, SOM OPGAVEN SKAL TILFØJES TIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 export function create_Task(data: {}) {
     return apiPost("parent/task/create/", data)
 }
-
-//TODO SKAL HAVE ID'ET MED PÅ DEN JUNIOR-KONTO, SOM OPGAVEN SKAL TILFØJES TIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TODO SKAL HAVE ID'ET MED PÅ DEN JUNIOR-KONTO, SOM OPGAVEN SKAL TILFØJES TIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TODO SKAL HAVE ID'ET MED PÅ DEN JUNIOR-KONTO, SOM OPGAVEN SKAL TILFØJES TIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

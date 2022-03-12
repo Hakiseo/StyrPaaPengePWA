@@ -7,6 +7,7 @@ import {IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents
 import "../sharedComponents/inputElement"
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/textDisplayElement"
+import "../sharedComponents/errorMessage"
 
 @customElement("child-details")
 export class ChildDetails extends LitElement implements ICustomErrorHandling{
@@ -84,6 +85,7 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
             <div>
                 ${this.renderButtons()}
             </div>
+            <error-message> ${this.errorMessage} </error-message>
         `
     }
 
@@ -125,7 +127,6 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
         `
     }
 
-    //TODO: validate input & visually show errors
     renderEdit(): TemplateResult {
         return html `
             <div>

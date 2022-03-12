@@ -5,6 +5,7 @@ import {getWishlist} from "../api/childApiRequests";
 import {IApiResponse} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/wishElement"
 import "../sharedComponents/buttonElement"
+import "../sharedComponents/errorMessage"
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
 

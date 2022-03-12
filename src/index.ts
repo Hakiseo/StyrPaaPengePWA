@@ -158,7 +158,6 @@ export class IndexElement extends LitElement {
         router.navigate("/home")
     }
 
-    //TODO: Move logout into sidemenu
     logout() {
         localStorage.clear();
         this.loggedIn = false;

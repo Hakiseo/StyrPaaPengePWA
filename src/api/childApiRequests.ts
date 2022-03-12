@@ -6,9 +6,6 @@ export function getAllChildren(): Promise<any> {
     return apiFetch("child")
 }
 
-
-
-//TODO CHILD INFO:
 export function getChildInfo(id: string) {
     return apiFetch("child/account/info/" + id)
 }

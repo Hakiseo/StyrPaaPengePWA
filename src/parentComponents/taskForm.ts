@@ -18,7 +18,7 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
     @property({type: String}) taskRewardAmount: number = 100; //We can set the standard target to whatever we want
 
     @property() minChildData: IMinimalChildrenData[] = []
-    @property() chosenChildId: number = 0; //TODO: Når du validerer så husk at tjekke for at den her ikke må være 0!
+    @property() chosenChildId: number = 0;
 
     @property() errorMessage: string = "";
 
@@ -77,7 +77,6 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
         `;
     }
 
-    //TODO: Add assigned To
     submitForm() {
         if(this.validated()){
             this.dispatchEvent(
@@ -95,7 +94,7 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
         }
     }
 
-    //TODO Remember to style
+    //TODO Remember to style the option tag and the whole section
     renderJuniorChoices() {
         console.log("Assigned ID: " + this.assignedID)
         if (!this.minChildData) return html `<p> Loading child Data... </p>`

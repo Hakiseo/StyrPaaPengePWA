@@ -58,7 +58,6 @@ export class Register extends LitElement implements ICustomErrorHandling{
         return true;
     }
 
-    //TODO: validate input & visually show errors
     protected render(): TemplateResult {
         return html `
             <input-element .valid="${this.firstNameValid}" label="Fornavn" @changeValue="${(e: CustomEvent) => this.firstName = e.detail}"></input-element>
