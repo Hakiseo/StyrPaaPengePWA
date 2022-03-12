@@ -21,7 +21,7 @@ import ("./sharedComponents/sideMenu");
 import ("./sharedComponents/buttonElement");
 import ("./home");
 
-import {apiPost, getIdentityToken} from "./api/apiUtils";
+import {getIdentityToken, verifyToken} from "./api/apiUtils";
 import {UserType, IVerifyTokenResponse} from "./sharedComponents/sharedInterfaces"
 import {IChildData, IMinimalChildrenData} from "./parentComponents/parentInterfaces";
 
@@ -122,14 +122,19 @@ export class IndexElement extends LitElement {
 
         //Need this to handle on refresh and still validate routes
         if (getIdentityToken().length > 0) {
-            apiPost("verifyToken", {})
+            verifyToken()
                 .then((r: IVerifyTokenResponse) => {
                     if (r.success) {
+                        console.log(r)
                         this.loggedIn = true;
                         this.parent = r.userType === UserType.parent
+                        router.resolve();
+                    } else {
+                        console.log(r)
+                        this.loggedIn = false;
+                        router.resolve();
+                        this.routeBackToIndex()
                     }
-                    console.log(r)
-                    router.resolve();
                 })
         } else {
             console.log("Navigating back to home - No valid token is set")
