@@ -14,9 +14,6 @@ export class WishlistOverviewPage extends LitElement {
     @property() wishlist!: IWishlist[];
     @property({type: String}) errorMessage: string | null = "";
 
-    //TODO OPDAGET FEJL. NÅR SIDEN NAVIGERER TILBAGE, SÅ OPDATERER DEN IKKE ELEMENTERNE.
-    // DETTE GØR, AT STATUS PÅ ELEMENTERNE IKKE BLIVER ÆNDRET, FÅR VI RELOADER SIDEN.
-
     connectedCallback() {
         super.connectedCallback();
         console.log("Returned to Overview-Page")
