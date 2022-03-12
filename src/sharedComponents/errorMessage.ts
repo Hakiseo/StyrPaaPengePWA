@@ -14,7 +14,7 @@ export class ButtonElement extends LitElement {
 
     render(): TemplateResult {
         return html`
-            <p> <slot></slot> </p>
+            <div> <slot></slot> </div>
         `;
     }
 }

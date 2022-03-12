@@ -1,6 +1,6 @@
 {
-  "name": "LommeTjansen webapplication",
-  "short_name": "LommeTjansen",
+  "name": "Styr På Penge webapplication",
+  "short_name": "Styr På Penge",
   "description": "A web application that helps families with allowance management",
   "start_url": "/",
   "scope": "/",

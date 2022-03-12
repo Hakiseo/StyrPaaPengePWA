@@ -1,25 +1,53 @@
-import {html, LitElement, TemplateResult} from "lit";
+import {css, html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {apiPost, identityTokenName, storageUserId} from "../api/apiUtils";
-import {IApiResponse, InputType, UserType} from "./sharedInterfaces";
+import {IApiResponse, ICustomErrorHandling, InputType, UserType} from "./sharedInterfaces";
 import {router} from "../index";
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/inputElement"
+import "../sharedComponents/errorMessage"
 
 @customElement("login-page")
-export class Login extends LitElement {
+export class Login extends LitElement implements ICustomErrorHandling {
     @property() loginData: string = ""
     @property() password: string = ""
+    @property() errorMessage: string = ""
+
+    @property() loginDataValid: boolean = true;
+    @property() passwordValid: boolean = true;
+
+    static get styles() {
+        return css`
+            .register {
+                cursor: pointer; 
+                text-decoration: underline; 
+                width: fit-content;
+            }
+            
+            .register:hover {
+                color: #af42ff;
+            }
+        `
+    }
+
+    validated() {
+        this.loginDataValid = this.loginData.length > 0;
+        this.passwordValid = this.password.length > 0;
+
+        let valid = this.loginDataValid && this.passwordValid
+        this.errorMessage = valid ? "" : "A username/email & password is required!"
+        return valid;
+    }
 
     //TODO: validate input & visually show errors
     protected render(): TemplateResult {
         return html `
-            <input-element label="Username/email" @changeValue="${(e: CustomEvent) => this.loginData = e.detail}"></input-element>
-            <input-element .inputType="${InputType.password}" label="Password" @changeValue="${(e: CustomEvent) => this.password = e.detail}"></input-element>
+            <input-element .valid="${this.loginDataValid}" label="Username/email" @changeValue="${(e: CustomEvent) => this.loginData = e.detail}"></input-element>
+            <input-element .valid="${this.passwordValid}" .inputType="${InputType.password}" label="Password" @changeValue="${(e: CustomEvent) => this.password = e.detail}"></input-element>
             
             <button-element .action="${() => this.login()}"> Login </button-element>
-
-            <p style="cursor: pointer; text-decoration: underline" @click="${() => this.showRegister()}"> Register an account </p>
+            <error-message> ${this.errorMessage} </error-message>
+            <p class="register" @click="${() => this.showRegister()}"> Register an account </p>
         `;
     }
 
@@ -32,15 +60,17 @@ export class Login extends LitElement {
     }
 
     login() {
-        if (this.loginData && this.password) {
+        if (this.validated()) {
             apiPost("login/", {
                 loginData: this.loginData,
                 password: this.password
             }).then((r: IApiResponse) => {
                 if (r.error) {
+                    this.errorMessage = r.error
                     window.alert(r.error)
                 } else if (r.results == null){
-                    window.alert("Wrong Credentials")
+                    this.errorMessage = "Wrong Credentials!"
+                    window.alert("Wrong Credentials!")
                 } else {
                     let userId: number = r.results[0].id
                     let userType: any[] = r.results.map(r => r.email)
@@ -50,7 +80,7 @@ export class Login extends LitElement {
                 }
             })
         } else {
-            window.alert("A username/email & password is required!")
+            window.alert(this.errorMessage)
         }
     }
 

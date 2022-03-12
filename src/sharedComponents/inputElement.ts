@@ -39,14 +39,14 @@ export class InputElement extends LitElement {
         `;
     }
 
-    formatValue() {
+    formatValue(value = this.value) {
         if (this.inputType === InputType.number) {
-            return parseInt(this.value)
+            return parseInt(value)
         }
-        return this.value
+        return value
     }
 
     emitChange(e: any) {
-        this.dispatchEvent(new CustomEvent("changeValue", {detail: e.target.value}))
+        this.dispatchEvent(new CustomEvent("changeValue", {detail: this.formatValue(e.target.value)}))
     }
 }
