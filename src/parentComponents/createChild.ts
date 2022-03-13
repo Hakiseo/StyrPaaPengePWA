@@ -88,7 +88,7 @@ export class CreateChild extends LitElement implements ICustomErrorHandling {
             <button-element .action="${() => router.navigate("/parent")}"> Annuller </button-element>
             <button-element .action="${() => this.createNewJuniorUser()}"> Opret ny Junior-bruger </button-element>
             
-            <error-message> ${this.errorMessage} </error-message>
+            <!--<error-message> ${this.errorMessage} </error-message>-->
         `;
     }
 

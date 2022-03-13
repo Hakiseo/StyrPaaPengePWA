@@ -48,6 +48,7 @@ export class TaskDetailPage extends LitElement {
 
     displayError(){
         window.alert(this.errorMessage)
+        this.errorMessage = "";
     }
 
     loadTask(){

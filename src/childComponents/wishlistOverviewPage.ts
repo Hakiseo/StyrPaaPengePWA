@@ -5,6 +5,7 @@ import {getWishlist} from "../api/childApiRequests";
 import {IApiResponse} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/wishElement"
 import "../sharedComponents/buttonElement"
+//import "../sharedComponents/errorElement"
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
 
@@ -23,7 +24,7 @@ export class WishlistOverviewPage extends LitElement {
     protected updated(_changedProperties: PropertyValues) {
         super.updated(_changedProperties);
         if(_changedProperties.has("wishlist")){
-            console.log("Updated Wishlist" , this.wishlist)
+            console.log("Updated wishlist" , this.wishlist)
             if(this.wishlist.length == 0){
                 this.loadWishlist();
             }
@@ -32,6 +33,7 @@ export class WishlistOverviewPage extends LitElement {
 
     displayError(){
         window.alert(this.errorMessage)
+        this.errorMessage = "";
     }
 
     loadWishlist(){
@@ -81,23 +83,9 @@ export class WishlistOverviewPage extends LitElement {
     }
 
     private renderWishes(){
-        if (this.errorMessage) {
-
-
-            //TODO RET DETTE TIL I DE ANDRE FILER:
-            //<p> ${this.errorMessage} </p>
-            //<p> Please try again or please go back to main page </p>
-            //TODO DETTE SKAL ÆNDRES TIL AT BENYTTE VORES ERROR-ELEMENT
-            //<error-message> ${this.errorMessage} Please try again or please go back to main page </error-message>
-
-
-            return html `
-                <error-message> ${this.errorMessage} Please try again or please go back to main page </error-message>
-            `;
-        }
         if(!this.wishlist){
             return html `
-                <p> Error loading Wishlist...</p>
+                <!--<error-message> Error loading wishlist </error-message>-->
             `;
         }else{
             console.log("Render Wishlist")

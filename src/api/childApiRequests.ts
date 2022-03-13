@@ -1,6 +1,6 @@
 //Child component related api-requests
 
-import {apiFetch, apiPost} from "./apiUtils";
+import {apiDelete, apiFetch, apiPost, apiPut} from "./apiUtils";
 
 export function getAllChildren(): Promise<any> {
     return apiFetch("child")
@@ -23,11 +23,11 @@ export function getTask(id: string) {
 }
 
 export function retract_Task(id: string) {
-    return apiPost("child/task/retract/", {id: id})
+    return apiPut("child/task/retract/", {id: id})
 }
 
 export function confirm_Task(id: string) {
-    return apiPost("child/task/confirm/", {id: id})
+    return apiPut("child/task/confirm/", {id: id})
 }
 
 //TODO Wish Calls:
@@ -40,19 +40,19 @@ export function getWish(id: string) {
 }
 
 export function retract_Wish(id: string) {
-    return apiPost("child/wish/retract/", {id: id})
+    return apiPut("child/wish/retract/", {id: id})
 }
 
 export function confirm_Wish(id: string) {
-    return apiPost("child/wish/confirm/", {id: id})
+    return apiPut("child/wish/confirm/", {id: id})
 }
 
 export function update_Wish(id: string, saving_name: string, content: string, target_reward_balance: number) {
-    return apiPost("child/wish/update/", {id: id, saving_name: saving_name, content: content, target_reward_balance: target_reward_balance})
+    return apiPut("child/wish/update/", {id: id, saving_name: saving_name, content: content, target_reward_balance: target_reward_balance})
 }
 
 export function delete_Wish(id: string) {
-    return apiPost("child/wish/delete/", {id: id})
+    return apiDelete("child/wish/delete/" + id)
 }
 
 export function create_Wishlist(creator_id: string, saving_name: string, content: string, target_reward_balance: number) {

@@ -49,6 +49,7 @@ export class WishDetailPage extends LitElement {
 
     displayError(){
         window.alert(this.errorMessage)
+        this.errorMessage = "";
     }
 
     loadWish(){

@@ -23,7 +23,6 @@ export class WishForm extends LitElement implements ICustomErrorHandling {
         this.wishListNameValid = this.wishListName.length > 0
         this.wishListContentValid = this.wishListContent.length > 0
         this.wishListTargetValid = this.wishListTarget.toString().length > 0
-
         if (this.wishListNameValid && this.wishListContentValid && this.wishListTargetValid) {
             return true;
         }else{
@@ -56,6 +55,7 @@ export class WishForm extends LitElement implements ICustomErrorHandling {
             )
         }else{
             window.alert(this.errorMessage)
+            this.errorMessage = "";
         }
     }
 

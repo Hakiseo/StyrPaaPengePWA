@@ -28,6 +28,7 @@ export class TaskCreatePage extends LitElement implements ICustomErrorHandling {
 
     displayError(){
         window.alert(this.errorMessage)
+        this.errorMessage = "";
     }
 
     render(): TemplateResult{

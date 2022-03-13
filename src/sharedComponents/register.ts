@@ -72,8 +72,8 @@ export class Register extends LitElement implements ICustomErrorHandling{
             
             <button-element .action="${() => this.register()}"> Register </button-element>
             <button-element .action="${() => this.showLogin()}"> Go back </button-element>
-            
-            <error-message> ${this.errorMessage} </error-message>
+
+            <!--<error-message> ${this.errorMessage} </error-message>-->
         `;
     }
 

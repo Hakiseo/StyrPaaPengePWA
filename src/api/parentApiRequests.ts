@@ -62,11 +62,11 @@ export function getConfirmedWishlistParent(id: string) {
 }
 
 export function reject_WishParent(id: string) {
-    return apiPost("parent/wish/reject/", {id: id})
+    return apiPut("parent/wish/reject/", {id: id})
 }
 
 export function confirm_WishParent(id: string) {
-    return apiPost("parent/wish/confirm/", {id: id})
+    return apiPut("parent/wish/confirm/", {id: id})
 }
 
 //TODO TASK:
@@ -79,11 +79,11 @@ export function getConfirmedTasklistParent(id: string) {
 }
 
 export function reject_TaskParent(id: string) {
-    return apiPost("parent/task/reject/", {id: id})
+    return apiPut("parent/task/reject/", {id: id})
 }
 
 export function confirm_TaskParent(id: string) {
-    return apiPost("parent/task/confirm/", {id: id})
+    return apiPut("parent/task/confirm/", {id: id})
 }
 
 export function getCompleteTasklistParent(id: string) {
@@ -91,21 +91,14 @@ export function getCompleteTasklistParent(id: string) {
 }
 
 export function delete_Task(id: string) {
-    return apiPost("parent/task/delete/", {id: id})
+    return apiDelete("parent/task/delete/" + id)
 }
 
 export function update_Task(id: string, task_name: string, content: string, reward_amount: number, assigned_to: string) {
-    return apiPost("parent/task/update/",
+    return apiPut("parent/task/update/",
         {id: id, task_name: task_name, content: content, reward_amount: reward_amount, assigned_to: assigned_to})
 }
-
-
-//TODO SKAL HAVE ID'ET MED PÅ DEN JUNIOR-KONTO, SOM OPGAVEN SKAL TILFØJES TIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 export function create_Task(data: {}) {
     return apiPost("parent/task/create/", data)
 }
-
-//TODO SKAL HAVE ID'ET MED PÅ DEN JUNIOR-KONTO, SOM OPGAVEN SKAL TILFØJES TIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TODO SKAL HAVE ID'ET MED PÅ DEN JUNIOR-KONTO, SOM OPGAVEN SKAL TILFØJES TIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TODO SKAL HAVE ID'ET MED PÅ DEN JUNIOR-KONTO, SOM OPGAVEN SKAL TILFØJES TIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
