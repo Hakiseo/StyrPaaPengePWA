@@ -92,7 +92,10 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
     renderButtons() {
         if (this.editMode) {
             return html `
-                <button-element .action="${() => this.editMode = false}"> Annuller </button-element>
+                <button-element .action="${() => {
+                    this.errorMessage = ""
+                    this.editMode = false
+                }}"> Annuller </button-element>
                 <button-element .action="${() => this.detailsAction()}"> Gem </button-element>
             `
         }

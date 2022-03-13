@@ -2,8 +2,7 @@ import {IVerifyTokenResponse} from "../sharedComponents/sharedInterfaces";
 
 //TODO: Change it to match your development environment
 //TODO: Change it in production to match the live server when we get there
-//export const apiUrl='http://localhost:8080/';
-export const apiUrl='http://192.168.0.109:8080/';
+export const apiUrl='http://localhost:8080/';
 
 export const identityTokenName = "identityToken"
 export const storageUserId = "userId"
