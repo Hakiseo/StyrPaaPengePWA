@@ -16,6 +16,7 @@ import "../parentComponents/taskForm";
 import "./buttonElement";
 import "./textDisplayElement";
 import {IMinimalChildrenData} from "../parentComponents/parentInterfaces";
+import "../sharedComponents/errorMessage"
 
 @customElement("task-detail-page")
 export class TaskDetailPage extends LitElement {
@@ -131,14 +132,20 @@ export class TaskDetailPage extends LitElement {
 
     //TODO Parent:
     renderParentInfoForm(){
-        return html `
-            <button @click=${() => this.goBackParent()}>Tilbage</button>
-            <p-element>${this.task.task_name}</p-element>
-            <p-element>${this.task.content}</p-element>
-            <p-element>${this.task.reward_amount}</p-element>
-            <p-element>${this.minChildData.firstName} ${this.minChildData.lastName}</p-element>
-            ${this.parentConfirmMode ? this.renderConfirmMode() : this.renderDetailMode()}
-        `;
+        if(this.minChildData){
+            return html `
+                <button @click=${() => this.goBackParent()}>Tilbage</button>
+                <p-element>${this.task.task_name}</p-element>
+                <p-element>${this.task.content}</p-element>
+                <p-element>${this.task.reward_amount}</p-element>
+                <p-element>${this.minChildData.firstName} ${this.minChildData.lastName}</p-element>
+                ${this.parentConfirmMode ? this.renderConfirmMode() : this.renderDetailMode()}
+            `;
+        }else{
+            return html `
+                <error-message> Error loading Child data </error-message>
+            `;
+        }
     }
 
     renderConfirmMode(){

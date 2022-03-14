@@ -25,7 +25,7 @@ export class TasklistOverviewPage extends LitElement {
         super.updated(_changedProperties);
         if(_changedProperties.has("tasklist")){
             console.log("Updated tasklist" , this.tasklist)
-            if(this.tasklist.length == 0){
+            if(!this.tasklist){
                 this.loadTasklist();
             }
         }
@@ -68,10 +68,7 @@ export class TasklistOverviewPage extends LitElement {
 
     constructor() {
         super();
-        if(!this.tasklist){
-            console.log("Connected Callback")
-            this.loadTasklist();
-        }
+        this.loadTasklist();
     }
 
     goBack(){
