@@ -25,7 +25,7 @@ export class WishlistOverviewPage extends LitElement {
         super.updated(_changedProperties);
         if(_changedProperties.has("wishlist")){
             console.log("Updated wishlist" , this.wishlist)
-            if(this.wishlist.length == 0){
+            if(!this.wishlist){
                 this.loadWishlist();
             }
         }
