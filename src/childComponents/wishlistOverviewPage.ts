@@ -50,7 +50,6 @@ export class WishlistOverviewPage extends LitElement {
     }
 
     protected render(): TemplateResult {
-        if (!this.wishlist) return html `Loading ...`;
         return html `
             <div>
                 ${this.renderWishes()}
