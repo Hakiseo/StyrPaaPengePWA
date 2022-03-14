@@ -27,7 +27,7 @@ export function changePasswordChild(data: {}) {
 }
 
 export function fetchMinimalChild(id: string) {
-    return apiFetch("parent//minimal/child/" + id)
+    return apiFetch("parent/minimal/child/" + id)
 }
 
 export function fetchChild(id: string) {
