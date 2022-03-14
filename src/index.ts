@@ -19,11 +19,12 @@ import ("./sharedComponents/taskDetail");
 import ("./sharedComponents/register");
 import ("./sharedComponents/sideMenu");
 import ("./sharedComponents/buttonElement");
+import ("./sharedComponents/approvedDisplay");
 import ("./home");
 
 import {getIdentityToken, verifyToken} from "./api/apiUtils";
 import {UserType, IVerifyTokenResponse} from "./sharedComponents/sharedInterfaces"
-import {IChildData, IMinimalChildrenData} from "./parentComponents/parentInterfaces";
+import {ApprovedType, IChildData, IMinimalChildrenData} from "./parentComponents/parentInterfaces";
 
 import Navigo from "navigo";
 export const router = new Navigo('/');
@@ -91,6 +92,7 @@ export class IndexElement extends LitElement {
 
             .on("/child", () => {this.route = html`<child-index-page></child-index-page>`})
 
+            .on("/approvedWishlists", () => {!this.parent && this.loggedIn ? this.route = html`<approved-display .approvedType="${ApprovedType.wish}" .parent="${this.parent}"></approved-display>` : this.routeBackToIndex()})
             .on("/tasklist-overview", () => {this.route = html`<tasklist-overview-page></tasklist-overview-page>`})
             .on("/wishlist-overview", () => {!this.parent && this.loggedIn ? this.route = html`<wishlist-overview-page></wishlist-overview-page>` : this.routeBackToIndex()})
             .on("/wishlist-creating", () => {!this.parent && this.loggedIn ? this.route = html`<wish-create-page></wish-create-page>` : this.routeBackToIndex()})
@@ -110,6 +112,8 @@ export class IndexElement extends LitElement {
                     this.routeBackToIndex()
                 }
             })
+            .on("/parent/approvedTasks", () => {this.parent && this.loggedIn ? this.route = html`<approved-display .approvedType="${ApprovedType.task}" .parent="${this.parent}"></approved-display>` : this.routeBackToIndex()})
+            .on("/parent/approvedWishLists", () => {this.parent && this.loggedIn ? this.route = html`<approved-display .approvedType="${ApprovedType.wish}" .parent="${this.parent}"></approved-display>` : this.routeBackToIndex()})
             .on("/parent/createChild", () => {this.parent && this.loggedIn ? this.route = html`<create-child></create-child>` : this.routeBackToIndex()})
             .on("/parent/details", () => {this.parent && this.loggedIn ? this.route = html`<parent-details @logout="${() => this.logout()}"></parent-details>` : this.routeBackToIndex()})
             .on("/parent/details/changePassword", () => {this.parent && this.loggedIn ? this.route = html`<change-password .parent="${true}"></change-password>` : this.routeBackToIndex()})

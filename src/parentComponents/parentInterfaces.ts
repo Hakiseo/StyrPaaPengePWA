@@ -45,3 +45,17 @@ export interface ITasklist {
     created_date_time:string;
     img:string;
 }
+
+export interface ITaskCreate {
+    creator_id: string,
+    task_name: string,
+    content: string,
+    reward_amount: number,
+    junior_id: number,
+    img: string
+}
+
+export enum ApprovedType {
+    wish,
+    task
+}
