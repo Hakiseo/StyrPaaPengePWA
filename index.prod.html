@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> Styr På Penge </title>
+
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="Styr På Penge WebApplication" name="description">
+  <base href="/">
+
+  <link href="/assets/favicon.ico" rel="icon" type="image/x-icon">
+
+  <!-- See https://goo.gl/OOhYW5 -->
+  <link href="manifest.webmanifest" rel="manifest">
+  <!-- See https://goo.gl/qRE0vM -->
+  <meta content="#4c566a" name="theme-color">
+
+  <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
+  <meta content="yes" name="mobile-web-app-capable">
+  <meta content="Styr På Penge" name="application-name">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+  <meta content="Styr På Penge" name="apple-mobile-web-app-title">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png">
+  <link rel="mask-icon" href="./assets/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+
+  <link rel="stylesheet" href="src/sharedComponents/globalStyles.css">
+
+  <!-- Homescreen icons -->
+  <!--    <link href="/assets/images/manifest/icon-48x48.png" rel="apple-touch-icon">
+      <link href="/assets/images/manifest/icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
+      <link href="/assets/images/manifest/icon-96x96.png" rel="apple-touch-icon" sizes="96x96">
+      <link href="/assets/images/manifest/icon-144x144.png" rel="apple-touch-icon" sizes="144x144">
+      <link href="/assets/images/manifest/icon-192x192.png" rel="apple-touch-icon" sizes="192x192">-->
+
+  <!-- Tile icon for Windows 8 (144x144 + tile color) -->
+  <!--    <meta content="/images/manifest/icon-144x144.png" name="msapplication-TileImage">
+      <meta content="#4c566a" name="msapplication-TileColor">
+      <meta content="no" name="msapplication-tap-highlight">-->
+
+  <!-- Performance tip: hint to the browser to start the handshake for the fonts site -->
+  <link crossorigin href="https://fonts.gstatic.com/" rel="dns-prefetch">
+
+  <script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="./node_modules/lit/polyfill-support.js"></script>
+      <script type="module" src="./dist/index.js"></script>
+
+  <script type="module">
+    import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
+
+    window.addEventListener('load', () => {
+      let isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
+      let isOldEdge = window.navigator.userAgent.indexOf("Edge/1") > -1;
+      let browserNotSupported = isIE11 || isOldEdge;
+      if (browserNotSupported) {
+        console.warn("Browser is not supported ", isIE11, isOldEdge);
+        document.getElementById('browsernosupport').style.display = '';
+      }
+
+      if ('serviceWorker' in navigator) {
+        const el = document.createElement('pwa-update');
+        document.body.appendChild(el);
+        /*                navigator.serviceWorker.register('/pwabuilder-sw.js', {
+                            scope: '/'
+                        }).then((reg) => {
+                            setTimeout(() => reg.update(), 5000);
+                        }).catch((err) => console.warn('Service worker not registered!!!', err));*/
+      }
+    })
+  </script>
+</head>
+
+<body>
+
+<div id="browsernosupport" style="display: none; text-align: center; padding-top: 20px;">
+  <h1>Browser not supported</h1>
+  <p>Microsoft Internet Explorer browser are not supported.<br/>
+    Microsoft Edge browser with the EdgeHtml engine are not supported.
+  </p>
+  <p>Microsoft Edge browser based on Chromium are fully supported.</p>
+</div>
+
+<index-element></index-element>
+
+<noscript>
+  <div style="padding: 10px">
+    <h1> This web application needs javascript to function :( </h1>
+    <p>
+      You can enable javascript in
+      <a href="https://enable-javascript.com/" target="new">your browser settings</a>.
+    </p>
+    <p> If you see this message while on your mobile phone then good luck! </p>
+  </div>
+</noscript>
+</body>
+</html>
