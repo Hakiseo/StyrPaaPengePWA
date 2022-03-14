@@ -1,8 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
-import {IWishlist} from "./childInterfaces";
 import {getWishlist} from "../api/childApiRequests";
-import {IApiResponse} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse, IWishlist} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/wishElement"
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/errorMessage"

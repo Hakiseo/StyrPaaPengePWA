@@ -1,6 +1,6 @@
 import {customElement, query, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
-import {ITasklist} from "../childComponents/childInterfaces";
+import {ITasklist} from "./sharedInterfaces";
 import {router} from "../index";
 
 @customElement("task-element")

@@ -1,8 +1,8 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
-import {IApiResponse} from "./sharedInterfaces";
-import {IAccountInfo, IWishlist} from "../childComponents/childInterfaces";
+import {IApiResponse, IWishlist} from "./sharedInterfaces";
+import {IAccountInfo} from "../childComponents/childInterfaces";
 import {getWish, delete_Wish, confirm_Wish, update_Wish, retract_Wish, getChildInfo} from "../api/childApiRequests";
 import {
     reject_WishParent,

@@ -1,8 +1,8 @@
 import {customElement,property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
-import {IAccountInfo, ITasklist} from "./childInterfaces";
+import {IAccountInfo} from "./childInterfaces";
 import {getAssignedTasklist, getChildInfo} from "../api/childApiRequests";
-import {IApiResponse} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse, ITasklist} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/taskElement"
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";

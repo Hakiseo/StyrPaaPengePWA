@@ -1,7 +1,7 @@
 import {customElement, query, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
-import {IWishlist} from "../childComponents/childInterfaces";
 import {router} from "../index";
+import {IWishlist} from "./sharedInterfaces";
 
 @customElement("wish-element")
 export class WishElement extends LitElement {

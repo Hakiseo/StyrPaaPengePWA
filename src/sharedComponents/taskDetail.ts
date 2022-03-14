@@ -1,8 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
-import {IApiResponse} from "./sharedInterfaces";
-import {ITasklist} from "../childComponents/childInterfaces";
+import {IApiResponse, ITasklist} from "./sharedInterfaces";
 import {confirm_Task, getTask, retract_Task} from "../api/childApiRequests";
 import {
     reject_TaskParent,

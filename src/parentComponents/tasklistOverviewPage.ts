@@ -1,8 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
 import "../sharedComponents/wishElement"
-import {ITasklist} from "./parentInterfaces";
-import {IApiResponse} from "../sharedComponents/sharedInterfaces";
+import {IApiResponse, ITasklist} from "../sharedComponents/sharedInterfaces";
 import {getCompleteTasklistParent} from "../api/parentApiRequests";
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";

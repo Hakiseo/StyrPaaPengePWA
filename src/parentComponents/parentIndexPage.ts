@@ -4,8 +4,8 @@ import {router} from "../index";
 import "./childCard"
 import {getCurrentUserId} from "../api/apiUtils";
 import {fetchJuniors, getConfirmedTasklistParent, getConfirmedWishlistParent} from "../api/parentApiRequests";
-import {IApiResponse} from "../sharedComponents/sharedInterfaces";
-import {IChildData, IMinimalChildrenData, ITasklist, IWishlist} from "./parentInterfaces";
+import {IApiResponse, ITasklist, IWishlist} from "../sharedComponents/sharedInterfaces";
+import {IChildData, IMinimalChildrenData} from "./parentInterfaces";
 import "../sharedComponents/buttonElement";
 import "../sharedComponents/errorMessage"
 
