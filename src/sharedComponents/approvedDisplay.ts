@@ -41,7 +41,7 @@ export class ApprovedDisplay extends LitElement {
         return html `
             <h1> Approved Wishlists: </h1>
             ${this.wishlists.length > 0 ? this.wishlists.map(r => {
-                return html `<wish-element .wish="${r}" .parentView="${true}"></wish-element>`
+                return html `<wish-element .wish="${r}" .parentView="${this.parent}"></wish-element>`
             }) : "Der er ikke godkendt nogle ønsker endnu! Det syndt for dit barn...."}
         `
     }
