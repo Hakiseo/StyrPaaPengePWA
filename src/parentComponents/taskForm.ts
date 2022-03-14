@@ -8,6 +8,13 @@ import {IMinimalChildrenData} from "./parentInterfaces";
 import {fetchJuniors} from "../api/parentApiRequests";
 import {getCurrentUserId} from "../api/apiUtils";
 
+enum TaskTemplate {
+    custom = "Custom",
+    vacuuming = "Vacuuming",
+    dishes = "Dishes",
+    cleaning = "Cleaning"
+}
+
 @customElement("task-form")
 export class TaskForm extends LitElement implements ICustomErrorHandling {
     @property({type: Boolean}) createForm: boolean = false;
@@ -19,6 +26,7 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
 
     @property() minChildData: IMinimalChildrenData[] = []
     @property() chosenChildId: number = 0;
+    @property() chosenTemplate: TaskTemplate = TaskTemplate.custom;
 
     @property() errorMessage: string = "";
 
@@ -68,6 +76,16 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
         }
         return html`
             <div>
+                <select @change="${(e: any) => {
+                    this.chosenTemplate = e.target.value
+                    console.log(this.chosenTemplate)
+                    this.fillInputs()
+                }}">
+                    <option selected value="${TaskTemplate.custom}"> Custom </option>
+                    <option value="${TaskTemplate.vacuuming}"> Støvsugning </option>
+                    <option value="${TaskTemplate.dishes}"> Opvask </option>
+                    <option value="${TaskTemplate.cleaning}"> Oprydning </option>
+                </select>
                 <input-element .valid="${this.taskNameValid}" label="Navn" .value="${this.taskName}" @changeValue="${(e: CustomEvent) => this.taskName = e.detail}"></input-element>
                 <input-element .valid="${this.taskContentValid}" label="Beskrivelse" .value="${this.taskContent}" @changeValue="${(e: CustomEvent) => this.taskContent = e.detail}"></input-element>
                 <input-element .valid="${this.taskRewardAmountValid}" .inputType="${InputType.number}" label="Beløb" .value="${this.taskRewardAmount}" @changeValue="${(e: CustomEvent) => this.taskRewardAmount = e.detail}"></input-element>
@@ -109,8 +127,6 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
         `
     }
 
-    //kunne være skrevet inline i render funktionen men adskiller det for at gøre det mere læsbart.
-    //Hvis vi ville beholde knappen i renderfunktionen så kan vi i knap-teksten sige ${this.createForm ? "Opret" : "Gem Ændringer"}
     renderSubmitButton() {
         if (this.createForm) {
             return html `
@@ -123,5 +139,30 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
         return html `
             <button-element .action="${() => this.submitForm()}"> Redigere </button>
         `;
+    }
+
+    //Pre-filled inputs according to templates
+    fillInputs() {
+        switch (this.chosenTemplate) {
+            case TaskTemplate.vacuuming:
+                this.taskName = "Støvsugning"
+                this.taskContent = "Støvsug i hele hjemmet"
+                this.taskRewardAmount = 50
+                return;
+            case TaskTemplate.dishes:
+                this.taskName = "Opvask"
+                this.taskContent = "Vask op, tør af og sæt dem tilbage på deres plads"
+                this.taskRewardAmount = 40
+                return;
+            case TaskTemplate.cleaning:
+                this.taskName = "Oprydning"
+                this.taskContent = "Ryd op på værelset"
+                this.taskRewardAmount = 30
+                return;
+            default:
+                this.taskName = ""
+                this.taskContent = ""
+                this.taskRewardAmount = 100
+        }
     }
 }
