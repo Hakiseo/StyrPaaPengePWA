@@ -134,7 +134,6 @@ export class SideMenu extends BaseStyleElement {
         return html `
             <p @click="${() => this.menuNavigate("/home")}"> Forside </p>
             <p @click="${() => this.menuNavigate("/tasklist-overview")}"> Opgave oversigt </p>
-            <p @click="${() => this.menuNavigate("/tasklist-overview")}"> Opgave oversigt </p>
             <p @click="${() => this.menuNavigate("/task-creating")}"> Opret Opgave </p>
             <p @click="${() => this.menuNavigate("/parent/details")}"> Egne detaljer </p>
             <p @click="${() => this.menuNavigate("/parent/approvedTasks")}"> Godkendte opgaver </p>
