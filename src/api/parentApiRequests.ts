@@ -110,3 +110,7 @@ export function update_Task(id: string, task_name: string, content: string, rewa
 export function create_Task(data: {}) {
     return apiPost("parent/task/create/", data)
 }
+
+export function reOpenTask(id: string) {
+    return apiPut("parent/reOpenTask/", {id: id})
+}

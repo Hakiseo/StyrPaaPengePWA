@@ -28,6 +28,7 @@ export interface ICustomErrorHandling {
     validated: () => boolean
 }
 
+//TODO: Why is everything strings? Is easier to work with but we are misinterpreting the data
 export interface ITasklist {
     id:string,
     task_name:string,
@@ -41,6 +42,7 @@ export interface ITasklist {
     img:string,
 }
 
+//TODO: Why is everything strings? Is easier to work with but we are misinterpreting the data
 export interface IWishlist {
     id:string,
     creator_id:string,

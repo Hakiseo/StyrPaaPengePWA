@@ -8,7 +8,7 @@ import {
     getTaskParent,
     delete_Task,
     update_Task,
-    confirm_TaskParent, fetchMinimalChild
+    confirm_TaskParent, fetchMinimalChild, reOpenTask
 } from "../api/parentApiRequests";
 import { router } from "../index";
 import "../parentComponents/taskForm";
@@ -147,6 +147,11 @@ export class TaskDetailPage extends LitElement {
     }
 
     renderConfirmMode(){
+        if (this.task.done_status) {
+            return html `
+            <button-element .action=${() => this.reOpenTaskParent()}>Genåbn opgave</button-element>
+        `;
+        }
         return html `
             <button-element .action=${() => this.confirmTaskParent()}>Godkend</button-element>
             <button-element .action=${() => this.rejectTaskParent()}>Afvis</button-element>
@@ -209,6 +214,17 @@ export class TaskDetailPage extends LitElement {
         }else{
             window.alert("No fields may be left empty'!");
         }
+    }
+
+    reOpenTaskParent() {
+        reOpenTask(this.task.id).then((r: IApiResponse) => {
+            if (r.error) {
+                this.errorMessage = "Error Re-opening task... " + r.error
+                this.displayError()
+            } else {
+                this.goBackParent()
+            }
+        })
     }
 
     confirmTaskParent(){
