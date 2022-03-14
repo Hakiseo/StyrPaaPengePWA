@@ -32,7 +32,6 @@ export class TaskCreatePage extends LitElement implements ICustomErrorHandling {
     }
 
     render(): TemplateResult{
-        console.log("creat page: ", this.minChildData)
         return html`
             <h1>Opret Opgave:</h1>
             <button-element .action=${() => this.goBack()}>Tilbage</button-element><br>
@@ -43,7 +42,6 @@ export class TaskCreatePage extends LitElement implements ICustomErrorHandling {
     }
 
     createTask(e: CustomEvent){
-        console.log("New task created: ", e.detail)
         if (e.detail.taskName && e.detail.taskContent && e.detail.taskRewardAmount) {
             create_Task({
                 creator_id: getCurrentUserId(),

@@ -41,7 +41,6 @@ export class WishDetailPage extends LitElement {
 
     protected updated(_changedProperties: PropertyValues) {
         super.updated(_changedProperties);
-        console.log("wishID: ", this.wishID)
         if (_changedProperties.has("wishID")) {
             this.loadWish();
         }
@@ -188,7 +187,6 @@ export class WishDetailPage extends LitElement {
     }
 
     updateWishChild(e : CustomEvent){
-        console.log("Wishlist updated: ", e.detail)
         if (e.detail.wishListName && e.detail.wishListContent && e.detail.wishListTarget) {
             update_Wish(this.wish.id, e.detail.wishListName, e.detail.wishListContent, e.detail.wishListTarget).then((r : IApiResponse) => {
                 if(r.error){

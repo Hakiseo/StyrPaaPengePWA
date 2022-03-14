@@ -95,7 +95,6 @@ export class ParentIndexPage extends LitElement {
                 </div>
                 <section class="container">
                     ${this.wishlist.map(wish => {
-                        console.log(wish)
                         return html `
                             <wish-element .wish=${wish} .parentView="${true}"></wish-element>
                         `
@@ -120,7 +119,6 @@ export class ParentIndexPage extends LitElement {
                 </div>
                 <section class="container">
                     ${this.tasklist.map(task => {
-                console.log(task)
                 return html `
                         <task-element .task=${task} .parentView="${true}" .parentConfirmMode="${true}"></task-element>
                     `

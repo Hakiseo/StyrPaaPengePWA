@@ -97,7 +97,6 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
 
     //TODO Remember to style the option tag and the whole section
     renderJuniorChoices() {
-        console.log("Assigned ID: " + this.assignedID)
         if (!this.minChildData) return html `<p> Loading child Data... </p>`
         return html `
             <select id="2" @change="${(e: any) => this.chosenChildId = parseInt(e.target.value)}">

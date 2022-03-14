@@ -17,14 +17,11 @@ export class TasklistOverviewPage extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        console.log("Returned to Overview-Page")
-        console.log("Wishlist data" , this.tasklist)
     }
 
     protected updated(_changedProperties: PropertyValues) {
         super.updated(_changedProperties);
         if(_changedProperties.has("tasklist")){
-            console.log("Updated tasklist" , this.tasklist)
             if(!this.tasklist){
                 this.loadTasklist();
             }
@@ -39,7 +36,6 @@ export class TasklistOverviewPage extends LitElement {
     loadTasklist(){
         getCompleteTasklistParent(getCurrentUserId()).then((r : IApiResponse) =>{
             if (r.results !== null) {
-                console.log("Setting tasklist")
                 this.tasklist = r.results
             }
             if(r.error){
@@ -91,7 +87,6 @@ export class TasklistOverviewPage extends LitElement {
                 <button-element .action=${() => this.createTaskList()}>Opret Opgave</button-element>
                 <section class="container">
                     ${this.tasklist.map(task => {
-                        console.log(task)
                         return html `
                             <task-element .task=${task} .parentView="${true}"></task-element>
                         `

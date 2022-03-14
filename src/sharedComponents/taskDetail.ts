@@ -41,7 +41,6 @@ export class TaskDetailPage extends LitElement {
 
     protected updated(_changedProperties: PropertyValues) {
         super.updated(_changedProperties);
-        console.log("taskID: ", this.taskID)
         if (_changedProperties.has("taskID")) {
             this.loadTask();
         }
@@ -198,9 +197,7 @@ export class TaskDetailPage extends LitElement {
     }
 
     updateTaskParent(e : CustomEvent){
-        console.log("Task updated: ", e.detail)
         if (e.detail.taskName && e.detail.taskContent && e.detail.taskRewardAmount) {
-            console.log("child id" + e.detail.childId)
             update_Task(this.task.id, e.detail.taskName, e.detail.taskContent, e.detail.taskRewardAmount, e.detail.childId).then((r : IApiResponse) => {
                 if(r.error){
                     this.errorMessage = "Error updating task..."

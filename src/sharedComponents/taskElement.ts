@@ -82,8 +82,6 @@ export class TaskElement extends LitElement {
         if(!this.task){
             return html `Loading...`
         }else{
-            console.log(this.task)
-            console.log(this.task.current_status)
             return html`
                 <article class="taskElement" style="${this.task.current_status == '1' ? `background-color:#006abf` : `background-color:#003865`}">
                     <div id="img" alt=${this.task.task_name}></div>

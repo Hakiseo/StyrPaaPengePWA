@@ -143,7 +143,6 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
     }
 
     deleteJunior() {
-        console.log("Delete junior user: ", this.childData.username)
         deleteChild(this.childId).then((r: IApiResponse) => {
             console.log(r)
             if (!r.error) {
