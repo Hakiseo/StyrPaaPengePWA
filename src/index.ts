@@ -52,6 +52,9 @@ export class IndexElement extends LitElement {
         if (window.location.href == "http://localhost:8000/" || window.location.href == "http://localhost:8000" || window.location.href == "https://localhost:8000" || window.location.href == "https://localhost:8000/") {
             this.routeBackToIndex()
         }
+        if (window.location.href == "https://xn--styrppenge-55a.dk/" || window.location.href == "https://xn--styrppenge-55a.dk") {
+            this.routeBackToIndex()
+        }
     }
 
     constructor() {
