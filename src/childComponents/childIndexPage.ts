@@ -102,4 +102,3 @@ export class ChildIndexPage extends LitElement {
         }
     }
 }
-
