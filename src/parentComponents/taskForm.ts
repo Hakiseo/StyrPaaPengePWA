@@ -29,6 +29,7 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
     @property() chosenTemplate: TaskTemplate = TaskTemplate.custom;
 
     @property() errorMessage: string = "";
+    @property() imgUrl: string | null = null;
 
     @property() taskNameValid: boolean = true;
     @property() taskContentValid: boolean = true;
@@ -103,7 +104,8 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
                         taskName: this.taskName,
                         taskContent: this.taskContent,
                         taskRewardAmount: this.taskRewardAmount,
-                        childId: this.chosenChildId
+                        childId: this.chosenChildId,
+                        img: this.imgUrl
                     }
                 })
             )
@@ -148,21 +150,25 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
                 this.taskName = "Støvsugning"
                 this.taskContent = "Støvsug i hele hjemmet"
                 this.taskRewardAmount = 50
+                this.imgUrl = "https://cdn.dribbble.com/users/4107928/screenshots/11131812/media/91accbe36f6cd6d8ccd54c004374c575.jpg?compress=1&resize=400x300"
                 return;
             case TaskTemplate.dishes:
                 this.taskName = "Opvask"
                 this.taskContent = "Vask op, tør af og sæt dem tilbage på deres plads"
                 this.taskRewardAmount = 40
+                this.imgUrl = "https://images.pexels.com/photos/6248900/pexels-photo-6248900.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=350&w=630"
                 return;
             case TaskTemplate.cleaning:
                 this.taskName = "Oprydning"
                 this.taskContent = "Ryd op på værelset"
                 this.taskRewardAmount = 30
+                this.imgUrl = "https://homemaidbetter.com/wp-content/uploads/2019/03/residential-cleaning-services.png"
                 return;
             default:
                 this.taskName = ""
                 this.taskContent = ""
                 this.taskRewardAmount = 100
+                this.imgUrl = null
         }
     }
 }

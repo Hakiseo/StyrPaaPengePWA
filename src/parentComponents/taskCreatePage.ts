@@ -48,8 +48,9 @@ export class TaskCreatePage extends LitElement implements ICustomErrorHandling {
                 task_name: e.detail.taskName,
                 content: e.detail.taskContent,
                 reward_amount: e.detail.taskRewardAmount,
-                junior_id: e.detail.childId
-            }).then((r : IApiResponse) => {
+                junior_id: e.detail.childId,
+                img: e.detail.img
+                }).then((r : IApiResponse) => {
                 if(r.error){
                     this.errorMessage = "Error creating task..."
                     this.displayError()
