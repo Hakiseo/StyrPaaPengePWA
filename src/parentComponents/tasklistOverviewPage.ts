@@ -7,7 +7,7 @@ import {getCompleteTasklistParent} from "../api/parentApiRequests";
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
 import "../sharedComponents/buttonElement"
-//import "../sharedComponents/errorElement"
+import "../sharedComponents/errorMessage"
 
 @customElement("tasklist-overview-page")
 export class TasklistOverviewPage extends LitElement {
@@ -85,7 +85,7 @@ export class TasklistOverviewPage extends LitElement {
     private renderTasks(){
         if(!this.tasklist){
             return html `
-                <!--<error-message> Error loading tasklist </error-message>-->
+                <error-message> Error loading tasklist </error-message>
             `;
         }else{
             return html `

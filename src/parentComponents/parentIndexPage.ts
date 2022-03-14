@@ -7,7 +7,7 @@ import {fetchJuniors, getConfirmedTasklistParent, getConfirmedWishlistParent} fr
 import {IApiResponse} from "../sharedComponents/sharedInterfaces";
 import {IChildData, IMinimalChildrenData, ITasklist, IWishlist} from "./parentInterfaces";
 import "../sharedComponents/buttonElement";
-//import "../sharedComponents/errorElement"
+import "../sharedComponents/errorMessage"
 
 @customElement("parent-index-page")
 export class ParentIndexPage extends LitElement {
@@ -107,7 +107,7 @@ export class ParentIndexPage extends LitElement {
                 <div>
                     <h3> Indløste ønskelister: </h3>
                 </div>
-                <!--<error-message> Error loading Wishlist </error-message>-->
+                <error-message> Error loading Wishlist </error-message>
             `;
         }
     }
@@ -132,7 +132,7 @@ export class ParentIndexPage extends LitElement {
                 <div>
                     <h3> Opgaver til godkendelse: </h3>
                 </div>
-                <!--<error-message> Error loading Tasklist... </error-message>-->
+                <error-message> Error loading Tasklist... </error-message>
             `;
         }
     }

@@ -5,7 +5,7 @@ import {getWishlist} from "../api/childApiRequests";
 import {IApiResponse} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/wishElement"
 import "../sharedComponents/buttonElement"
-//import "../sharedComponents/errorElement"
+import "../sharedComponents/errorMessage"
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
 
@@ -85,7 +85,7 @@ export class WishlistOverviewPage extends LitElement {
     private renderWishes(){
         if(!this.wishlist){
             return html `
-                <!--<error-message> Error loading wishlist </error-message>-->
+                <error-message> Error loading wishlist </error-message>
             `;
         }else{
             console.log("Render Wishlist")

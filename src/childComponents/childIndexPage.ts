@@ -7,7 +7,7 @@ import "../sharedComponents/taskElement"
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
 import "../sharedComponents/buttonElement";
-//import "../sharedComponents/errorElement"
+import "../sharedComponents/errorMessage"
 
 @customElement("child-index-page")
 export class ChildIndexPage extends LitElement {
@@ -83,7 +83,7 @@ export class ChildIndexPage extends LitElement {
             `;
         }else{
             return html `
-                <!--<error-message> Error loading tasklist </error-message>-->
+                <error-message> Error loading tasklist </error-message>
             `;
         }
     }

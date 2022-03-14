@@ -5,7 +5,7 @@ import {IApiResponse, ICustomErrorHandling, InputType, UserType} from "./sharedI
 import {router} from "../index";
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/inputElement"
-//import "../sharedComponents/errorMessage"
+import "../sharedComponents/errorMessage"
 
 @customElement("login-page")
 export class Login extends LitElement implements ICustomErrorHandling {
@@ -46,7 +46,7 @@ export class Login extends LitElement implements ICustomErrorHandling {
             <input-element .valid="${this.passwordValid}" .inputType="${InputType.password}" label="Password" @changeValue="${(e: CustomEvent) => this.password = e.detail}"></input-element>
             
             <button-element .action="${() => this.login()}"> Login </button-element>
-            <!--<error-message> ${this.errorMessage} </error-message>-->
+            <error-message> ${this.errorMessage} </error-message>
             <p class="register" @click="${() => this.showRegister()}"> Register an account </p>
         `;
     }
