@@ -79,7 +79,7 @@ export class WishElement extends LitElement {
 
     renderparent(){
         return html`
-            <a class="btn" @click=${() => this.navigateParent()}>Godkend</a>
+            <a class="btn" @click=${() => this.navigateParent()}> ${this.wish.done_status == '1' ? "Detaljer" : "Godkend"} </a>
         `;
     }
 

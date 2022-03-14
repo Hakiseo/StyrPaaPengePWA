@@ -111,9 +111,16 @@ export class WishDetailPage extends LitElement {
             <h3>${this.wish.target_reward_balance}</h3><br>
             <p-element>${this.minChildData.firstName} ${this.minChildData.lastName}</p-element>
             <h3>${this.wish.creator_id}</h3><br>
+            ${this.renderParentInfoFormButtons()}
+        `;
+    }
+
+    renderParentInfoFormButtons(): TemplateResult | void {
+        if (this.wish.done_status == '1') return;
+        return html `
             <button-element .action=${() => this.rejectWishParent()}>Afvis</button-element><br>
             <button-element .action=${() => this.confirmWishParent()}>Godkend</button-element><br>
-        `;
+        `
     }
 
     goBackParent(){
