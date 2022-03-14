@@ -21,10 +21,10 @@ export class ChildIndexPage extends LitElement {
     }
 
     protected render(): TemplateResult {
-        if(!this.tasklist) return html `Loading ...`;
         return html `
-            <h1> Velkommen tilbage ${this.accountInfo.first_name}!</h1>
-            <h3> Saldo: ${this.accountInfo.reward_balance}</h3>
+            <div>
+                ${this.renderAccountInfo()}
+            </div>
             <div>
                 ${this.renderTasks()}
             </div>
@@ -68,22 +68,36 @@ export class ChildIndexPage extends LitElement {
         })
     }
 
+    renderAccountInfo(){
+        if(this.accountInfo){
+            return html `
+                <h1> Velkommen tilbage ${this.accountInfo.first_name}!</h1>
+                <h3> Saldo: ${this.accountInfo.reward_balance}</h3>
+            `;
+        }else{
+            console.log("Error loading AccountInfo")
+            return html `
+                <error-message> Error loading AccountInfo </error-message>
+            `;
+        }
+    }
+
     private renderTasks(){
-        if(this.tasklist){
+        if(!this.tasklist){
+            return html `
+                <error-message> Error loading tasklist </error-message>
+            `;
+        }else{
             return html `
                 <h1>Opgaver:</h1>
                 <section class="container">
                     ${this.tasklist.map(task => {
-                    console.log(task)
-                    return html `
-                        <task-element .task=${task} .parentView="${false}"></task-element>
-                    `
-                })}
+                        console.log(task)
+                        return html `
+                            <task-element .task=${task} .parentView="${false}"></task-element>
+                        `
+                    })}
                 </section>
-            `;
-        }else{
-            return html `
-                <error-message> Error loading tasklist </error-message>
             `;
         }
     }
