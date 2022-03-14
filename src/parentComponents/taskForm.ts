@@ -91,6 +91,7 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
             )
         }else{
             window.alert(this.errorMessage)
+            this.errorMessage = "";
         }
     }
 

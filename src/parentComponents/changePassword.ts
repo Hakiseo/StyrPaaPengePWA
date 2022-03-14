@@ -77,7 +77,7 @@ export class ChangePassword extends LitElement implements ICustomErrorHandling{
                 <button-element .action="${() => this.goBack()}"> Annuller </button-element>
                 <button-element .action="${() => this.changePassword()}"> Ændre Password </button-element>
             </div>
-            <error-message> ${this.errorMessage} </error-message>
+            <!--<error-message> ${this.errorMessage} </error-message>-->
         `
     }
 

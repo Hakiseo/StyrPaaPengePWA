@@ -7,6 +7,7 @@ import {fetchJuniors, getConfirmedTasklistParent, getConfirmedWishlistParent} fr
 import {IApiResponse} from "../sharedComponents/sharedInterfaces";
 import {IChildData, IMinimalChildrenData, ITasklist, IWishlist} from "./parentInterfaces";
 import "../sharedComponents/buttonElement";
+import "../sharedComponents/errorMessage"
 
 @customElement("parent-index-page")
 export class ParentIndexPage extends LitElement {
@@ -15,8 +16,7 @@ export class ParentIndexPage extends LitElement {
     @property() minimalChildrenData: IMinimalChildrenData[] = [];
     @property() wishlist!: IWishlist[];
     @property() tasklist!: ITasklist[];
-    @property({type: String}) errorWishMessage: string | null = "";
-    @property({type: String}) errorTaskMessage: string | null = "";
+    @property({type: String}) errorMessage: string | null = "";
 
     connectedCallback() {
         super.connectedCallback();
@@ -37,6 +37,11 @@ export class ParentIndexPage extends LitElement {
         if (_changedProperties.has("minimalChildrenData") && this.minimalChildrenData.length > 0) {
             this.dispatchEvent(new CustomEvent("indexEmitMinimalChildrenData", {detail: this.minimalChildrenData}))
         }
+    }
+
+    displayError(){
+        window.alert(this.errorMessage)
+        this.errorMessage = "";
     }
 
     protected render(): TemplateResult {
@@ -65,41 +70,21 @@ export class ParentIndexPage extends LitElement {
         getConfirmedWishlistParent(this.parentId).then((r : IApiResponse) =>{
             if (r.results !== null) {
                 this.wishlist = r.results
-            }else{
-                this.errorWishMessage = r.error
             }
-            if(this.errorWishMessage){
-                this.renderWishError()
+            if(r.error){
+                this.errorMessage = "Error loading wishlist data..."
+                this.displayError()
             }
-            console.log(this.wishlist)
-            //this.errorMessage = "r.error" //simulerer at der er en error besked
         })
         getConfirmedTasklistParent(this.parentId).then((r : IApiResponse) =>{
             if (r.results !== null) {
                 this.tasklist = r.results
-            }else{
-                this.errorTaskMessage = r.error
             }
-            if(this.errorTaskMessage){
-                this.renderTaskError()
+            if(r.error){
+                this.errorMessage = "Error loading tasklist data..."
+                this.displayError()
             }
-            console.log(this.tasklist)
-            //this.errorMessage = "r.error" //simulerer at der er en error besked
         })
-    }
-
-    renderWishError(){
-        return html `
-            <p> ${this.errorWishMessage} </p>
-            <p> Error loading task info... </p>
-        `;
-    }
-
-    renderTaskError(){
-        return html `
-            <p> ${this.errorTaskMessage} </p>
-            <p> Error loading task info... </p>
-        `;
     }
 
     renderWishListRedeemSection(): TemplateResult | void {
@@ -122,7 +107,7 @@ export class ParentIndexPage extends LitElement {
                 <div>
                     <h3> Indløste ønskelister: </h3>
                 </div>
-                <p> Error loading Wishlist...</p>
+                <error-message> Error loading Wishlist </error-message>
             `;
         }
     }
@@ -147,7 +132,7 @@ export class ParentIndexPage extends LitElement {
                 <div>
                     <h3> Opgaver til godkendelse: </h3>
                 </div>
-                <p> Error loading Tasklist...</p>
+                <error-message> Error loading Tasklist... </error-message>
             `;
         }
     }

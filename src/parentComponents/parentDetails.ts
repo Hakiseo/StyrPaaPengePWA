@@ -73,7 +73,7 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
             <div>
                 ${this.renderButtons()}
             </div>
-            <error-message> ${this.errorMessage} </error-message>
+            <!--<error-message> ${this.errorMessage} </error-message>-->
         `
     }
 

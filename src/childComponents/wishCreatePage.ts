@@ -26,6 +26,7 @@ export class WishCreatePage extends LitElement implements ICustomErrorHandling {
 
     displayError(){
         window.alert(this.errorMessage)
+        this.errorMessage = "";
     }
 
     render(): TemplateResult{
@@ -39,7 +40,6 @@ export class WishCreatePage extends LitElement implements ICustomErrorHandling {
     }
 
     createWishList(e: CustomEvent){
-        console.log("New wishlist created: ", e.detail)
         if (e.detail.wishListName && e.detail.wishListContent && e.detail.wishListTarget) {
             create_Wishlist(
                 getCurrentUserId(),
@@ -56,7 +56,8 @@ export class WishCreatePage extends LitElement implements ICustomErrorHandling {
                 }
             )
         }else{
-            window.alert("No fields may be left empty'!");
+            this.errorMessage = "No fields may be left empty!"
+            this.displayError()
         }
     }
 }

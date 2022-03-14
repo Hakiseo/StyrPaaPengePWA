@@ -7,6 +7,7 @@ import "../sharedComponents/taskElement"
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
 import "../sharedComponents/buttonElement";
+import "../sharedComponents/errorMessage"
 
 @customElement("child-index-page")
 export class ChildIndexPage extends LitElement {
@@ -33,6 +34,7 @@ export class ChildIndexPage extends LitElement {
 
     displayError(){
         window.alert(this.errorMessage)
+        this.errorMessage = "";
     }
 
     static styles = [css`
@@ -67,12 +69,6 @@ export class ChildIndexPage extends LitElement {
     }
 
     private renderTasks(){
-        if (this.errorMessage) {
-            return html `
-                <p> ${this.errorMessage} </p>
-                <p> Loading...</p>
-            `;
-        }
         if(this.tasklist){
             return html `
                 <h1>Opgaver:</h1>
@@ -87,7 +83,7 @@ export class ChildIndexPage extends LitElement {
             `;
         }else{
             return html `
-                <p> Error loading Tasklist...</p>
+                <error-message> Error loading tasklist </error-message>
             `;
         }
     }
