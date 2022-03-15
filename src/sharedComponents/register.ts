@@ -69,7 +69,7 @@ export class Register extends LitElement implements ICustomErrorHandling{
             <input-element .valid="${this.passwordValid}" .inputType="${InputType.password}" label="Password" @changeValue="${(e: CustomEvent) => this.password = e.detail}"></input-element>
             <input-element .valid="${this.repeatedPasswordValid}" .inputType="${InputType.password}" label="Gentag password" @changeValue="${(e: CustomEvent) => this.repeatedPassword = e.detail}"></input-element>
             
-            <button-element .buttonType="${ButtonType.back}" .action="${() => this.showLogin()}"> Go back </button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action="${() => this.showLogin()}"> Go back </button-element>
             <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.register()}"> Register </button-element>
 
             <error-message> ${this.errorMessage} </error-message>

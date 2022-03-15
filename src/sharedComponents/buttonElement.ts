@@ -6,7 +6,7 @@ import {classMap} from "lit/directives/class-map.js";
 @customElement("button-element")
 export class ButtonElement extends LitElement {
     @property() action: () => void = () => {};
-    @property() buttonType: ButtonType = ButtonType.back;
+    @property() buttonType: ButtonType = ButtonType.navigate;
     @property() deleteMessage: string = "";
 
     static get styles() {
@@ -33,7 +33,7 @@ export class ButtonElement extends LitElement {
                 color: white;
             }
             
-            .back {
+            .navigate {
                 background-color: #14213d; /* Dark blue */
                 color: white;
             }
@@ -44,7 +44,7 @@ export class ButtonElement extends LitElement {
         const buttonStyle = {
             confirm: this.buttonType === ButtonType.confirm,
             deny: this.buttonType === ButtonType.delete || this.buttonType === ButtonType.deny,
-            back: this.buttonType === ButtonType.back || this.buttonType === ButtonType.cancel
+            navigate: this.buttonType === ButtonType.navigate || this.buttonType === ButtonType.cancel
         }
         return html`
             <button type="button" class="${classMap(buttonStyle)}" @click="${() => this.buttonAction()}"> <slot></slot> </button>

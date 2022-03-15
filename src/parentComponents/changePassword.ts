@@ -3,7 +3,7 @@ import {customElement, property} from "lit/decorators.js";
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
 import {changePasswordChild, changePasswordParent} from "../api/parentApiRequests";
-import {IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
+import {ButtonType, IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/inputElement"
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/errorMessage"
@@ -74,8 +74,8 @@ export class ChangePassword extends LitElement implements ICustomErrorHandling{
             <input-element .valid="${this.repeatedPasswordValid}" .inputType="${InputType.password}" label="Gentag nyt password" @changeValue="${(e: CustomEvent) => this.repeatedPassword = e.detail}"></input-element>
             
             <div>
-                <button-element .action="${() => this.goBack()}"> Annuller </button-element>
-                <button-element .action="${() => this.changePassword()}"> Ændre Password </button-element>
+                <button-element .buttonType="${ButtonType.navigate}" .action="${() => this.goBack()}"> Annuller </button-element>
+                <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.changePassword()}"> Ændre Password </button-element>
             </div>
             <!--<error-message> ${this.errorMessage} </error-message>-->
         `

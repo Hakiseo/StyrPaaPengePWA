@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
 import "../sharedComponents/wishElement"
-import {IApiResponse, ITasklist} from "../sharedComponents/sharedInterfaces";
+import {ButtonType, IApiResponse, ITasklist} from "../sharedComponents/sharedInterfaces";
 import {getCompleteTasklistParent} from "../api/parentApiRequests";
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
@@ -82,8 +82,8 @@ export class TasklistOverviewPage extends LitElement {
         }else{
             return html `
                 <h1>Opgaver:</h1>
-                <button-element .action=${() => this.goBack()}>Tilbage</button-element>
-                <button-element .action=${() => this.createTaskList()}>Opret Opgave</button-element>
+                <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBack()}>Tilbage</button-element>
+                <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.createTaskList()}>Opret Opgave</button-element>
                 <section class="container">
                     ${this.tasklist.map(task => {
                         return html `

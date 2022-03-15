@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, TemplateResult} from "lit";
 
-import {IApiResponse, ICustomErrorHandling} from "../sharedComponents/sharedInterfaces";
+import {ButtonType, IApiResponse, ICustomErrorHandling} from "../sharedComponents/sharedInterfaces";
 import {create_Wishlist} from "../api/childApiRequests";
 import { router } from "../index";
 import "./wishForm";
@@ -32,7 +32,7 @@ export class WishCreatePage extends LitElement implements ICustomErrorHandling {
     render(): TemplateResult{
         return html`
             <h1>Opret Ønskeliste:</h1>
-            <button-element .action=${() => this.goBack()}>Tilbage</button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBack()}>Tilbage</button-element>
             <wish-form .createForm="${true}" @submit="${(e: CustomEvent) => {
                 this.createWishList(e)
             }}"></wish-form>

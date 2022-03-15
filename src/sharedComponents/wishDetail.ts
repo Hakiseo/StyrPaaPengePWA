@@ -106,7 +106,7 @@ export class WishDetailPage extends LitElement {
     renderParentInfoForm(){
         if(!this.minChildData) return html `Error loading child data`;
         return html `
-            <button-element .buttonType="${ButtonType.back}" .action=${() => this.goBackParent()}>Tilbage</button-element><br>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackParent()}>Tilbage</button-element><br>
             <h3>${this.wish.saving_name}</h3><br>
             <h3>${this.wish.target_reward_balance}</h3><br>
             <p-element>${this.minChildData.firstName} ${this.minChildData.lastName}</p-element>
@@ -152,7 +152,7 @@ export class WishDetailPage extends LitElement {
     //TODO Child:
     renderChildInfoForm() {
         return html `
-            <button-element .buttonType="${ButtonType.back}" .action=${() => this.goBackChild()}>Tilbage</button-element><br>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackChild()}>Tilbage</button-element><br>
             <p-element> ${this.wish.saving_name} </p-element>
             <p-element> ${this.wish.content} </p-element>
             <p-element> ${this.wish.target_reward_balance} </p-element>
@@ -165,12 +165,12 @@ export class WishDetailPage extends LitElement {
             return html `
                 <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.editMode = true}>Redigér Ønskeliste</button-element><br>
                 <button-element .buttonType="${ButtonType.delete}" .action=${() => this.deleteWishChild()}>Slet Ønskeliste</button-element><br>
-                ${this.wish.current_status ? html`<button-element .buttonType="${ButtonType.back}" .action=${() => this.retractWishChild()}>Annullere</button-element><br>` :
+                ${this.wish.current_status ? html`<button-element .buttonType="${ButtonType.navigate}" .action=${() => this.retractWishChild()}>Annullere</button-element><br>` :
                     Number(this.accountInfo.reward_balance) >= Number(this.wish.target_reward_balance) ? html`<button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmWishChild()}>Indløs</button-element><br>` : ''}
             `;
         }else{
             return html `
-                ${this.wish.current_status ? html`<button-element .buttonType="${ButtonType.back}" .action=${() => this.retractWishChild()}>Annullere</button-element><br>` :
+                ${this.wish.current_status ? html`<button-element .buttonType="${ButtonType.navigate}" .action=${() => this.retractWishChild()}>Annullere</button-element><br>` :
                     Number(this.accountInfo.reward_balance) >= Number(this.wish.target_reward_balance) ? html`<button-element .buttonType="${ButtonType.confirm}" @click=${() => this.confirmWishChild()}>Indløs</button-element><br>` : ''}
             `;
         }
@@ -178,14 +178,14 @@ export class WishDetailPage extends LitElement {
 
     renderChildEditForm() {
         return html `
-            <button-element .buttonType="${ButtonType.back}" .action=${() => this.goBackChild()}>Tilbage</button-element><br>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackChild()}>Tilbage</button-element><br>
             <wish-form .detailForm="${true}"
                        .wishListName="${this.wish.saving_name}"
                        .wishListContent="${this.wish.content}"
                        .wishListTarget="${this.wish.target_reward_balance}"
                        @submit="${(e: CustomEvent) => {this.updateWishChild(e);}}"
             ></wish-form>
-            <button-element .buttonType="${ButtonType.back}" .action=${this.editMode = false, () => this.loadWish()}>Annullere</button-element><br>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${this.editMode = false, () => this.loadWish()}>Annullere</button-element><br>
         `;
     }
 

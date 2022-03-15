@@ -55,7 +55,7 @@ export enum InputType {
 }
 
 export enum ButtonType {
-    back = "Back",
+    navigate = "Navigate",
     confirm = "Confirm",
     delete = "Delete",
     deny = "Deny",

@@ -2,7 +2,7 @@ import {customElement,property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import {IAccountInfo} from "./childInterfaces";
 import {getAssignedTasklist, getChildInfo} from "../api/childApiRequests";
-import {IApiResponse, ITasklist} from "../sharedComponents/sharedInterfaces";
+import {ButtonType, IApiResponse, ITasklist} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/taskElement"
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
@@ -28,7 +28,7 @@ export class ChildIndexPage extends LitElement {
             <div>
                 ${this.renderTasks()}
             </div>
-            <button-element .action="${() => router.navigate("/wishlist-overview")}"> Ønskelister </button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate("/wishlist-overview")}"> Ønskelister </button-element>
         `
     }
 

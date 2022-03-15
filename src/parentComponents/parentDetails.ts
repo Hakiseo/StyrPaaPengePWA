@@ -3,7 +3,7 @@ import {customElement, property} from "lit/decorators.js";
 import {IParentData} from "./parentInterfaces";
 import {router} from "../index";
 import {deleteParent, editParent, getCurrentParent} from "../api/parentApiRequests";
-import {IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
+import {ButtonType, IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
 import {getCurrentUserId} from "../api/apiUtils";
 import "../sharedComponents/buttonElement";
 import "../sharedComponents/inputElement";
@@ -80,14 +80,14 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
     renderButtons() {
         if (this.editMode) {
             return html `
-                <button-element .action="${() => this.editMode = false}"> Annuller </button-element>
-                <button-element .action="${() => this.detailsAction()}"> Gem </button-element>
+                <button-element .buttonType="${ButtonType.cancel}" .action="${() => this.editMode = false}"> Annuller </button-element>
+                <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.detailsAction()}"> Gem </button-element>
             `
         }
         return html `
-            <button-element .action="${() => this.deleteParent()}"> Slet </button-element>
-            <button-element .action="${() => router.navigate(`/parent/details/changePassword`)}"> Ændre Password </button-element>
-            <button-element .action="${() => this.detailsAction()}"> Rediger </button-element>
+            <button-element .buttonType="${ButtonType.delete}" .action="${() => this.deleteParent()}"> Slet </button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate(`/parent/details/changePassword`)}"> Ændre Password </button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.detailsAction()}"> Rediger </button-element>
         `
     }
 

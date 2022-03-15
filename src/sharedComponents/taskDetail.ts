@@ -92,12 +92,12 @@ export class TaskDetailPage extends LitElement {
     //TODO Child:
     renderChildInfoForm(){
         return html `
-            <button-element .buttonType="${ButtonType.back}" .action=${() => this.goBackChild()}>Tilbage</button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackChild()}>Tilbage</button-element>
             <p-element> ${this.task.task_name} </p-element>
             <p-element> ${this.task.content} </p-element>
             <p-element> ${this.task.reward_amount} </p-element>
             ${this.task.current_status ?
-                    html`<button-element .buttonType="${ButtonType.back}" .action=${() => this.retractTaskChild()}>Annullere</button-element>` :
+                    html`<button-element .buttonType="${ButtonType.navigate}" .action=${() => this.retractTaskChild()}>Annullere</button-element>` :
                     html`<button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmTaskChild()}>Udført</button-element>`}
         `;
     }
@@ -132,7 +132,7 @@ export class TaskDetailPage extends LitElement {
     renderParentInfoForm(){
         if(this.minChildData){
             return html `
-                <button-element .buttonType="${ButtonType.back}" .action=${() => this.goBackParent()}>Tilbage</button-element>
+                <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackParent()}>Tilbage</button-element>
                 <p-element>${this.task.task_name}</p-element>
                 <p-element>${this.task.content}</p-element>
                 <p-element>${this.task.reward_amount}</p-element>
@@ -180,7 +180,7 @@ export class TaskDetailPage extends LitElement {
 
     renderParentEditForm(){
         return html `
-            <button-element .buttonType="${ButtonType.back}" .action=${() => this.goBackParent()}>Tilbage</button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackParent()}>Tilbage</button-element>
             <task-form .detailForm="${true}"
                        .assignedID="${this.task.assigned_to}"
                        .taskName="${this.task.task_name}"
@@ -188,7 +188,7 @@ export class TaskDetailPage extends LitElement {
                        .taskRewardAmount="${this.task.reward_amount}"
                        @submit="${(e: CustomEvent) => {this.updateTaskParent(e);}}"
             ></task-form>
-            <button-element .buttonType="${ButtonType.back}" .action=${this.editMode = false, () => this.loadTask()}>Annullere</button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${this.editMode = false, () => this.loadTask()}>Annullere</button-element>
         `;
     }
 

@@ -1,7 +1,7 @@
 import {css, html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {apiPost, identityTokenName, storageUserId} from "../api/apiUtils";
-import {IApiResponse, ICustomErrorHandling, InputType, UserType} from "./sharedInterfaces";
+import {ButtonType, IApiResponse, ICustomErrorHandling, InputType, UserType} from "./sharedInterfaces";
 import {router} from "../index";
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/inputElement"
@@ -44,7 +44,7 @@ export class Login extends LitElement implements ICustomErrorHandling {
             <input-element .valid="${this.loginDataValid}" label="Username/email" @changeValue="${(e: CustomEvent) => this.loginData = e.detail}"></input-element>
             <input-element .valid="${this.passwordValid}" .inputType="${InputType.password}" label="Password" @changeValue="${(e: CustomEvent) => this.password = e.detail}"></input-element>
             
-            <button-element .action="${() => this.login()}"> Login </button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.login()}"> Login </button-element>
             <error-message> ${this.errorMessage} </error-message>
             <p class="register" @click="${() => this.showRegister()}"> Register an account </p>
         `;

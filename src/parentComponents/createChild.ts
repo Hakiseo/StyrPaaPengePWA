@@ -1,7 +1,7 @@
 import {css, html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {createJuniorUser} from "../api/parentApiRequests";
-import {IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
+import {ButtonType, IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
 import {getCurrentUserId} from "../api/apiUtils";
 import {router} from "../index";
 import "../sharedComponents/buttonElement";
@@ -85,8 +85,8 @@ export class CreateChild extends LitElement implements ICustomErrorHandling {
             
             <input-element .valid="${this.startBalanceValid}" .inputType="${InputType.number}" label="Start Saldo" @changeValue="${(e: CustomEvent) => this.startBalance = e.detail}"></input-element>
 
-            <button-element .action="${() => router.navigate("/parent")}"> Annuller </button-element>
-            <button-element .action="${() => this.createNewJuniorUser()}"> Opret ny Junior-bruger </button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate("/parent")}"> Annuller </button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.createNewJuniorUser()}"> Opret ny Junior-bruger </button-element>
             
             <error-message> ${this.errorMessage} </error-message>
         `;

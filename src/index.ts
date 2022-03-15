@@ -23,7 +23,7 @@ import ("./sharedComponents/approvedDisplay");
 import ("./home");
 
 import {getIdentityToken, verifyToken} from "./api/apiUtils";
-import {UserType, IVerifyTokenResponse} from "./sharedComponents/sharedInterfaces"
+import {UserType, IVerifyTokenResponse, ButtonType} from "./sharedComponents/sharedInterfaces"
 import {ApprovedType, IChildData, IMinimalChildrenData} from "./parentComponents/parentInterfaces";
 
 import Navigo from "navigo";
@@ -175,7 +175,7 @@ export class IndexElement extends LitElement {
         return html ` 
         <div>
             <h2> 404 - Not found </h2>
-            <button-element .action="${() => this.routeBackToIndex()}"> Go back to main page </button-element> 
+            <button-element .buttonType="${ButtonType.navigate}" .action="${() => this.routeBackToIndex()}"> Go back to main page </button-element> 
         </div>
         `
     }

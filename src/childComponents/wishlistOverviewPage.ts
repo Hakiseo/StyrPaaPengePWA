@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {getWishlist} from "../api/childApiRequests";
-import {IApiResponse, IWishlist} from "../sharedComponents/sharedInterfaces";
+import {ButtonType, IApiResponse, IWishlist} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/wishElement"
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/errorMessage"
@@ -83,8 +83,8 @@ export class WishlistOverviewPage extends LitElement {
         }else{
             return html `
                 <h1>Ønskelister:</h1>
-                <button-element .action=${() => this.goBack()}>Tilbage</button-element><br>
-                <button-element .action=${() => this.createWishList()}>Opret Ønskeliste</button-element><br>
+                <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBack()}>Tilbage</button-element><br>
+                <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.createWishList()}>Opret Ønskeliste</button-element><br>
                 <section class="container">
                     ${this.wishlist.map(wish => {
                         return html `

@@ -4,7 +4,7 @@ import {router} from "../index";
 import "./childCard"
 import {getCurrentUserId} from "../api/apiUtils";
 import {fetchJuniors, getConfirmedTasklistParent, getConfirmedWishlistParent} from "../api/parentApiRequests";
-import {IApiResponse, ITasklist, IWishlist} from "../sharedComponents/sharedInterfaces";
+import {ButtonType, IApiResponse, ITasklist, IWishlist} from "../sharedComponents/sharedInterfaces";
 import {IChildData, IMinimalChildrenData} from "./parentInterfaces";
 import "../sharedComponents/buttonElement";
 import "../sharedComponents/errorMessage"
@@ -50,9 +50,9 @@ export class ParentIndexPage extends LitElement {
             ${this.parentId ? html`<h2> Parent Id: ${this.parentId}</h2>` : ''}
             ${this.renderWishListRedeemSection()}
             ${this.renderTaskApprovalSection()}
-            <button-element .action="${() => router.navigate("/tasklist-overview")}"> Opgaver </button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate("/tasklist-overview")}"> Opgaver </button-element>
             ${this.renderJuniorUsers()}
-            <button-element .action="${() => router.navigate("/parent/createChild")}"> Opret Junior Konto </button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => router.navigate("/parent/createChild")}"> Opret Junior Konto </button-element>
         `
     }
 

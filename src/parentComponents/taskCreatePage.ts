@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, TemplateResult} from "lit";
 
-import {IApiResponse, ICustomErrorHandling} from "../sharedComponents/sharedInterfaces";
+import {ButtonType, IApiResponse, ICustomErrorHandling} from "../sharedComponents/sharedInterfaces";
 import {create_Task} from "../api/parentApiRequests";
 import { router } from "../index";
 import "../parentComponents/taskForm";
@@ -34,7 +34,7 @@ export class TaskCreatePage extends LitElement implements ICustomErrorHandling {
     render(): TemplateResult{
         return html`
             <h1>Opret Opgave:</h1>
-            <button-element .action=${() => this.goBack()}>Tilbage</button-element><br>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBack()}>Tilbage</button-element><br>
             <task-form .minChildData="${this.minChildData}" .createForm="${true}" @submit="${(e: CustomEvent) => {
                 this.createTask(e)
             }}"></task-form>
