@@ -154,14 +154,14 @@ export class TaskDetailPage extends LitElement {
         }
         return html `
             <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmTaskParent()}>Godkend</button-element>
-            <button-element .buttonType="${ButtonType.cancel}" .action=${() => this.rejectTaskParent()}>Afvis</button-element>
+            <button-element .buttonType="${ButtonType.deny}" .action=${() => this.rejectTaskParent()}>Afvis</button-element>
         `;
     }
 
     renderDetailMode(){
         return html `
             <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmTaskParent()}>Godkend</button-element>
-            ${this.task.current_status ? html `<button-element .buttonType="${ButtonType.cancel}" .action=${() => this.rejectTaskParent()}>Afvis</button-element>` : ''}
+            ${this.task.current_status ? html `<button-element .buttonType="${ButtonType.deny}" .action=${() => this.rejectTaskParent()}>Afvis</button-element>` : ''}
             <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.editMode = true}>Redigér Opgave</button-element>
             <button-element .buttonType="${ButtonType.delete}" .action=${() => this.deleteTaskParent()}>Slet Opgave</button-element>
         `;

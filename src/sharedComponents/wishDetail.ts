@@ -118,7 +118,7 @@ export class WishDetailPage extends LitElement {
     renderParentInfoFormButtons(): TemplateResult | void {
         if (this.wish.done_status == '1') return;
         return html `
-            <button-element .buttonType="${ButtonType.cancel}" .action=${() => this.rejectWishParent()}>Afvis</button-element><br>
+            <button-element .buttonType="${ButtonType.deny}" .action=${() => this.rejectWishParent()}>Afvis</button-element><br>
             <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmWishParent()}>Godkend</button-element><br>
         `
     }

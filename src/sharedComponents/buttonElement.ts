@@ -28,13 +28,13 @@ export class ButtonElement extends LitElement {
                 color: white;
             }
             
-            .cancel {
+            .deny {
                 background-color: #ba181b; /* Red */
                 color: white;
             }
             
             .back {
-                background-color: #14213d; /* Green */
+                background-color: #14213d; /* Dark blue */
                 color: white;
             }
         `
@@ -43,8 +43,8 @@ export class ButtonElement extends LitElement {
     render(): TemplateResult {
         const buttonStyle = {
             confirm: this.buttonType === ButtonType.confirm,
-            cancel: this.buttonType === ButtonType.delete || this.buttonType === ButtonType.cancel,
-            back: this.buttonType === ButtonType.back
+            deny: this.buttonType === ButtonType.delete || this.buttonType === ButtonType.deny,
+            back: this.buttonType === ButtonType.back || this.buttonType === ButtonType.cancel
         }
         return html`
             <button type="button" class="${classMap(buttonStyle)}" @click="${() => this.buttonAction()}"> <slot></slot> </button>

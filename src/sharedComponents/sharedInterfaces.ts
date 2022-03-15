@@ -58,5 +58,6 @@ export enum ButtonType {
     back = "Back",
     confirm = "Confirm",
     delete = "Delete",
+    deny = "Deny",
     cancel = "Cancel"
 }
