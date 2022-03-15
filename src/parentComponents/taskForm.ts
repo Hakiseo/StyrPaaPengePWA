@@ -28,6 +28,7 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
                 border: 1px solid #ccc;
                 border-radius: 5px;
                 box-sizing: border-box;
+                background-color: #ffffff
             }
         `
     }
