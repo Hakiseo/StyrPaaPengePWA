@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
-import {IApiResponse, ITasklist} from "./sharedInterfaces";
+import {ButtonType, IApiResponse, ITasklist} from "./sharedInterfaces";
 import {confirm_Task, getTask, retract_Task} from "../api/childApiRequests";
 import {
     reject_TaskParent,
@@ -32,7 +32,7 @@ export class TaskDetailPage extends LitElement {
     render() : TemplateResult{
         if (!this.task) return html `Loading ...`;
         return html`
-            <h1>Opgave:${this.task.task_name}</h1>
+            <h1>Opgave: ${this.task.task_name}</h1>
             <img src="${this.task.img}" alt="Wish Icon" width="200" height="200">
             ${!this.parentView ? this.renderChildInfoForm() : this.editMode ? this.renderParentEditForm() : this.renderParentInfoForm()}
         `;
@@ -92,13 +92,13 @@ export class TaskDetailPage extends LitElement {
     //TODO Child:
     renderChildInfoForm(){
         return html `
-            <button @click=${() => this.goBackChild()}>Tilbage</button>
+            <button-element .buttonType="${ButtonType.back}" .action=${() => this.goBackChild()}>Tilbage</button-element>
             <p-element> ${this.task.task_name} </p-element>
             <p-element> ${this.task.content} </p-element>
             <p-element> ${this.task.reward_amount} </p-element>
             ${this.task.current_status ?
-                    html`<button-element .action=${() => this.retractTaskChild()}>Annullere</button-element>` :
-                    html`<button-element .action=${() => this.confirmTaskChild()}>Udført</button-element>`}
+                    html`<button-element .buttonType="${ButtonType.back}" .action=${() => this.retractTaskChild()}>Annullere</button-element>` :
+                    html`<button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmTaskChild()}>Udført</button-element>`}
         `;
     }
 
@@ -132,7 +132,7 @@ export class TaskDetailPage extends LitElement {
     renderParentInfoForm(){
         if(this.minChildData){
             return html `
-                <button @click=${() => this.goBackParent()}>Tilbage</button>
+                <button-element .buttonType="${ButtonType.back}" .action=${() => this.goBackParent()}>Tilbage</button-element>
                 <p-element>${this.task.task_name}</p-element>
                 <p-element>${this.task.content}</p-element>
                 <p-element>${this.task.reward_amount}</p-element>
@@ -149,21 +149,21 @@ export class TaskDetailPage extends LitElement {
     renderConfirmMode(){
         if (this.task.done_status) {
             return html `
-            <button-element .action=${() => this.reOpenTaskParent()}>Genåbn opgave</button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.reOpenTaskParent()}>Genåbn opgave</button-element>
         `;
         }
         return html `
-            <button-element .action=${() => this.confirmTaskParent()}>Godkend</button-element>
-            <button-element .action=${() => this.rejectTaskParent()}>Afvis</button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmTaskParent()}>Godkend</button-element>
+            <button-element .buttonType="${ButtonType.cancel}" .action=${() => this.rejectTaskParent()}>Afvis</button-element>
         `;
     }
 
     renderDetailMode(){
         return html `
-            <button-element .action=${() => this.confirmTaskParent()}>Godkend</button-element>
-            ${this.task.current_status ? html `<button-element .action=${() => this.rejectTaskParent()}>Afvis</button-element>` : ''}
-            <button-element .action=${() => this.editMode = true}>Redigér Opgave</button-element>
-            <button-element .action=${() => this.deleteTaskParent()}>Slet Opgave</button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmTaskParent()}>Godkend</button-element>
+            ${this.task.current_status ? html `<button-element .buttonType="${ButtonType.cancel}" .action=${() => this.rejectTaskParent()}>Afvis</button-element>` : ''}
+            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.editMode = true}>Redigér Opgave</button-element>
+            <button-element .buttonType="${ButtonType.delete}" .action=${() => this.deleteTaskParent()}>Slet Opgave</button-element>
         `;
     }
 
@@ -180,7 +180,7 @@ export class TaskDetailPage extends LitElement {
 
     renderParentEditForm(){
         return html `
-            <button-element .action=${() => this.goBackParent()}>Tilbage</button-element>
+            <button-element .buttonType="${ButtonType.back}" .action=${() => this.goBackParent()}>Tilbage</button-element>
             <task-form .detailForm="${true}"
                        .assignedID="${this.task.assigned_to}"
                        .taskName="${this.task.task_name}"
@@ -188,7 +188,7 @@ export class TaskDetailPage extends LitElement {
                        .taskRewardAmount="${this.task.reward_amount}"
                        @submit="${(e: CustomEvent) => {this.updateTaskParent(e);}}"
             ></task-form>
-            <button-element .action=${this.editMode = false, () => this.loadTask()}>Annullere</button-element>
+            <button-element .buttonType="${ButtonType.back}" .action=${this.editMode = false, () => this.loadTask()}>Annullere</button-element>
         `;
     }
 

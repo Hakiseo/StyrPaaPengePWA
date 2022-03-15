@@ -1,7 +1,7 @@
 import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {property} from "lit/decorators.js";
 import {customElement} from "lit/decorators.js";
-import {ICustomErrorHandling, InputType, IApiResponse} from "../sharedComponents/sharedInterfaces";
+import {ICustomErrorHandling, InputType, IApiResponse, ButtonType} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/inputElement"
 import {IMinimalChildrenData} from "./parentInterfaces";
@@ -147,14 +147,14 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
     renderSubmitButton() {
         if (this.createForm) {
             return html `
-            <button-element .action="${() => this.submitForm()}"> Opret </button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.submitForm()}"> Opret </button-element>
         `}
         if(this.detailForm){
             return html `
-            <button-element .action="${() => this.submitForm()}"> Gem Ændringer </button>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.submitForm()}"> Gem Ændringer </button>
         `}
         return html `
-            <button-element .action="${() => this.submitForm()}"> Redigere </button>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.submitForm()}"> Redigere </button>
         `;
     }
 
