@@ -1,4 +1,4 @@
-import {html, LitElement, PropertyValues, TemplateResult} from "lit";
+import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {property} from "lit/decorators.js";
 import {customElement} from "lit/decorators.js";
 import {ICustomErrorHandling, InputType, IApiResponse} from "../sharedComponents/sharedInterfaces";
@@ -17,6 +17,20 @@ enum TaskTemplate {
 
 @customElement("task-form")
 export class TaskForm extends LitElement implements ICustomErrorHandling {
+    static get styles() {
+        return css`            
+            select {
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+        `
+    }
+
     @property({type: Boolean}) createForm: boolean = false;
     @property({type: Boolean}) detailForm: boolean = false;
     @property({type: String}) assignedID: string = "";

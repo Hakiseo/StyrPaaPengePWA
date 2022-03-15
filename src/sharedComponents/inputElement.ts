@@ -12,11 +12,20 @@ export class InputElement extends LitElement {
 
     @property() inputType: InputType = InputType.text;
 
-    //TODO: style our input fields
     static get styles() {
         return css`
             .invalidInput {
-                border: 3px solid red;
+                border: 2px solid red;
+            }
+            
+            input {
+              width: 100%;
+              padding: 12px 20px;
+              margin: 8px 0;
+              display: inline-block;
+              border: 1px solid #ccc;
+              border-radius: 10px;
+              box-sizing: border-box;
             }
         `
     }
