@@ -11,18 +11,6 @@ export interface IVerifyTokenResponse {
     userType: string
 }
 
-export enum UserType {
-    parent = "parent",
-    child = "child"
-}
-
-export enum InputType {
-    text = "text",
-    password = "password",
-    email = "email",
-    number = "number"
-}
-
 export interface ICustomErrorHandling {
     errorMessage: string | undefined
     validated: () => boolean
@@ -52,4 +40,23 @@ export interface IWishlist {
     current_status:string,
     done_status:string,
     img:string,
+}
+
+export enum UserType {
+    parent = "parent",
+    child = "child"
+}
+
+export enum InputType {
+    text = "text",
+    password = "password",
+    email = "email",
+    number = "number"
+}
+
+export enum ButtonType {
+    back = "Back",
+    confirm = "Confirm",
+    delete = "Delete",
+    cancel = "Cancel"
 }

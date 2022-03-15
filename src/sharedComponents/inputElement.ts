@@ -44,8 +44,14 @@ export class InputElement extends LitElement {
 
     protected render(): TemplateResult {
         return html `
-            <label for="${this.inputId}"> ${this.label}: </label>
-            <input class="${classMap({invalidInput: !this.valid})}" type="${this.inputType}" value="${this.formatValue()}" id="${this.inputId}" name="${this.inputId}" @change="${(e: any) => this.emitChange(e)}">
+            <label for="${this.inputId}"> <b> ${this.label}: </b> </label>
+            <input class="${classMap({invalidInput: !this.valid})}" 
+                   type="${this.inputType}" 
+                   value="${this.formatValue()}" 
+                   id="${this.inputId}" 
+                   name="${this.inputId}" 
+                   placeholder="${this.label}"
+                   @change="${(e: any) => this.emitChange(e)}">
         `;
     }
 
