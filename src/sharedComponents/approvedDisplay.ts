@@ -39,7 +39,7 @@ export class ApprovedDisplay extends LitElement {
 
     renderApprovedWishlists() {
         return html `
-            <h1> Approved Wishlists: </h1>
+            <h1> Godkendte og lukkede ønskelister: </h1>
             ${this.wishlists.length > 0 ? this.wishlists.map(r => {
                 return html `<wish-element .wish="${r}" .parentView="${this.parent}"></wish-element>`
             }) : "Der er ikke godkendt nogle ønsker endnu! Det syndt for dit barn...."}
@@ -56,7 +56,7 @@ export class ApprovedDisplay extends LitElement {
 
     renderApprovedTasks() {
         return html `
-            <h1> Approved Tasks: </h1>
+            <h1> Godkendte og lukkede opgaver: </h1>
             ${this.tasks.length > 0 ? this.tasks.map(r => {
                 return html `<task-element .task="${r}" .parentView="${true}" .parentConfirmMode="${true}"></task-element>`
             }) : "Der er ikke godkendt nogle opgaver endnu! Enten er barnet dovent eller også er du skrap? O.o"}
