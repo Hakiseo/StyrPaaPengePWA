@@ -13,6 +13,7 @@ export class InputElement extends LitElement {
     @property() inputType: InputType = InputType.text;
 
     static get styles() {
+        //https://www.w3schools.com/css/css_form.asp
         return css`
             .invalidInput {
                 border: 2px solid red;

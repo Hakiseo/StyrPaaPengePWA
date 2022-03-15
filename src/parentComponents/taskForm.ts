@@ -17,6 +17,7 @@ enum TaskTemplate {
 
 @customElement("task-form")
 export class TaskForm extends LitElement implements ICustomErrorHandling {
+    //https://www.w3schools.com/css/css_form.asp
     static get styles() {
         return css`            
             select {
