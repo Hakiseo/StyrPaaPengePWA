@@ -36,12 +36,12 @@ export class TaskElement extends LitElement {
             margin-top: 7px;
         }
         .btn {
-            color: #FFFFFF;
+            color: #000000;
             padding: 5px 5px;
             text-align: center;
             border-radius: 20px;
-            border: 2px solid #000000;
-            background: #000000;
+            border: 2px solid #E5E5E5;
+            background: #E5E5E5;
         }
         .btn:hover {
             color: white;
@@ -77,12 +77,12 @@ export class TaskElement extends LitElement {
                 margin-top: 10px;
             }
             .btn {
-                color: #FFFFFF;
+                color: #000000;
                 padding: 7px 7px;
                 text-align: center;
                 border-radius: 25px;
-                border: 2px solid #000000;
-                background: #000000;
+                border: 2px solid #E5E5E5;
+                background: #E5E5E5;
             }
             .btn:hover {
                 color: white;
@@ -115,12 +115,12 @@ export class TaskElement extends LitElement {
                 margin-top: 10px;
             }
             .btn {
-                color: #FFFFFF;
+                color: #000000;
                 padding: 7px 7px;
                 text-align: center;
                 border-radius: 25px;
-                border: 2px solid #000000;
-                background: #000000;
+                border: 2px solid #E5E5E5;
+                background: #E5E5E5;
             }
         }
     `];
