@@ -1,4 +1,4 @@
-import {customElement, query, property} from "lit/decorators.js";
+import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import {ITasklist} from "./sharedInterfaces";
 import {router} from "../index";
@@ -96,11 +96,6 @@ export class TaskElement extends LitElement {
     `];
 
     @property({type: Object}) task!: ITasklist;
-    @query('#img') image: any; //NO IDEA WHAT THIS IS!
-
-    firstUpdated(){
-        this.image.style.setProperty('--image-url',`url(${this.task.img})`)
-    }
 
     render(): TemplateResult{
         if(!this.task){
@@ -110,9 +105,9 @@ export class TaskElement extends LitElement {
                 <article class="taskElement" 
                          style="${this.task.current_status == '1' ? `background-color:#FCA311` : `background-color:#14213D`}" 
                          @click="${() => !this.parentView ? this.navigateChild() : this.parentConfirmMode ? this.navigateParentConfirm() : this.navigateParent()}">
-                    <div id="img" alt=${this.task.task_name}></div>
+                    <img id="img" src="${this.task.img}" alt=${this.task.task_name}>
 
-                    <h4>${this.task.current_status.length > 14 ? this.task.task_name.substring(0,14) : this.task.task_name.substring(0,11)}</h4>
+                    <h4 style="width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis">${this.task.task_name}</h4>
                     
                     ${!this.parentView ? this.renderChild() : this.parentConfirmMode ? this.renderConfirmmode() : this.renderparent()}
                 </article>

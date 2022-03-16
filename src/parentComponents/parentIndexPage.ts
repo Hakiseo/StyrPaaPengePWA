@@ -137,9 +137,8 @@ export class ParentIndexPage extends LitElement {
 
     renderJuniorUsers(): TemplateResult | void {
         if (this.childrenData.length === 0) return;
-        //Add loop here for all juniors and route on click to user id
         return html `
-            <div style="display: flex; flex-wrap: wrap; justify-content: center">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly">
                 ${this.childrenData.map((d: IChildData) => {
                     return html `
                         <junior-card .data="${d}" @click="${() => this.navigateToChild(d.id)}"></junior-card>

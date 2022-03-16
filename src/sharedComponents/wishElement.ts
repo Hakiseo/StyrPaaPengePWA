@@ -1,4 +1,4 @@
-import {customElement, query, property} from "lit/decorators.js";
+import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import {router} from "../index";
 import {IWishlist} from "./sharedInterfaces";
@@ -95,11 +95,6 @@ export class WishElement extends LitElement {
     `];
 
     @property({type: Object}) wish!: IWishlist;
-    @query('#img') image: any; //NO IDEA WHAT THIS IS!
-
-    firstUpdated(){
-        this.image.style.setProperty('--image-url',`url(${this.wish.img})`)
-    }
 
     renderparent(){
         return html`
@@ -129,8 +124,8 @@ export class WishElement extends LitElement {
                 <article class="wishElement" 
                          style="${this.wish.current_status == '1' ? `background-color:#FCA311` : `background-color:#14213D`}" 
                          @click="${() => this.parentView ? this.navigateParent() : this.navigateChild()}">
-                    <div id="img" alt=${this.wish.saving_name}></div>
-                    <h4>${this.wish.current_status.length > 14 ? this.wish.saving_name.substring(0,14) : this.wish.saving_name.substring(0,11)}</h4>
+                    <img id="img" src="${this.wish.img}" alt=${this.wish.saving_name}>
+                    <h4 style="width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis">${this.wish.saving_name}</h4>
                     ${this.parentView ? this.renderparent() : this.renderChild()}
                 </article>
             `;
