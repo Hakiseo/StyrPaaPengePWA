@@ -90,15 +90,11 @@ export class IndexElement extends LitElement {
             .on("/parent-task-detail/:id", (match: any) => {this.parent && this.loggedIn ? this.route = html`<task-detail-page .taskID="${match.data.id}" .parentView="${true}"></task-detail-page>` : this.routeBackToIndex()})
             .on("/child-task-detail/:id", (match: any) => {!this.parent && this.loggedIn ? this.route = html`<task-detail-page .taskID="${match.data.id}" .parentView="${false}"></task-detail-page>` : this.routeBackToIndex()})
 
-            .on("/child", () => {!this.parent && this.loggedIn ? this.route = html`<child-index-page></child-index-page>` : this.routeBackToIndex()})
-
             .on("/approvedWishlists", () => {!this.parent && this.loggedIn ? this.route = html`<approved-display .approvedType="${ApprovedType.wish}" .parent="${this.parent}"></approved-display>` : this.routeBackToIndex()})
             .on("/tasklist-overview", () => {this.parent && this.loggedIn ? this.route = html`<tasklist-overview-page></tasklist-overview-page>` : this.routeBackToIndex()})
             .on("/wishlist-overview", () => {!this.parent && this.loggedIn ? this.route = html`<wishlist-overview-page></wishlist-overview-page>` : this.routeBackToIndex()})
             .on("/wishlist-creating", () => {!this.parent && this.loggedIn ? this.route = html`<wish-create-page></wish-create-page>` : this.routeBackToIndex()})
             .on("/wish-detail/:id", (match: any) => {!this.parent && this.loggedIn ? this.route = html`<wish-detail-page .wishID="${match.data.id}"></wish-detail-page>` : this.routeBackToIndex()})
-            .on("/wishlist-overview", () => {!this.parent && this.loggedIn ? this.route = html`<wishlist-overview-page></wishlist-overview-page>` : this.routeBackToIndex()})
-            .on("/wishlist-creating", () => {!this.parent && this.loggedIn ? this.route = html`<wish-create-page></wish-create-page>` : this.routeBackToIndex()})
             .on("/task-creating", () => {this.parent && this.loggedIn ? this.route = html`<task-create-page .minChildData="${this.minimalChildrenData}"></task-create-page>` : this.routeBackToIndex()})
 
             .on("/parent", () => {
