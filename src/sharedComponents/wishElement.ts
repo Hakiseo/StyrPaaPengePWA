@@ -2,10 +2,10 @@ import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import {router} from "../index";
 import {IWishlist} from "./sharedInterfaces";
+import {styleMap} from "lit/directives/style-map.js";
 
 @customElement("wish-element")
 export class WishElement extends LitElement {
-    @property({type: Boolean}) parentView: boolean = false;
 
     static styles = [css`
         h4{
@@ -94,6 +94,10 @@ export class WishElement extends LitElement {
         }
     `];
 
+    @property({type: Boolean}) parentView: boolean = false;
+
+    @property({type: Boolean}) redeemAble: boolean = false;
+
     @property({type: Object}) wish!: IWishlist;
 
     renderparent(){
@@ -120,9 +124,14 @@ export class WishElement extends LitElement {
         if(!this.wish){
             return html `Loading...`
         }else{
+            const cardColors = {
+                "background-color": this.redeemAble && this.wish.current_status == '0' ? "#289931" : this.wish.current_status == '1' ? "#FCA311" : "#14213D",
+                // "background-color": this.wish.current_status == '1' ? "#FCA311" : "#14213D",
+                // "border": this.redeemAble && this.wish.current_status == '0' ? "4px solid #289931;" : ""
+            }
             return html`
                 <article class="wishElement" 
-                         style="${this.wish.current_status == '1' ? `background-color:#FCA311` : `background-color:#14213D`}" 
+                         style="${styleMap(cardColors)}" 
                          @click="${() => this.parentView ? this.navigateParent() : this.navigateChild()}">
                     <img id="img" src="${this.wish.img}" alt=${this.wish.saving_name}>
                     <h4 style="width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis">${this.wish.saving_name}</h4>

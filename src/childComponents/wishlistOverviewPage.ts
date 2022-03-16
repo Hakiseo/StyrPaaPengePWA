@@ -1,21 +1,33 @@
 import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
-import {getWishlist} from "../api/childApiRequests";
+import {getChildInfo, getWishlist} from "../api/childApiRequests";
 import {ButtonType, IApiResponse, IWishlist} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/wishElement"
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/errorMessage"
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
+import {IAccountInfo} from "./childInterfaces";
 
 @customElement("wishlist-overview-page")
 export class WishlistOverviewPage extends LitElement {
 
     @property() wishlist!: IWishlist[];
     @property({type: String}) errorMessage: string | null = "";
+    @property() currentBalance!: number;
 
     connectedCallback() {
         super.connectedCallback();
+        console.log("wish overview")
+        console.log(this.currentBalance)
+    }
+
+    protected firstUpdated(_changedProperties: PropertyValues) {
+        super.firstUpdated(_changedProperties);
+        if (!this.currentBalance) {
+            console.log("Firstupdated get balance")
+            this.getBalance()
+        }
     }
 
     protected updated(_changedProperties: PropertyValues) {
@@ -80,19 +92,33 @@ export class WishlistOverviewPage extends LitElement {
             return html `
                 <error-message> Error loading wishlist </error-message>
             `;
-        }else{
-            return html `
-                <h1>Ønskelister:</h1>
-                <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBack()}>Tilbage</button-element><br>
-                <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.createWishList()}>Opret Ønskeliste</button-element><br>
-                <section class="container">
-                    ${this.wishlist.map(wish => {
-                        return html `
-                            <wish-element .wish=${wish} .parentView="${false}"></wish-element>
-                        `
-                    })}
-                </section>
-            `;
         }
+        if (!this.currentBalance) return html `<p> Loading ... </p>`
+        return html `
+            <h1>Ønskelister:</h1>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBack()}>Tilbage</button-element><br>
+            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.createWishList()}>Opret Ønskeliste</button-element><br>
+            <section class="container">
+                ${this.wishlist.map(wish => {
+                    return html `
+                        <wish-element .redeemAble="${this.currentBalance >= parseInt(wish.target_reward_balance)}" .wish=${wish} .parentView="${false}"></wish-element>
+                    `
+                })}
+            </section>
+        `;
+    }
+
+    getBalance() {
+        console.log("Getting balance")
+        getChildInfo(getCurrentUserId()).then((r : IApiResponse) =>{
+            if(r.results !== null){
+                let tempList:IAccountInfo[] = r.results;
+                this.currentBalance = tempList[0].reward_balance;
+            }
+            if(r.error){
+                alert("An error occured - Trying to redirect back to front page")
+                this.goBack()
+            }
+        })
     }
 }
