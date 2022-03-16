@@ -137,7 +137,9 @@ export class TaskElement extends LitElement {
             return html `Loading...`
         }else{
             return html`
-                <article class="taskElement" style="${this.task.current_status == '1' ? `background-color:#FCA311` : `background-color:#14213D`}">
+                <article class="taskElement" 
+                         style="${this.task.current_status == '1' ? `background-color:#FCA311` : `background-color:#14213D`}" 
+                         @click="${() => this.parentView ? this.navigateParent() : this.navigateChild()}">
                     <div id="img" alt=${this.task.task_name}></div>
 
                     <h4>${this.task.current_status.length > 14 ? this.task.task_name.substring(0,14) : this.task.task_name.substring(0,11)}</h4>

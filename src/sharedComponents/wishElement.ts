@@ -158,7 +158,9 @@ export class WishElement extends LitElement {
             return html `Loading...`
         }else{
             return html`
-                <article class="wishElement" style="${this.wish.current_status == '1' ? `background-color:#FCA311` : `background-color:#14213D`}">
+                <article class="wishElement" 
+                         style="${this.wish.current_status == '1' ? `background-color:#FCA311` : `background-color:#14213D`}" 
+                         @click="${() => this.parentView ? this.navigateParent() : this.navigateChild()}">
                     <div id="img" alt=${this.wish.saving_name}></div>
                     <h4>${this.wish.current_status.length > 14 ? this.wish.saving_name.substring(0,14) : this.wish.saving_name.substring(0,11)}</h4>
                     ${this.parentView ? this.renderparent() : this.renderChild()}
