@@ -50,7 +50,6 @@ export class TasklistOverviewPage extends LitElement {
     }
 
     protected render(): TemplateResult {
-        if (!this.tasklist) return html `Loading ...`;
         return html `
             <div>
                 ${this.renderTasks()}
@@ -82,6 +81,9 @@ export class TasklistOverviewPage extends LitElement {
     private renderTasks(){
         if(!this.tasklist){
             return html `
+                <h1>Opgaver:</h1>
+                <button-element .action=${() => this.goBack()}>Tilbage</button-element>
+                <button-element .action=${() => this.createTaskList()}>Opret Opgave</button-element>
                 <error-message> Error loading tasklist </error-message>
             `;
         }else{
