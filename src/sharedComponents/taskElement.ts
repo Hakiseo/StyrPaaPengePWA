@@ -24,7 +24,7 @@ export class TaskElement extends LitElement {
             overflow:hidden;
         }
         .taskElement{
-            color: #E5E5E5;
+            color: #ffffff;
             position: relative;
             background-color: #003865;
             padding: 0.8rem;
@@ -34,17 +34,6 @@ export class TaskElement extends LitElement {
             border-radius: 25px;
             margin-bottom: 7px;
             margin-top: 7px;
-        }
-        .btn {
-            color: #000000;
-            padding: 5px 5px;
-            text-align: center;
-            border-radius: 20px;
-            border: 2px solid #E5E5E5;
-            background: #E5E5E5;
-        }
-        .btn:hover {
-            color: white;
         }
         
         @media screen and (min-width: 415px) {
@@ -63,7 +52,7 @@ export class TaskElement extends LitElement {
                 overflow:hidden;
             }
             .taskElement{
-                color: #E5E5E5;
+                color: #ffffff;
                 position: relative;
                 background-color: #003865;
                 padding: 1rem;
@@ -75,17 +64,6 @@ export class TaskElement extends LitElement {
                 border-radius: 30px;
                 margin-bottom: 10px;
                 margin-top: 10px;
-            }
-            .btn {
-                color: #000000;
-                padding: 7px 7px;
-                text-align: center;
-                border-radius: 25px;
-                border: 2px solid #E5E5E5;
-                background: #E5E5E5;
-            }
-            .btn:hover {
-                color: white;
             }
         }
         
@@ -102,7 +80,7 @@ export class TaskElement extends LitElement {
                 overflow:hidden;
             }
             .taskElement{
-                color: #E5E5E5;
+                color: #ffffff;
                 position: relative;
                 padding: 1rem;
                 text-align: center;
@@ -113,14 +91,6 @@ export class TaskElement extends LitElement {
                 border-radius: 30px;
                 margin-bottom: 10px;
                 margin-top: 10px;
-            }
-            .btn {
-                color: #000000;
-                padding: 7px 7px;
-                text-align: center;
-                border-radius: 25px;
-                border: 2px solid #E5E5E5;
-                background: #E5E5E5;
             }
         }
     `];
