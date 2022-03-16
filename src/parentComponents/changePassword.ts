@@ -77,7 +77,7 @@ export class ChangePassword extends LitElement implements ICustomErrorHandling{
                 <button-element .buttonType="${ButtonType.navigate}" .action="${() => this.goBack()}"> Annuller </button-element>
                 <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.changePassword()}"> Ændre Password </button-element>
             </div>
-            <!--<error-message> ${this.errorMessage} </error-message>-->
+            <error-message> ${this.errorMessage} </error-message>
         `
     }
 
@@ -96,7 +96,8 @@ export class ChangePassword extends LitElement implements ICustomErrorHandling{
                     if (!r.error) {
                         this.goBack()
                     } else {
-                        this.errorMessage = r.error;
+                        if (r.error === "Invalid old password!") this.errorMessage = "Det gamle password er ikke korrekt!"
+                        else this.errorMessage = r.error;
                     }
                 })
             return;
