@@ -43,27 +43,27 @@ export class CreateChild extends LitElement implements ICustomErrorHandling {
         this.startBalanceValid = this.startBalance >= 0;
 
         if (this.password !== this.repeatedPassword) {
-            this.errorMessage = "Password & RepeatedPassword must match!"
+            this.errorMessage = "indtastet password er ikke ens!"
             return false;
         }
 
         if (!this.passwordValid || !this.repeatedPasswordValid) {
-            this.errorMessage = "Passwords for Juniors must be at least 3 characters long!"
+            this.errorMessage = "Password'et skal indeholde mindst 3 tegn!"
             return false;
         }
 
         if (!this.ageValid) {
-            this.errorMessage = "The child must be at least 5 years old!"
+            this.errorMessage = "Kontoejeren skal minimum være 5 år, for at oprette en konto!"
             return false;
         }
 
         if (!this.startBalanceValid) {
-            this.errorMessage = "The starting balance must not be less than 0! (I know you feel like the kids are in your debt but still...)"
+            this.errorMessage = "Start saldoen må ikke være mindre end 0! (Børn skylder meget til deres forældre, men stadigvæk...)"
             return false;
         }
 
         if (!this.firstNameValid || !this.lastNameValid || !this.ageValid || !this.usernameValid || !this.passwordValid || !this.repeatedPasswordValid) {
-            this.errorMessage = "All fields are required!"
+            this.errorMessage = "Alle felter skal udfyldes!"
             return false;
         }
 
@@ -85,7 +85,7 @@ export class CreateChild extends LitElement implements ICustomErrorHandling {
             
             <input-element .valid="${this.startBalanceValid}" .inputType="${InputType.number}" label="Start Saldo" @changeValue="${(e: CustomEvent) => this.startBalance = e.detail}"></input-element>
 
-            <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate("/parent")}"> Annuller </button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate("/parent")}"> Annullere </button-element>
             <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.createNewJuniorUser()}"> Opret ny Junior-bruger </button-element>
             
             <error-message> ${this.errorMessage} </error-message>

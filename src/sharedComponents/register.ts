@@ -31,27 +31,27 @@ export class Register extends LitElement implements ICustomErrorHandling{
         this.repeatedPasswordValid = this.repeatedPassword.length >= 8
 
         if (this.password !== this.repeatedPassword) {
-            this.errorMessage = "Password & RepeatedPassword must match!"
+            this.errorMessage = "indtastet password er ikke ens!"
             return false;
         }
 
         if (!this.passwordValid || !this.repeatedPasswordValid) {
-            this.errorMessage = "Passwords must be at least 8 characters long!"
+            this.errorMessage = "Password'et skal indeholde mindst 8 tegn!"
             return false;
         }
 
         if (!this.ageValid) {
-            this.errorMessage = "You must be 18 years or older to register a parent account!"
+            this.errorMessage = "Du skal minimum være 18 år, for at oprette en konto!"
             return false;
         }
 
         if (!this.emailValid) {
-            this.errorMessage = "Please enter an email!"
+            this.errorMessage = "Indtask email!"
             return false;
         }
 
         if (!this.firstNameValid || !this.lastNameValid || !this.ageValid || !this.emailValid || !this.passwordValid || !this.repeatedPasswordValid) {
-            this.errorMessage = "All fields are required!"
+            this.errorMessage = "Alle felter skal udfyldes!"
             return false;
         }
 
@@ -69,8 +69,8 @@ export class Register extends LitElement implements ICustomErrorHandling{
             <input-element .valid="${this.passwordValid}" .inputType="${InputType.password}" label="Password" @changeValue="${(e: CustomEvent) => this.password = e.detail}"></input-element>
             <input-element .valid="${this.repeatedPasswordValid}" .inputType="${InputType.password}" label="Gentag password" @changeValue="${(e: CustomEvent) => this.repeatedPassword = e.detail}"></input-element>
             
-            <button-element .buttonType="${ButtonType.navigate}" .action="${() => this.showLogin()}"> Go back </button-element>
-            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.register()}"> Register </button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action="${() => this.showLogin()}"> Tilbage </button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.register()}"> Registrere </button-element>
 
             <error-message> ${this.errorMessage} </error-message>
         `;

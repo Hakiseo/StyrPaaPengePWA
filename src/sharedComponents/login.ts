@@ -35,18 +35,18 @@ export class Login extends LitElement implements ICustomErrorHandling {
         this.passwordValid = this.password.length > 0;
 
         let valid = this.loginDataValid && this.passwordValid
-        this.errorMessage = valid ? "" : "A username/email & password is required!"
+        this.errorMessage = valid ? "" : "Brugernavn/email & Kodeord er påkrævet!"
         return valid;
     }
 
     protected render(): TemplateResult {
         return html `
-            <input-element .valid="${this.loginDataValid}" label="Username/email" @changeValue="${(e: CustomEvent) => this.loginData = e.detail}"></input-element>
+            <input-element .valid="${this.loginDataValid}" label="Brugernavn/email" @changeValue="${(e: CustomEvent) => this.loginData = e.detail}"></input-element>
             <input-element .valid="${this.passwordValid}" .inputType="${InputType.password}" label="Password" @changeValue="${(e: CustomEvent) => this.password = e.detail}"></input-element>
             
-            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.login()}"> Login </button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.login()}"> Log ind </button-element>
             <error-message> ${this.errorMessage} </error-message>
-            <p class="register" @click="${() => this.showRegister()}"> Register an account </p>
+            <p class="register" @click="${() => this.showRegister()}"> Opret konto </p>
         `;
     }
 

@@ -149,7 +149,7 @@ export class TaskDetailPage extends LitElement {
     renderConfirmMode(){
         if (this.task.done_status) {
             return html `
-            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.reOpenTaskParent()}>Genåbn opgave</button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.reOpenTaskParent()}>Genåbne Opgave</button-element>
         `;
         }
         return html `

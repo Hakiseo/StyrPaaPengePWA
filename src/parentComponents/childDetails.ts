@@ -37,17 +37,17 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
         this.balanceValid = this.balance >= 0;
 
         if (!this.ageValid) {
-            this.errorMessage = "The child must be at least 5 years old!"
+            this.errorMessage = "Kontoejeren skal minimum være 5 år, for at oprette en konto!"
             return false;
         }
 
         if (!this.balanceValid) {
-            this.errorMessage = "The starting balance must not be less than 0! (I know you feel like the kids are in your debt but still...)"
+            this.errorMessage = "Start saldoen må ikke være mindre end 0! (Børn skylder meget til deres forældre, men stadigvæk...)"
             return false;
         }
 
         if (!this.firstNameValid || !this.lastNameValid || !this.ageValid || !this.usernameValid) {
-            this.errorMessage = "All fields are required!"
+            this.errorMessage = "Alle felter skal udfyldes!"
             return false;
         }
 
@@ -95,7 +95,7 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
                 <button-element .buttonType="${ButtonType.cancel}" .action="${() => {
                     this.errorMessage = ""
                     this.editMode = false
-                }}"> Annuller </button-element>
+                }}"> Annullere </button-element>
                 <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.detailsAction()}"> Gem </button-element>
             `
         }

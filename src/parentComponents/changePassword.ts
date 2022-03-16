@@ -36,12 +36,12 @@ export class ChangePassword extends LitElement implements ICustomErrorHandling{
         }
 
         if (this.password !== this.repeatedPassword) {
-            this.errorMessage = "Password & RepeatedPassword must match!"
+            this.errorMessage = "indtastet password er ikke ens!"
             return false;
         }
 
         if (!this.passwordValid || !this.repeatedPasswordValid) {
-            this.errorMessage = `Passwords must be at least ${this.parent ? 8 : 3} characters long!`
+            this.errorMessage = `Password'et skal indeholde mindst ${this.parent ? 8 : 3} tegn!`
             return false;
         }
 
@@ -74,7 +74,7 @@ export class ChangePassword extends LitElement implements ICustomErrorHandling{
             <input-element .valid="${this.repeatedPasswordValid}" .inputType="${InputType.password}" label="Gentag nyt password" @changeValue="${(e: CustomEvent) => this.repeatedPassword = e.detail}"></input-element>
             
             <div>
-                <button-element .buttonType="${ButtonType.navigate}" .action="${() => this.goBack()}"> Annuller </button-element>
+                <button-element .buttonType="${ButtonType.navigate}" .action="${() => this.goBack()}"> Annullere </button-element>
                 <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.changePassword()}"> Ændre Password </button-element>
             </div>
             <!--<error-message> ${this.errorMessage} </error-message>-->

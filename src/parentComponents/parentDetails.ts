@@ -34,17 +34,17 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
         this.emailValid = this.email.includes("@")
 
         if (!this.ageValid) {
-            this.errorMessage = "You must be 18 years or older to register a parent account!"
+            this.errorMessage = "Du skal minimum være 18 år, for at oprette en konto!"
             return false;
         }
 
         if (!this.emailValid) {
-            this.errorMessage = "Please enter an email!"
+            this.errorMessage = "Indtask email!"
             return false;
         }
 
         if (!this.firstNameValid || !this.lastNameValid || !this.ageValid || !this.emailValid) {
-            this.errorMessage = "All fields are required!"
+            this.errorMessage = "Alle felter skal udfyldes!"
             return false;
         }
 
@@ -80,7 +80,7 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
     renderButtons() {
         if (this.editMode) {
             return html `
-                <button-element .buttonType="${ButtonType.cancel}" .action="${() => this.editMode = false}"> Annuller </button-element>
+                <button-element .buttonType="${ButtonType.cancel}" .action="${() => this.editMode = false}"> Annullere </button-element>
                 <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.detailsAction()}"> Gem </button-element>
             `
         }
