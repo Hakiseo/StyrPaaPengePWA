@@ -133,24 +133,22 @@ export class WishElement extends LitElement {
 
     renderparent(){
         return html`
-            <a class="btn" @click=${() => this.navigateParent()}> ${this.wish.done_status == '1' ? "Detaljer" : "Godkend"} </a>
+            <p> ${this.wish.done_status == '1' ? "Detaljer" : "Godkend"} </p>
         `;
     }
 
     renderChild(){
         return html`
-            <a class="btn" @click=${() => this.navigateChild()}> ${this.wish.current_status == '0' || this.wish.done_status == '1' ? `Detaljer` : `Afventer`}</a>
+            <p> ${this.wish.current_status == '0' || this.wish.done_status == '1' ? `Detaljer` : `Afventer`}</p>
         `;
     }
 
     navigateParent(){
         router.navigate("/parent-wish-detail/" + this.wish.id);
-        //router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
     }
 
     navigateChild(){
         router.navigate("/child-wish-detail/" + this.wish.id);
-        //router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
     }
 
     render(): TemplateResult{

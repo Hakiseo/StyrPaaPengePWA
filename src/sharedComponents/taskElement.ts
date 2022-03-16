@@ -139,7 +139,7 @@ export class TaskElement extends LitElement {
             return html`
                 <article class="taskElement" 
                          style="${this.task.current_status == '1' ? `background-color:#FCA311` : `background-color:#14213D`}" 
-                         @click="${() => this.parentView ? this.navigateParent() : this.navigateChild()}">
+                         @click="${() => !this.parentView ? this.navigateChild() : this.parentConfirmMode ? this.navigateParentConfirm() : this.navigateParent()}">
                     <div id="img" alt=${this.task.task_name}></div>
 
                     <h4>${this.task.current_status.length > 14 ? this.task.task_name.substring(0,14) : this.task.task_name.substring(0,11)}</h4>
@@ -152,19 +152,19 @@ export class TaskElement extends LitElement {
 
     renderConfirmmode(){
         return html`
-            <a class="btn" @click=${() => this.navigateParentConfirm()}> ${this.task.done_status == '1' ? `Detaljer` : `Godkend`} </a>
+            <p> ${this.task.done_status == '1' ? `Detaljer` : `Godkend`} </p>
         `;
     }
 
     renderparent(){
         return html`
-            <a class="btn" @click=${() => this.navigateParent()}> ${this.task.current_status == '0' ? `Detaljer` : `Afventer`}</a>
+            <p> ${this.task.current_status == '0' ? `Detaljer` : `Afventer`}</p>
         `;
     }
 
     renderChild(){
         return html`
-            <a class="btn" @click=${() => this.navigateChild()}> ${this.task.current_status == '0' ? `Udfør` : `Afventer`}</a>
+            <p> ${this.task.current_status == '0' ? `Udfør` : `Afventer`}</p>
         `;
     }
 
@@ -174,11 +174,9 @@ export class TaskElement extends LitElement {
 
     navigateParent(){
         router.navigate("/parent-task-detail/" + this.task.id);
-        //router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
     }
 
     navigateChild(){
         router.navigate("/child-task-detail/" + this.task.id);
-        //router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
     }
 }
