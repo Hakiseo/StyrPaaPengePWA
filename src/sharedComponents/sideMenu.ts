@@ -59,7 +59,7 @@ export class SideMenu extends BaseStyleElement {
     background-color: #111; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    transition: 0.35s; /* 0.35 second transition effect to slide in the sidenav */
 }
 
 /* The navigation menu links */
@@ -133,11 +133,11 @@ export class SideMenu extends BaseStyleElement {
     renderParentMenu(): TemplateResult {
         return html `
             <p @click="${() => this.menuNavigate("/home")}"> Forside </p>
-<!--            <p> Indløste ønskelister </p>-->
-<!--            <p> Indløste opgaver </p>-->
             <p @click="${() => this.menuNavigate("/tasklist-overview")}"> Opgave oversigt </p>
             <p @click="${() => this.menuNavigate("/task-creating")}"> Opret Opgave </p>
             <p @click="${() => this.menuNavigate("/parent/details")}"> Egne detaljer </p>
+            <p @click="${() => this.menuNavigate("/parent/approvedTasks")}"> Godkendte opgaver </p>
+            <p @click="${() => this.menuNavigate("/parent/approvedWishLists")}"> Godkendte ønskelister </p>
             <p @click="${() => this.emitLogout()}"> Log Ud </p>
         `
     }
@@ -147,6 +147,7 @@ export class SideMenu extends BaseStyleElement {
             <p @click="${() => this.menuNavigate("/home")}"> Forside </p>
             <p @click="${() => this.menuNavigate("/wishlist-overview")}"> Ønskeliste oversigt </p>
             <p @click="${() => this.menuNavigate("/wishlist-creating")}"> Opret ønskeliste </p>
+            <p @click="${() => this.menuNavigate("/approvedWishlists")}"> Godkendte ønskelister </p>
             <p @click="${() => this.emitLogout()}"> Log Ud </p>
         `;
     }

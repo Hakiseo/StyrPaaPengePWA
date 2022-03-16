@@ -1,8 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
-import {IWishlist} from "./childInterfaces";
 import {getWishlist} from "../api/childApiRequests";
-import {IApiResponse} from "../sharedComponents/sharedInterfaces";
+import {ButtonType, IApiResponse, IWishlist} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/wishElement"
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/errorMessage"
@@ -17,14 +16,11 @@ export class WishlistOverviewPage extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        console.log("Returned to Overview-Page")
-        console.log("Wishlist data" , this.wishlist)
     }
 
     protected updated(_changedProperties: PropertyValues) {
         super.updated(_changedProperties);
         if(_changedProperties.has("wishlist")){
-            console.log("Updated wishlist" , this.wishlist)
             if(!this.wishlist){
                 this.loadWishlist();
             }
@@ -39,7 +35,6 @@ export class WishlistOverviewPage extends LitElement {
     loadWishlist(){
         getWishlist(getCurrentUserId()).then((r : IApiResponse) =>{
             if (r.results !== null) {
-                console.log("Setting Wishlist")
                 this.wishlist = r.results
             }
             if(r.error){
@@ -68,7 +63,6 @@ export class WishlistOverviewPage extends LitElement {
     constructor() {
         super();
         if(!this.wishlist){
-            console.log("Connected Callback")
             this.loadWishlist();
         }
     }
@@ -87,11 +81,10 @@ export class WishlistOverviewPage extends LitElement {
                 <error-message> Error loading wishlist </error-message>
             `;
         }else{
-            console.log("Render Wishlist")
             return html `
                 <h1>Ønskelister:</h1>
-                <button-element .action=${() => this.goBack()}>Tilbage</button-element><br>
-                <button-element .action=${() => this.createWishList()}>Opret Ønskeliste</button-element><br>
+                <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBack()}>Tilbage</button-element><br>
+                <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.createWishList()}>Opret Ønskeliste</button-element><br>
                 <section class="container">
                     ${this.wishlist.map(wish => {
                         return html `

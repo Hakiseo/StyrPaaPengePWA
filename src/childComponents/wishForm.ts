@@ -3,7 +3,7 @@ import {property} from "lit/decorators.js";
 import {customElement} from "lit/decorators.js";
 import "../sharedComponents/inputElement";
 import "../sharedComponents/buttonElement";
-import {ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
+import {ButtonType, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
 
 @customElement("wish-form")
 export class WishForm extends LitElement implements ICustomErrorHandling {
@@ -64,14 +64,14 @@ export class WishForm extends LitElement implements ICustomErrorHandling {
     renderSubmitButton() {
         if (this.createForm) {
             return html `
-            <button-element .action="${() => this.submitForm()}"> Opret </button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.submitForm()}"> Opret </button-element>
         `}
         if(this.detailForm){
             return html `
-            <button-element .action="${() => this.submitForm()}"> Gem Ændringer </button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.submitForm()}"> Gem Ændringer </button-element>
         `}
         return html `
-            <button-element .action="${() => this.submitForm()}"> Redigere </button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.submitForm()}"> Redigere </button-element>
         `
     }
 }

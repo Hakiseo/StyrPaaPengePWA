@@ -1,6 +1,6 @@
 import {customElement, query, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
-import {ITasklist} from "../childComponents/childInterfaces";
+import {ITasklist} from "./sharedInterfaces";
 import {router} from "../index";
 
 @customElement("task-element")
@@ -136,8 +136,6 @@ export class TaskElement extends LitElement {
         if(!this.task){
             return html `Loading...`
         }else{
-            console.log(this.task)
-            console.log(this.task.current_status)
             return html`
                 <article class="taskElement" style="${this.task.current_status == '1' ? `background-color:#FCA311` : `background-color:#14213D`}">
                     <div id="img" alt=${this.task.task_name}></div>

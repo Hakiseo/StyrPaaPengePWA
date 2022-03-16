@@ -3,7 +3,7 @@ import {customElement, property} from "lit/decorators.js";
 import {IChildData} from "./parentInterfaces";
 import {router} from "../index";
 import {deleteChild, editChild, fetchChild} from "../api/parentApiRequests";
-import {IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
+import {ButtonType, IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/inputElement"
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/textDisplayElement"
@@ -92,18 +92,18 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
     renderButtons() {
         if (this.editMode) {
             return html `
-                <button-element .action="${() => {
+                <button-element .buttonType="${ButtonType.cancel}" .action="${() => {
                     this.errorMessage = ""
                     this.editMode = false
                 }}"> Annuller </button-element>
-                <button-element .action="${() => this.detailsAction()}"> Gem </button-element>
+                <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.detailsAction()}"> Gem </button-element>
             `
         }
         return html `
-            <button-element .action="${() => router.navigate("/parent")}"> Tilbage </button-element>
-            <button-element .action="${() => this.deleteJunior()}"> Slet </button-element>
-            <button-element .action="${() => router.navigate(`/parent/childDetails/${this.childData.id}/changePassword`)}"> Ændre Password </button-element>
-            <button-element .action="${() => this.detailsAction()}"> Rediger </button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate("/parent")}"> Tilbage </button-element>
+            <button-element .buttonType="${ButtonType.delete}" .action="${() => this.deleteJunior()}"> Slet </button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate(`/parent/childDetails/${this.childData.id}/changePassword`)}"> Ændre Password </button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.detailsAction()}"> Rediger </button-element>
         `
     }
 
@@ -143,7 +143,6 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
     }
 
     deleteJunior() {
-        console.log("Delete junior user: ", this.childData.username)
         deleteChild(this.childId).then((r: IApiResponse) => {
             console.log(r)
             if (!r.error) {

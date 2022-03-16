@@ -1,6 +1,6 @@
 //Child component related api-requests
 
-import {apiDelete, apiFetch, apiPost, apiPut} from "./apiUtils";
+import {apiDelete, apiFetch, apiPost, apiPut, getCurrentUserId} from "./apiUtils";
 
 export function getAllChildren(): Promise<any> {
     return apiFetch("child")
@@ -34,6 +34,10 @@ export function getWishlist(id: string) {
 
 export function getWish(id: string) {
     return apiFetch("child/wish/" + id)
+}
+
+export function fetchApprovedWishesChild() {
+    return apiFetch("child/approvedWishes/" + getCurrentUserId())
 }
 
 export function retract_Wish(id: string) {

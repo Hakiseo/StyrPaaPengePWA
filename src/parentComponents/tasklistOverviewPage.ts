@@ -1,8 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
 import "../sharedComponents/wishElement"
-import {ITasklist} from "./parentInterfaces";
-import {IApiResponse} from "../sharedComponents/sharedInterfaces";
+import {ButtonType, IApiResponse, ITasklist} from "../sharedComponents/sharedInterfaces";
 import {getCompleteTasklistParent} from "../api/parentApiRequests";
 import {router} from "../index";
 import {getCurrentUserId} from "../api/apiUtils";
@@ -17,14 +16,11 @@ export class TasklistOverviewPage extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        console.log("Returned to Overview-Page")
-        console.log("Wishlist data" , this.tasklist)
     }
 
     protected updated(_changedProperties: PropertyValues) {
         super.updated(_changedProperties);
         if(_changedProperties.has("tasklist")){
-            console.log("Updated tasklist" , this.tasklist)
             if(!this.tasklist){
                 this.loadTasklist();
             }
@@ -39,7 +35,6 @@ export class TasklistOverviewPage extends LitElement {
     loadTasklist(){
         getCompleteTasklistParent(getCurrentUserId()).then((r : IApiResponse) =>{
             if (r.results !== null) {
-                console.log("Setting tasklist")
                 this.tasklist = r.results
             }
             if(r.error){
@@ -89,11 +84,10 @@ export class TasklistOverviewPage extends LitElement {
         }else{
             return html `
                 <h1>Opgaver:</h1>
-                <button-element .action=${() => this.goBack()}>Tilbage</button-element>
-                <button-element .action=${() => this.createTaskList()}>Opret Opgave</button-element>
+                <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBack()}>Tilbage</button-element>
+                <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.createTaskList()}>Opret Opgave</button-element>
                 <section class="container">
                     ${this.tasklist.map(task => {
-                        console.log(task)
                         return html `
                             <task-element .task=${task} .parentView="${true}"></task-element>
                         `

@@ -4,8 +4,8 @@ import {router} from "../index";
 import "./childCard"
 import {getCurrentUserId} from "../api/apiUtils";
 import {fetchJuniors, getConfirmedTasklistParent, getConfirmedWishlistParent} from "../api/parentApiRequests";
-import {IApiResponse} from "../sharedComponents/sharedInterfaces";
-import {IChildData, IMinimalChildrenData, ITasklist, IWishlist} from "./parentInterfaces";
+import {ButtonType, IApiResponse, ITasklist, IWishlist} from "../sharedComponents/sharedInterfaces";
+import {IChildData, IMinimalChildrenData} from "./parentInterfaces";
 import "../sharedComponents/buttonElement";
 import "../sharedComponents/errorMessage"
 
@@ -50,9 +50,9 @@ export class ParentIndexPage extends LitElement {
             ${this.parentId ? html`<h2> Parent Id: ${this.parentId}</h2>` : ''}
             ${this.renderWishListRedeemSection()}
             ${this.renderTaskApprovalSection()}
-            <button-element .action="${() => router.navigate("/tasklist-overview")}"> Opgaver </button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate("/tasklist-overview")}"> Opgaver </button-element>
             ${this.renderJuniorUsers()}
-            <button-element .action="${() => router.navigate("/parent/createChild")}"> Opret Junior Konto </button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => router.navigate("/parent/createChild")}"> Opret Junior Konto </button-element>
         `
     }
 
@@ -95,7 +95,6 @@ export class ParentIndexPage extends LitElement {
                 </div>
                 <section class="container">
                     ${this.wishlist.map(wish => {
-                        console.log(wish)
                         return html `
                             <wish-element .wish=${wish} .parentView="${true}"></wish-element>
                         `
@@ -120,7 +119,6 @@ export class ParentIndexPage extends LitElement {
                 </div>
                 <section class="container">
                     ${this.tasklist.map(task => {
-                console.log(task)
                 return html `
                         <task-element .task=${task} .parentView="${true}" .parentConfirmMode="${true}"></task-element>
                     `
@@ -141,10 +139,10 @@ export class ParentIndexPage extends LitElement {
         if (this.childrenData.length === 0) return;
         //Add loop here for all juniors and route on click to user id
         return html `
-            <div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center">
                 ${this.childrenData.map((d: IChildData) => {
                     return html `
-                        <junior-card .firstName="${d.first_name}" .lastName="${d.last_name}" @click="${() => this.navigateToChild(d.id)}"></junior-card>
+                        <junior-card .data="${d}" @click="${() => this.navigateToChild(d.id)}"></junior-card>
                     `
                 })}
             </div>

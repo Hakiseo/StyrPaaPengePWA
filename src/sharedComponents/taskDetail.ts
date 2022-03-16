@@ -1,15 +1,14 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, PropertyValues, TemplateResult} from "lit";
 
-import {IApiResponse} from "./sharedInterfaces";
-import {ITasklist} from "../childComponents/childInterfaces";
+import {ButtonType, IApiResponse, ITasklist} from "./sharedInterfaces";
 import {confirm_Task, getTask, retract_Task} from "../api/childApiRequests";
 import {
     reject_TaskParent,
     getTaskParent,
     delete_Task,
     update_Task,
-    confirm_TaskParent, fetchMinimalChild
+    confirm_TaskParent, fetchMinimalChild, reOpenTask
 } from "../api/parentApiRequests";
 import { router } from "../index";
 import "../parentComponents/taskForm";
@@ -33,7 +32,7 @@ export class TaskDetailPage extends LitElement {
     render() : TemplateResult{
         if (!this.task) return html `Loading ...`;
         return html`
-            <h1>Opgave:${this.task.task_name}</h1>
+            <h1>Opgave: ${this.task.task_name}</h1>
             <img src="${this.task.img}" alt="Wish Icon" width="200" height="200">
             ${!this.parentView ? this.renderChildInfoForm() : this.editMode ? this.renderParentEditForm() : this.renderParentInfoForm()}
         `;
@@ -41,7 +40,6 @@ export class TaskDetailPage extends LitElement {
 
     protected updated(_changedProperties: PropertyValues) {
         super.updated(_changedProperties);
-        console.log("taskID: ", this.taskID)
         if (_changedProperties.has("taskID")) {
             this.loadTask();
         }
@@ -94,13 +92,13 @@ export class TaskDetailPage extends LitElement {
     //TODO Child:
     renderChildInfoForm(){
         return html `
-            <button @click=${() => this.goBackChild()}>Tilbage</button>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackChild()}>Tilbage</button-element>
             <p-element> ${this.task.task_name} </p-element>
             <p-element> ${this.task.content} </p-element>
             <p-element> ${this.task.reward_amount} </p-element>
             ${this.task.current_status ?
-                    html`<button-element .action=${() => this.retractTaskChild()}>Annullere</button-element>` :
-                    html`<button-element .action=${() => this.confirmTaskChild()}>Udført</button-element>`}
+                    html`<button-element .buttonType="${ButtonType.navigate}" .action=${() => this.retractTaskChild()}>Annullere</button-element>` :
+                    html`<button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmTaskChild()}>Udført</button-element>`}
         `;
     }
 
@@ -134,7 +132,7 @@ export class TaskDetailPage extends LitElement {
     renderParentInfoForm(){
         if(this.minChildData){
             return html `
-                <button @click=${() => this.goBackParent()}>Tilbage</button>
+                <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackParent()}>Tilbage</button-element>
                 <p-element>${this.task.task_name}</p-element>
                 <p-element>${this.task.content}</p-element>
                 <p-element>${this.task.reward_amount}</p-element>
@@ -149,18 +147,23 @@ export class TaskDetailPage extends LitElement {
     }
 
     renderConfirmMode(){
+        if (this.task.done_status) {
+            return html `
+            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.reOpenTaskParent()}>Genåbn opgave</button-element>
+        `;
+        }
         return html `
-            <button-element .action=${() => this.confirmTaskParent()}>Godkend</button-element>
-            <button-element .action=${() => this.rejectTaskParent()}>Afvis</button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmTaskParent()}>Godkend</button-element>
+            <button-element .buttonType="${ButtonType.deny}" .action=${() => this.rejectTaskParent()}>Afvis</button-element>
         `;
     }
 
     renderDetailMode(){
         return html `
-            <button-element .action=${() => this.confirmTaskParent()}>Godkend</button-element>
-            ${this.task.current_status ? html `<button-element .action=${() => this.rejectTaskParent()}>Afvis</button-element>` : ''}
-            <button-element .action=${() => this.editMode = true}>Redigér Opgave</button-element>
-            <button-element .action=${() => this.deleteTaskParent()}>Slet Opgave</button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmTaskParent()}>Godkend</button-element>
+            ${this.task.current_status ? html `<button-element .buttonType="${ButtonType.deny}" .action=${() => this.rejectTaskParent()}>Afvis</button-element>` : ''}
+            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.editMode = true}>Redigér Opgave</button-element>
+            <button-element .buttonType="${ButtonType.delete}" .action=${() => this.deleteTaskParent()}>Slet Opgave</button-element>
         `;
     }
 
@@ -177,7 +180,7 @@ export class TaskDetailPage extends LitElement {
 
     renderParentEditForm(){
         return html `
-            <button-element .action=${() => this.goBackParent()}>Tilbage</button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackParent()}>Tilbage</button-element>
             <task-form .detailForm="${true}"
                        .assignedID="${this.task.assigned_to}"
                        .taskName="${this.task.task_name}"
@@ -185,7 +188,7 @@ export class TaskDetailPage extends LitElement {
                        .taskRewardAmount="${this.task.reward_amount}"
                        @submit="${(e: CustomEvent) => {this.updateTaskParent(e);}}"
             ></task-form>
-            <button-element .action=${this.editMode = false, () => this.loadTask()}>Annullere</button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${this.editMode = false, () => this.loadTask()}>Annullere</button-element>
         `;
     }
 
@@ -198,9 +201,7 @@ export class TaskDetailPage extends LitElement {
     }
 
     updateTaskParent(e : CustomEvent){
-        console.log("Task updated: ", e.detail)
         if (e.detail.taskName && e.detail.taskContent && e.detail.taskRewardAmount) {
-            console.log("child id" + e.detail.childId)
             update_Task(this.task.id, e.detail.taskName, e.detail.taskContent, e.detail.taskRewardAmount, e.detail.childId).then((r : IApiResponse) => {
                 if(r.error){
                     this.errorMessage = "Error updating task..."
@@ -213,6 +214,17 @@ export class TaskDetailPage extends LitElement {
         }else{
             window.alert("No fields may be left empty'!");
         }
+    }
+
+    reOpenTaskParent() {
+        reOpenTask(this.task.id).then((r: IApiResponse) => {
+            if (r.error) {
+                this.errorMessage = "Error Re-opening task... " + r.error
+                this.displayError()
+            } else {
+                this.goBackParent()
+            }
+        })
     }
 
     confirmTaskParent(){

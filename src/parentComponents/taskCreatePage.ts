@@ -1,7 +1,7 @@
 import {customElement, property} from "lit/decorators.js";
 import {html, LitElement, TemplateResult} from "lit";
 
-import {IApiResponse, ICustomErrorHandling} from "../sharedComponents/sharedInterfaces";
+import {ButtonType, IApiResponse, ICustomErrorHandling} from "../sharedComponents/sharedInterfaces";
 import {create_Task} from "../api/parentApiRequests";
 import { router } from "../index";
 import "../parentComponents/taskForm";
@@ -32,10 +32,9 @@ export class TaskCreatePage extends LitElement implements ICustomErrorHandling {
     }
 
     render(): TemplateResult{
-        console.log("creat page: ", this.minChildData)
         return html`
             <h1>Opret Opgave:</h1>
-            <button-element .action=${() => this.goBack()}>Tilbage</button-element><br>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBack()}>Tilbage</button-element><br>
             <task-form .minChildData="${this.minChildData}" .createForm="${true}" @submit="${(e: CustomEvent) => {
                 this.createTask(e)
             }}"></task-form>
@@ -43,15 +42,15 @@ export class TaskCreatePage extends LitElement implements ICustomErrorHandling {
     }
 
     createTask(e: CustomEvent){
-        console.log("New task created: ", e.detail)
         if (e.detail.taskName && e.detail.taskContent && e.detail.taskRewardAmount) {
             create_Task({
                 creator_id: getCurrentUserId(),
                 task_name: e.detail.taskName,
                 content: e.detail.taskContent,
                 reward_amount: e.detail.taskRewardAmount,
-                junior_id: e.detail.childId
-            }).then((r : IApiResponse) => {
+                junior_id: e.detail.childId,
+                img: e.detail.img
+                }).then((r : IApiResponse) => {
                 if(r.error){
                     this.errorMessage = "Error creating task..."
                     this.displayError()

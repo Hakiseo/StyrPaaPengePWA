@@ -1,7 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {apiPost} from "../api/apiUtils";
-import {ICustomErrorHandling, InputType} from "./sharedInterfaces";
+import {ButtonType, ICustomErrorHandling, InputType} from "./sharedInterfaces";
 import "../sharedComponents/errorMessage"
 
 @customElement("register-page")
@@ -69,8 +69,8 @@ export class Register extends LitElement implements ICustomErrorHandling{
             <input-element .valid="${this.passwordValid}" .inputType="${InputType.password}" label="Password" @changeValue="${(e: CustomEvent) => this.password = e.detail}"></input-element>
             <input-element .valid="${this.repeatedPasswordValid}" .inputType="${InputType.password}" label="Gentag password" @changeValue="${(e: CustomEvent) => this.repeatedPassword = e.detail}"></input-element>
             
-            <button-element .action="${() => this.register()}"> Register </button-element>
-            <button-element .action="${() => this.showLogin()}"> Go back </button-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action="${() => this.showLogin()}"> Go back </button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.register()}"> Register </button-element>
 
             <error-message> ${this.errorMessage} </error-message>
         `;
