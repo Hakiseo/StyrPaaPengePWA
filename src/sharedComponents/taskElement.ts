@@ -150,7 +150,7 @@ export class TaskElement extends LitElement {
 
     renderConfirmmode(){
         return html`
-            <a class="btn" @click=${() => this.navigateParentConfirm()}>Godkend</a>
+            <a class="btn" @click=${() => this.navigateParentConfirm()}> ${this.task.done_status == '1' ? `Detaljer` : `Godkend`} </a>
         `;
     }
 
