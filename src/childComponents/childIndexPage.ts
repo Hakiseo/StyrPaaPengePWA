@@ -92,7 +92,6 @@ export class ChildIndexPage extends LitElement {
                 <h1>Opgaver:</h1>
                 <section class="container">
                     ${this.tasklist.map(task => {
-                        console.log(task)
                         return html `
                             <task-element .task=${task} .parentView="${false}"></task-element>
                         `
