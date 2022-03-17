@@ -34,7 +34,7 @@ export class WishDetailPage extends LitElement {
         if(!this.parentView && !this.accountInfo) return html `Error loading account data`;
         return html`
             <h1>Ønskeliste:${this.wish.saving_name}</h1>
-            <img src="${this.wish.img}" alt="Wish Icon" width="200" height="200"><br><br>
+            <img src="${this.wish.img}" alt="Wish Icon" width="200" height="200"><br>
             ${this.parentView ? this.renderParentInfoForm() : this.editMode ? this.renderChildEditForm() : this.renderChildInfoForm()}
         `;
     }
@@ -106,11 +106,11 @@ export class WishDetailPage extends LitElement {
     renderParentInfoForm(){
         if(!this.minChildData) return html `Error loading child data`;
         return html `
-            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackParent()}>Tilbage</button-element><br>
-            <h3>${this.wish.saving_name}</h3><br>
-            <h3>${this.wish.target_reward_balance}</h3><br>
-            <p-element>${this.minChildData.firstName} ${this.minChildData.lastName}</p-element>
-            <h3>${this.wish.creator_id}</h3><br>
+            <h2>Detaljer: </h2>
+            <p-element> Barn: ${this.minChildData.firstName} ${this.minChildData.lastName}</p-element>
+            <p-element> Beskrivelse: ${this.wish.content}</p-element>
+            <p-element> Beløb: ${this.wish.target_reward_balance}</p-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackParent()}>Tilbage</button-element> 
             ${this.renderParentInfoFormButtons()}
         `;
     }
@@ -118,8 +118,8 @@ export class WishDetailPage extends LitElement {
     renderParentInfoFormButtons(): TemplateResult | void {
         if (this.wish.done_status == '1') return;
         return html `
-            <button-element .buttonType="${ButtonType.deny}" .action=${() => this.rejectWishParent()}>Afvis</button-element><br>
-            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmWishParent()}>Godkend</button-element><br>
+            <button-element .buttonType="${ButtonType.deny}" .action=${() => this.rejectWishParent()}>Afvis</button-element>
+            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmWishParent()}>Godkend</button-element>
         `
     }
 
@@ -152,10 +152,9 @@ export class WishDetailPage extends LitElement {
     //TODO Child:
     renderChildInfoForm() {
         return html `
-            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackChild()}>Tilbage</button-element><br>
-            <p-element> ${this.wish.saving_name} </p-element>
-            <p-element> ${this.wish.content} </p-element>
-            <p-element> ${this.wish.target_reward_balance} </p-element>
+            <p-element> Beskrivelse: ${this.wish.content} </p-element>
+            <p-element> Beløb: ${this.wish.target_reward_balance} </p-element>
+            <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackChild()}>Tilbage</button-element> 
             ${this.renderInfoForm()}
         `;
     }

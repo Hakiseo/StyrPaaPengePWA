@@ -93,8 +93,8 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
 
     renderView(): TemplateResult {
         return html `
+            <h1> Detaljer: </h1>
             <div>
-                <p-element> Id: ${this.parentData.id} </p-element>
                 <p-element> Fornavn: ${this.parentData.first_name} </p-element>
                 <p-element> Efternavn: ${this.parentData.last_name} </p-element>
                 <p-element> Email: ${this.parentData.email} </p-element>
