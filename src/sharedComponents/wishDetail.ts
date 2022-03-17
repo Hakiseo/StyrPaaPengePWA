@@ -166,7 +166,8 @@ export class WishDetailPage extends LitElement {
                 <button-element .buttonType="${ButtonType.delete}" .deleteMessage="Er du sikker på at du vil slette ønskelisten?" .action=${() => this.deleteWishChild()}>Slet Ønskeliste</button-element><br>
                 ${Number(this.accountInfo.reward_balance) >= Number(this.wish.target_reward_balance) ? html`<button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmWishChild()}>Indløs</button-element><br>` : ''}
             `;
-        }else{
+        } else {
+            if (this.wish.done_status) return;
             return html`<button-element .buttonType="${ButtonType.deny}" .action=${() => this.retractWishChild()}>Annullér indløsning</button-element><br>`
         }
     }
