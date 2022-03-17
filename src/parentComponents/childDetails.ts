@@ -79,7 +79,11 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
     }
 
     protected render(): TemplateResult {
-        if (!this.childData) return html ` <p> Loading... </p>`
+        if (!this.childData) return html `
+            <p> Intet data for det specifikke barn er fundet - Loading... </p>
+            <p> Prøv at gå tilbage eller reload siden hvis der er gået mere end 5 sekunder </p>
+            <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate("/parent")}"> Tilbage </button-element>
+        `
         return html `
             ${this.editMode ? this.renderEdit() : this.renderView()}
             <div>
@@ -167,7 +171,7 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
 
     getChildData(): Promise<void> {
         return fetchChild(this.childId).then((r: IApiResponse) => {
-            if (r.results) {
+            if (r.results && r.results.filter(d => d !== null).length > 0) {
                 this.childData = r.results[0]
             }
         })
