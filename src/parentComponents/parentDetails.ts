@@ -73,7 +73,7 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
             <div>
                 ${this.renderButtons()}
             </div>
-            <!--<error-message> ${this.errorMessage} </error-message>-->
+            <error-message> ${this.errorMessage} </error-message>
         `
     }
 
@@ -85,7 +85,7 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
             `
         }
         return html `
-            <button-element .buttonType="${ButtonType.delete}" .action="${() => this.deleteParent()}"> Slet </button-element>
+            <button-element .buttonType="${ButtonType.delete}" .deleteMessage="Er du sikker på at du vil slette din bruger?" .action="${() => this.deleteParent()}"> Slet </button-element>
             <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate(`/parent/details/changePassword`)}"> Ændre Password </button-element>
             <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.detailsAction()}"> Rediger </button-element>
         `
@@ -93,8 +93,8 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
 
     renderView(): TemplateResult {
         return html `
+            <h1> Detaljer: </h1>
             <div>
-                <p-element> Id: ${this.parentData.id} </p-element>
                 <p-element> Fornavn: ${this.parentData.first_name} </p-element>
                 <p-element> Efternavn: ${this.parentData.last_name} </p-element>
                 <p-element> Email: ${this.parentData.email} </p-element>

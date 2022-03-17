@@ -27,7 +27,7 @@ export class ParentIndexPage extends LitElement {
         if (_changedProperties.has("parentId") && this.parentId){
             fetchJuniors(this.parentId).then((r: IApiResponse) => {
                 if (!r.error && r.results){
-                    this.childrenData = r.results
+                    this.childrenData = r.results.filter(d => d !== null)
                     this.minimalChildrenData = this.childrenData.map(r => {
                         return {id: r.id, firstName: r.first_name, lastName: r.last_name}
                     })
@@ -137,9 +137,8 @@ export class ParentIndexPage extends LitElement {
 
     renderJuniorUsers(): TemplateResult | void {
         if (this.childrenData.length === 0) return;
-        //Add loop here for all juniors and route on click to user id
         return html `
-            <div style="display: flex; flex-wrap: wrap; justify-content: center">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly">
                 ${this.childrenData.map((d: IChildData) => {
                     return html `
                         <junior-card .data="${d}" @click="${() => this.navigateToChild(d.id)}"></junior-card>

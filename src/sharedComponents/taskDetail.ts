@@ -93,9 +93,8 @@ export class TaskDetailPage extends LitElement {
     renderChildInfoForm(){
         return html `
             <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackChild()}>Tilbage</button-element>
-            <p-element> ${this.task.task_name} </p-element>
-            <p-element> ${this.task.content} </p-element>
-            <p-element> ${this.task.reward_amount} </p-element>
+            <p-element> Beskrivelse: ${this.task.content} </p-element>
+            <p-element> Belønning: ${this.task.reward_amount} kroner </p-element>
             ${this.task.current_status ?
                     html`<button-element .buttonType="${ButtonType.navigate}" .action=${() => this.retractTaskChild()}>Annullere</button-element>` :
                     html`<button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmTaskChild()}>Udført</button-element>`}
@@ -132,11 +131,10 @@ export class TaskDetailPage extends LitElement {
     renderParentInfoForm(){
         if(this.minChildData){
             return html `
+                <p-element> Beskrivelse: ${this.task.content}</p-element>
+                <p-element> Belønning: ${this.task.reward_amount} kroner</p-element>
+                <p-element> Barn: ${this.minChildData.firstName} ${this.minChildData.lastName}</p-element>
                 <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBackParent()}>Tilbage</button-element>
-                <p-element>${this.task.task_name}</p-element>
-                <p-element>${this.task.content}</p-element>
-                <p-element>${this.task.reward_amount}</p-element>
-                <p-element>${this.minChildData.firstName} ${this.minChildData.lastName}</p-element>
                 ${this.parentConfirmMode ? this.renderConfirmMode() : this.renderDetailMode()}
             `;
         }else{
@@ -160,10 +158,10 @@ export class TaskDetailPage extends LitElement {
 
     renderDetailMode(){
         return html `
-            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmTaskParent()}>Godkend</button-element>
-            ${this.task.current_status ? html `<button-element .buttonType="${ButtonType.deny}" .action=${() => this.rejectTaskParent()}>Afvis</button-element>` : ''}
             <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.editMode = true}>Redigér Opgave</button-element>
-            <button-element .buttonType="${ButtonType.delete}" .action=${() => this.deleteTaskParent()}>Slet Opgave</button-element>
+            <button-element .buttonType="${ButtonType.delete}" .deleteMessage="Er du sikker på at du vil slette opgaven?" .action=${() => this.deleteTaskParent()}>Slet Opgave</button-element>
+            ${this.task.current_status ? html `<button-element .buttonType="${ButtonType.deny}" .action=${() => this.rejectTaskParent()}>Afvis</button-element>` : ''}
+            <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmTaskParent()}>Godkend</button-element>
         `;
     }
 

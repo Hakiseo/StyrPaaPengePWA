@@ -1,11 +1,11 @@
-import {customElement, query, property} from "lit/decorators.js";
+import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import {router} from "../index";
 import {IWishlist} from "./sharedInterfaces";
+import {styleMap} from "lit/directives/style-map.js";
 
 @customElement("wish-element")
 export class WishElement extends LitElement {
-    @property({type: Boolean}) parentView: boolean = false;
 
     static styles = [css`
         h4{
@@ -23,7 +23,7 @@ export class WishElement extends LitElement {
             overflow:hidden;
         }
         .wishElement{
-            color: #E5E5E5;
+            color: #ffffff;
             position: relative;
             background-color: #003865;
             padding: 0.8rem;
@@ -33,17 +33,6 @@ export class WishElement extends LitElement {
             border-radius: 25px;
             margin-bottom: 7px;
             margin-top: 7px;
-        }
-        .btn {
-            color: #000000;
-            padding: 5px 5px;
-            text-align: center;
-            border-radius: 20px;
-            border: 2px solid #E5E5E5;
-            background: #E5E5E5;
-        }
-        .btn:hover {
-            color: white;
         }
         
         @media screen and (min-width: 415px) {
@@ -62,7 +51,7 @@ export class WishElement extends LitElement {
                 overflow:hidden;
             }
             .wishElement{
-                color: #E5E5E5;
+                color: #ffffff;
                 position: relative;
                 background-color: #003865;
                 padding: 1rem;
@@ -74,17 +63,6 @@ export class WishElement extends LitElement {
                 border-radius: 30px;
                 margin-bottom: 10px;
                 margin-top: 10px;
-            }
-            .btn {
-                color: #000000;
-                padding: 7px 7px;
-                text-align: center;
-                border-radius: 25px;
-                border: 2px solid #E5E5E5;
-                background: #E5E5E5;
-            }
-            .btn:hover {
-                color: white;
             }
         }
         
@@ -101,7 +79,7 @@ export class WishElement extends LitElement {
                 overflow:hidden;
             }
             .wishElement{
-                color: #E5E5E5;
+                color: #ffffff;
                 position: relative;
                 padding: 1rem;
                 text-align: center;
@@ -113,54 +91,50 @@ export class WishElement extends LitElement {
                 margin-bottom: 10px;
                 margin-top: 10px;
             }
-            .btn {
-                color: #000000;
-                padding: 7px 7px;
-                text-align: center;
-                border-radius: 25px;
-                border: 2px solid #E5E5E5;
-                background: #E5E5E5;
-            }
         }
     `];
 
-    @property({type: Object}) wish!: IWishlist;
-    @query('#img') image: any; //NO IDEA WHAT THIS IS!
+    @property({type: Boolean}) parentView: boolean = false;
 
-    firstUpdated(){
-        this.image.style.setProperty('--image-url',`url(${this.wish.img})`)
-    }
+    @property({type: Boolean}) redeemAble: boolean = false;
+
+    @property({type: Object}) wish!: IWishlist;
 
     renderparent(){
         return html`
-            <a class="btn" @click=${() => this.navigateParent()}> ${this.wish.done_status == '1' ? "Detaljer" : "Godkend"} </a>
+            <p> ${this.wish.done_status == '1' ? "Detaljer" : "Godkend"} </p>
         `;
     }
 
     renderChild(){
         return html`
-            <a class="btn" @click=${() => this.navigateChild()}> ${this.wish.current_status == '0' || this.wish.done_status == '1' ? `Detaljer` : `Afventer`}</a>
+            <p> ${this.wish.current_status == '0' || this.wish.done_status == '1' ? `Detaljer` : `Afventer`}</p>
         `;
     }
 
     navigateParent(){
         router.navigate("/parent-wish-detail/" + this.wish.id);
-        //router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
     }
 
     navigateChild(){
         router.navigate("/child-wish-detail/" + this.wish.id);
-        //router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
     }
 
     render(): TemplateResult{
         if(!this.wish){
             return html `Loading...`
         }else{
+            const cardColors = {
+                "background-color": this.redeemAble && this.wish.current_status == '0' ? "#289931" : this.wish.current_status == '1' ? "#FCA311" : "#14213D",
+                // "background-color": this.wish.current_status == '1' ? "#FCA311" : "#14213D",
+                // "border": this.redeemAble && this.wish.current_status == '0' ? "4px solid #289931;" : ""
+            }
             return html`
-                <article class="wishElement" style="${this.wish.current_status == '1' ? `background-color:#FCA311` : `background-color:#14213D`}">
-                    <div id="img" alt=${this.wish.saving_name}></div>
-                    <h4>${this.wish.current_status.length > 14 ? this.wish.saving_name.substring(0,14) : this.wish.saving_name.substring(0,11)}</h4>
+                <article class="wishElement" 
+                         style="${styleMap(cardColors)}" 
+                         @click="${() => this.parentView ? this.navigateParent() : this.navigateChild()}">
+                    <img id="img" src="${this.wish.img}" alt=${this.wish.saving_name}>
+                    <h4 style="width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis">${this.wish.saving_name}</h4>
                     ${this.parentView ? this.renderparent() : this.renderChild()}
                 </article>
             `;

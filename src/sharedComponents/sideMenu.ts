@@ -138,6 +138,7 @@ export class SideMenu extends BaseStyleElement {
             <p @click="${() => this.menuNavigate("/parent/details")}"> Egne detaljer </p>
             <p @click="${() => this.menuNavigate("/parent/approvedTasks")}"> Godkendte opgaver </p>
             <p @click="${() => this.menuNavigate("/parent/approvedWishLists")}"> Godkendte ønskelister </p>
+            <p @click="${() => this.menuNavigate("/parent/createChild")}"> Opret Junior </p>
             <p @click="${() => this.emitLogout()}"> Log Ud </p>
         `
     }

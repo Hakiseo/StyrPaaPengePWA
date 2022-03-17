@@ -1,4 +1,4 @@
-import {customElement, query, property} from "lit/decorators.js";
+import {customElement, property} from "lit/decorators.js";
 import {css, html, LitElement, TemplateResult} from "lit";
 import {ITasklist} from "./sharedInterfaces";
 import {router} from "../index";
@@ -24,7 +24,7 @@ export class TaskElement extends LitElement {
             overflow:hidden;
         }
         .taskElement{
-            color: #E5E5E5;
+            color: #ffffff;
             position: relative;
             background-color: #003865;
             padding: 0.8rem;
@@ -34,17 +34,6 @@ export class TaskElement extends LitElement {
             border-radius: 25px;
             margin-bottom: 7px;
             margin-top: 7px;
-        }
-        .btn {
-            color: #000000;
-            padding: 5px 5px;
-            text-align: center;
-            border-radius: 20px;
-            border: 2px solid #E5E5E5;
-            background: #E5E5E5;
-        }
-        .btn:hover {
-            color: white;
         }
         
         @media screen and (min-width: 415px) {
@@ -63,7 +52,7 @@ export class TaskElement extends LitElement {
                 overflow:hidden;
             }
             .taskElement{
-                color: #E5E5E5;
+                color: #ffffff;
                 position: relative;
                 background-color: #003865;
                 padding: 1rem;
@@ -75,17 +64,6 @@ export class TaskElement extends LitElement {
                 border-radius: 30px;
                 margin-bottom: 10px;
                 margin-top: 10px;
-            }
-            .btn {
-                color: #000000;
-                padding: 7px 7px;
-                text-align: center;
-                border-radius: 25px;
-                border: 2px solid #E5E5E5;
-                background: #E5E5E5;
-            }
-            .btn:hover {
-                color: white;
             }
         }
         
@@ -102,7 +80,7 @@ export class TaskElement extends LitElement {
                 overflow:hidden;
             }
             .taskElement{
-                color: #E5E5E5;
+                color: #ffffff;
                 position: relative;
                 padding: 1rem;
                 text-align: center;
@@ -114,33 +92,22 @@ export class TaskElement extends LitElement {
                 margin-bottom: 10px;
                 margin-top: 10px;
             }
-            .btn {
-                color: #000000;
-                padding: 7px 7px;
-                text-align: center;
-                border-radius: 25px;
-                border: 2px solid #E5E5E5;
-                background: #E5E5E5;
-            }
         }
     `];
 
     @property({type: Object}) task!: ITasklist;
-    @query('#img') image: any; //NO IDEA WHAT THIS IS!
-
-    firstUpdated(){
-        this.image.style.setProperty('--image-url',`url(${this.task.img})`)
-    }
 
     render(): TemplateResult{
         if(!this.task){
             return html `Loading...`
         }else{
             return html`
-                <article class="taskElement" style="${this.task.current_status == '1' ? `background-color:#FCA311` : `background-color:#14213D`}">
-                    <div id="img" alt=${this.task.task_name}></div>
+                <article class="taskElement" 
+                         style="${this.task.current_status == '1' ? `background-color:#FCA311` : `background-color:#14213D`}" 
+                         @click="${() => !this.parentView ? this.navigateChild() : this.parentConfirmMode ? this.navigateParentConfirm() : this.navigateParent()}">
+                    <img id="img" src="${this.task.img}" alt=${this.task.task_name}>
 
-                    <h4>${this.task.current_status.length > 14 ? this.task.task_name.substring(0,14) : this.task.task_name.substring(0,11)}</h4>
+                    <h4 style="width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis">${this.task.task_name}</h4>
                     
                     ${!this.parentView ? this.renderChild() : this.parentConfirmMode ? this.renderConfirmmode() : this.renderparent()}
                 </article>
@@ -150,19 +117,19 @@ export class TaskElement extends LitElement {
 
     renderConfirmmode(){
         return html`
-            <a class="btn" @click=${() => this.navigateParentConfirm()}>Godkend</a>
+            <p> ${this.task.done_status == '1' ? `Detaljer` : `Godkend`} </p>
         `;
     }
 
     renderparent(){
         return html`
-            <a class="btn" @click=${() => this.navigateParent()}> ${this.task.current_status == '0' ? `Detaljer` : `Afventer`}</a>
+            <p> ${this.task.current_status == '0' ? `Detaljer` : `Afventer`}</p>
         `;
     }
 
     renderChild(){
         return html`
-            <a class="btn" @click=${() => this.navigateChild()}> ${this.task.current_status == '0' ? `Udfør` : `Afventer`}</a>
+            <p> ${this.task.current_status == '0' ? `Udfør` : `Afventer`}</p>
         `;
     }
 
@@ -172,11 +139,9 @@ export class TaskElement extends LitElement {
 
     navigateParent(){
         router.navigate("/parent-task-detail/" + this.task.id);
-        //router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
     }
 
     navigateChild(){
         router.navigate("/child-task-detail/" + this.task.id);
-        //router.navigate("/wish-detail/" + this.wish.id + "/" + this.parentView);
     }
 }

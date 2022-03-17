@@ -1,9 +1,15 @@
-import {html, LitElement, PropertyValues, TemplateResult} from "lit";
+import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {IChildData} from "./parentInterfaces";
 import {router} from "../index";
-import {deleteChild, editChild, fetchChild} from "../api/parentApiRequests";
-import {ButtonType, IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
+import {deleteChild, editChild, fetchChild, fetchChildTaskList} from "../api/parentApiRequests";
+import {
+    ButtonType,
+    IApiResponse,
+    ICustomErrorHandling,
+    InputType,
+    ITasklist
+} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/inputElement"
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/textDisplayElement"
@@ -28,6 +34,16 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
     @property() balanceValid: boolean = true;
 
     @property() errorMessage: string = "";
+
+    @property() taskList!: ITasklist[];
+
+    static styles = [css`
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+    `];
 
     validated() {
         this.firstNameValid = this.firstName.length > 0
@@ -65,6 +81,15 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
                 router.navigate("/parent")
             }
         }
+        if (!this.taskList) {
+            if (!this.childId) {
+                let temp = router.lastResolved()
+                if (temp && temp[0].data && temp[0].data.id) {
+                    this.childId = temp[0].data.id
+                }
+            }
+            this.getTaskListForChild()
+        }
     }
 
     protected updated(_changedProperties: PropertyValues) {
@@ -79,13 +104,32 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
     }
 
     protected render(): TemplateResult {
-        if (!this.childData) return html ` <p> Loading... </p>`
+        if (!this.childData) return html `
+            <p> Intet data for det specifikke barn er fundet - Loading... </p>
+            <p> Prøv at gå tilbage eller reload siden hvis der er gået mere end 5 sekunder </p>
+            <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate("/parent")}"> Tilbage </button-element>
+        `
         return html `
             ${this.editMode ? this.renderEdit() : this.renderView()}
             <div>
                 ${this.renderButtons()}
             </div>
             <error-message> ${this.errorMessage} </error-message>
+            ${this.renderTaskList()}
+        `
+    }
+
+    renderTaskList() {
+        if (!this.taskList) return html `<h2> Ingen opgaver tilknyttet dette barn </h2>`
+        return html `
+            <h2> Opgaver tilknyttet dette barn </h2>
+            <section class="container">
+                ${this.taskList.map(t => {
+                    return html `
+                    <task-element .task=${t} .parentView="${true}"></task-element>
+                `
+                })}
+            </section>
         `
     }
 
@@ -101,31 +145,21 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
         }
         return html `
             <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate("/parent")}"> Tilbage </button-element>
-            <button-element .buttonType="${ButtonType.delete}" .action="${() => this.deleteJunior()}"> Slet </button-element>
             <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate(`/parent/childDetails/${this.childData.id}/changePassword`)}"> Ændre Password </button-element>
+            <button-element .buttonType="${ButtonType.delete}" .deleteMessage="Er du sikker på at du vil slette barnet?" .action="${() => this.deleteJunior()}"> Slet </button-element>
             <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.detailsAction()}"> Rediger </button-element>
         `
     }
 
     renderView(): TemplateResult {
         return html `
+            <h1> Detaljer for ${this.childData.first_name} </h1>
             <div>
-                <p-element> Id: ${this.childData.id} </p-element>
                 <p-element> Fornavn: ${this.childData.first_name} </p-element>
                 <p-element> Efternavn: ${this.childData.last_name} </p-element>
                 <p-element> Brugernavn: ${this.childData.username} </p-element>
                 <p-element> Alder: ${this.childData.age} </p-element>
                 <p-element> Saldo: ${this.childData.reward_balance} </p-element>
-            </div>
-        `
-    }
-
-    //TODO: ADD TASK PREVIEWS AFTER MERGE
-    renderTaskPreviews(): TemplateResult | void {
-        //TODO: Add a check for task and return empty if no task is found
-        return html `
-            <div>
-                <h3> Task Previews:</h3>
             </div>
         `
     }
@@ -136,7 +170,7 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
                 <input-element label="Fornavn" .value="${this.childData.first_name}" @changeValue="${(e: CustomEvent) => this.firstName = e.detail}"></input-element>
                 <input-element label="Efternavn" .value="${this.childData.last_name}" @changeValue="${(e: CustomEvent) => this.lastName = e.detail}"></input-element>
                 <input-element label="Brugernavn" .value="${this.childData.username}" @changeValue="${(e: CustomEvent) => this.username = e.detail}"></input-element>
-                <input-element .inputType="${InputType.number}" label="alder" .value="${this.childData.age}" @changeValue="${(e: CustomEvent) => this.age = e.detail}"></input-element>
+                <input-element .inputType="${InputType.number}" label="Alder" .value="${this.childData.age}" @changeValue="${(e: CustomEvent) => this.age = e.detail}"></input-element>
                 <input-element .inputType="${InputType.number}" label="Saldo" .value="${this.childData.reward_balance}" @changeValue="${(e: CustomEvent) => this.balance = e.detail}"></input-element>
             </div>
         `
@@ -177,8 +211,17 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
 
     getChildData(): Promise<void> {
         return fetchChild(this.childId).then((r: IApiResponse) => {
-            if (r.results) {
+            if (r.results && r.results.filter(d => d !== null).length > 0) {
                 this.childData = r.results[0]
+            }
+        })
+    }
+
+    getTaskListForChild() {
+        return fetchChildTaskList(this.childId).then((r: IApiResponse) => {
+            if (r.results && r.results.filter(d => d !== null).length > 0) {
+                this.taskList = r.results
+                console.log("TASKS: ", this.taskList)
             }
         })
     }

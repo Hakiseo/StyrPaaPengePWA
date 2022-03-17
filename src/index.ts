@@ -83,23 +83,19 @@ export class IndexElement extends LitElement {
                     this.routeBackToIndex()
                 }
             })
-            .on("/parent-wish-detail/:id", (match: any) => {this.route = html`<wish-detail-page .wishID="${match.data.id}" .parentView="${true}"></wish-detail-page>`})
-            .on("/child-wish-detail/:id", (match: any) => {this.route = html`<wish-detail-page .wishID="${match.data.id}" .parentView="${false}"></wish-detail-page>`})
+            .on("/parent-wish-detail/:id", (match: any) => {this.parent && this.loggedIn ? this.route = html`<wish-detail-page .wishID="${match.data.id}" .parentView="${true}"></wish-detail-page>` : this.routeBackToIndex()})
+            .on("/child-wish-detail/:id", (match: any) => {!this.parent && this.loggedIn ? this.route = html`<wish-detail-page .wishID="${match.data.id}" .parentView="${false}"></wish-detail-page>` : this.routeBackToIndex()})
 
-            .on("/parentConfirm-task-detail/:id", (match: any) => {this.route = html`<task-detail-page .taskID="${match.data.id}" .parentView="${true}" .parentConfirmMode="${true}"></task-detail-page>`})
-            .on("/parent-task-detail/:id", (match: any) => {this.route = html`<task-detail-page .taskID="${match.data.id}" .parentView="${true}"></task-detail-page>`})
-            .on("/child-task-detail/:id", (match: any) => {this.route = html`<task-detail-page .taskID="${match.data.id}" .parentView="${false}"></task-detail-page>`})
-
-            .on("/child", () => {this.route = html`<child-index-page></child-index-page>`})
+            .on("/parentConfirm-task-detail/:id", (match: any) => {this.parent && this.loggedIn ? this.route = html`<task-detail-page .taskID="${match.data.id}" .parentView="${true}" .parentConfirmMode="${true}"></task-detail-page>` : this.routeBackToIndex()})
+            .on("/parent-task-detail/:id", (match: any) => {this.parent && this.loggedIn ? this.route = html`<task-detail-page .taskID="${match.data.id}" .parentView="${true}"></task-detail-page>` : this.routeBackToIndex()})
+            .on("/child-task-detail/:id", (match: any) => {!this.parent && this.loggedIn ? this.route = html`<task-detail-page .taskID="${match.data.id}" .parentView="${false}"></task-detail-page>` : this.routeBackToIndex()})
 
             .on("/approvedWishlists", () => {!this.parent && this.loggedIn ? this.route = html`<approved-display .approvedType="${ApprovedType.wish}" .parent="${this.parent}"></approved-display>` : this.routeBackToIndex()})
-            .on("/tasklist-overview", () => {this.route = html`<tasklist-overview-page></tasklist-overview-page>`})
+            .on("/tasklist-overview", () => {this.parent && this.loggedIn ? this.route = html`<tasklist-overview-page></tasklist-overview-page>` : this.routeBackToIndex()})
             .on("/wishlist-overview", () => {!this.parent && this.loggedIn ? this.route = html`<wishlist-overview-page></wishlist-overview-page>` : this.routeBackToIndex()})
             .on("/wishlist-creating", () => {!this.parent && this.loggedIn ? this.route = html`<wish-create-page></wish-create-page>` : this.routeBackToIndex()})
-            .on("/wish-detail/:id", (match: any) => {this.route = html`<wish-detail-page .wishID="${match.data.id}"></wish-detail-page>`})
-            .on("/wishlist-overview", () => {this.route = html`<wishlist-overview-page></wishlist-overview-page>`})
-            .on("/wishlist-creating", () => {this.route = html`<wish-create-page></wish-create-page>`})
-            .on("/task-creating", () => {this.route = html`<task-create-page .minChildData="${this.minimalChildrenData}"></task-create-page>`})
+            .on("/wish-detail/:id", (match: any) => {!this.parent && this.loggedIn ? this.route = html`<wish-detail-page .wishID="${match.data.id}"></wish-detail-page>` : this.routeBackToIndex()})
+            .on("/task-creating", () => {this.parent && this.loggedIn ? this.route = html`<task-create-page .minChildData="${this.minimalChildrenData}"></task-create-page>` : this.routeBackToIndex()})
 
             .on("/parent", () => {
                 if (this.parent && this.loggedIn) {
