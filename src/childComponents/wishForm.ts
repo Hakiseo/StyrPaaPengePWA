@@ -28,7 +28,7 @@ export class WishForm extends LitElement implements ICustomErrorHandling {
             return false;
         }
         if (!this.wishListNameValid || !this.wishListContentValid) {
-            this.errorMessage = "All fields are required!"
+            this.errorMessage = "Alle felter er påkrævet!"
             return false
         }
         return true;

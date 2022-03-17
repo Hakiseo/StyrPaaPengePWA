@@ -61,7 +61,7 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
             return false;
         }
         if (!this.taskNameValid || !this.taskContentValid) {
-            this.errorMessage = "All fields are required!"
+            this.errorMessage = "Alle felter er påkrævet!"
             return false
         }
         return true;
