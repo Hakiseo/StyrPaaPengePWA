@@ -106,3 +106,15 @@ export function apiPut(path: string, data: {}) {
 export function verifyToken(): Promise<any> {
     return apiPost("verifyToken", {})
 }
+
+export function registerNewUser(data: {}) {
+    return apiPost("register/", data)
+}
+
+export function userLogin(data: {}) {
+    return apiPost("login/", data)
+}
+
+export function getToken(data: {}) {
+    return apiPost("token", data)
+}

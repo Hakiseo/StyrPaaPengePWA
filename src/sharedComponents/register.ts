@@ -1,6 +1,6 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import {apiPost} from "../api/apiUtils";
+import {registerNewUser} from "../api/apiUtils";
 import {ButtonType, ICustomErrorHandling, InputType} from "./sharedInterfaces";
 import "../sharedComponents/errorMessage"
 
@@ -82,7 +82,7 @@ export class Register extends LitElement implements ICustomErrorHandling{
 
     register() {
         if (this.validated()) {
-            apiPost("register/", {
+            registerNewUser({
                 firstName: this.firstName,
                 surname: this.lastName,
                 age: this.age,

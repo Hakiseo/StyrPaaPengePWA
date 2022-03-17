@@ -1,6 +1,6 @@
 import {css, html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
-import {apiPost, identityTokenName, storageUserId} from "../api/apiUtils";
+import {getToken, identityTokenName, storageUserId, userLogin} from "../api/apiUtils";
 import {ButtonType, IApiResponse, ICustomErrorHandling, InputType, UserType} from "./sharedInterfaces";
 import {router} from "../index";
 import "../sharedComponents/buttonElement"
@@ -60,7 +60,7 @@ export class Login extends LitElement implements ICustomErrorHandling {
 
     login() {
         if (this.validated()) {
-            apiPost("login/", {
+            userLogin({
                 loginData: this.loginData,
                 password: this.password
             }).then((r: IApiResponse) => {
@@ -89,12 +89,13 @@ export class Login extends LitElement implements ICustomErrorHandling {
             userType = UserType.parent
         }
 
-        apiPost("token", {userId: userId, userType: userType}).then((r: any) => {
-            localStorage.setItem(identityTokenName, r.identityToken)
-            localStorage.setItem(storageUserId, userId.toString())
-        }).then(() => {
-            this.loginStatusChanged(userType);
-            userType == UserType.parent ? router.navigate("/parent") : router.navigate("/child")
-        })
+        getToken({userId: userId, userType: userType})
+            .then((r: any) => {
+                localStorage.setItem(identityTokenName, r.identityToken)
+                localStorage.setItem(storageUserId, userId.toString())
+            }).then(() => {
+                this.loginStatusChanged(userType);
+                userType == UserType.parent ? router.navigate("/parent") : router.navigate("/child")
+            })
     }
 }
