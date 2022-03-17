@@ -114,3 +114,7 @@ export function create_Task(data: {}) {
 export function reOpenTask(id: string) {
     return apiPut("parent/reOpenTask/", {id: id})
 }
+
+export function fetchChildTaskList(childId: string) {
+    return apiFetch("parent/specificTaskList/" + childId)
+}

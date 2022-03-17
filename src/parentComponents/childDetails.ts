@@ -1,9 +1,15 @@
-import {html, LitElement, PropertyValues, TemplateResult} from "lit";
+import {css, html, LitElement, PropertyValues, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {IChildData} from "./parentInterfaces";
 import {router} from "../index";
-import {deleteChild, editChild, fetchChild} from "../api/parentApiRequests";
-import {ButtonType, IApiResponse, ICustomErrorHandling, InputType} from "../sharedComponents/sharedInterfaces";
+import {deleteChild, editChild, fetchChild, fetchChildTaskList} from "../api/parentApiRequests";
+import {
+    ButtonType,
+    IApiResponse,
+    ICustomErrorHandling,
+    InputType,
+    ITasklist
+} from "../sharedComponents/sharedInterfaces";
 import "../sharedComponents/inputElement"
 import "../sharedComponents/buttonElement"
 import "../sharedComponents/textDisplayElement"
@@ -28,6 +34,16 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
     @property() balanceValid: boolean = true;
 
     @property() errorMessage: string = "";
+
+    @property() taskList!: ITasklist[];
+
+    static styles = [css`
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+    `];
 
     validated() {
         this.firstNameValid = this.firstName.length > 0
@@ -65,6 +81,15 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
                 router.navigate("/parent")
             }
         }
+        if (!this.taskList) {
+            if (!this.childId) {
+                let temp = router.lastResolved()
+                if (temp && temp[0].data && temp[0].data.id) {
+                    this.childId = temp[0].data.id
+                }
+            }
+            this.getTaskListForChild()
+        }
     }
 
     protected updated(_changedProperties: PropertyValues) {
@@ -90,6 +115,21 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
                 ${this.renderButtons()}
             </div>
             <error-message> ${this.errorMessage} </error-message>
+            ${this.renderTaskList()}
+        `
+    }
+
+    renderTaskList() {
+        if (!this.taskList) return html `<h2> Ingen opgaver tilknyttet dette barn </h2>`
+        return html `
+            <h2> Opgaver tilknyttet dette barn </h2>
+            <section class="container">
+                ${this.taskList.map(t => {
+                    return html `
+                    <task-element .task=${t} .parentView="${true}"></task-element>
+                `
+                })}
+            </section>
         `
     }
 
@@ -173,6 +213,15 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
         return fetchChild(this.childId).then((r: IApiResponse) => {
             if (r.results && r.results.filter(d => d !== null).length > 0) {
                 this.childData = r.results[0]
+            }
+        })
+    }
+
+    getTaskListForChild() {
+        return fetchChildTaskList(this.childId).then((r: IApiResponse) => {
+            if (r.results && r.results.filter(d => d !== null).length > 0) {
+                this.taskList = r.results
+                console.log("TASKS: ", this.taskList)
             }
         })
     }
