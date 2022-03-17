@@ -3,6 +3,7 @@ import {customElement, property} from "lit/decorators.js";
 import {ButtonType} from "./sharedInterfaces";
 import {classMap} from "lit/directives/class-map.js";
 
+//TODO: inject deleteMessage from the relevant places
 @customElement("button-element")
 export class ButtonElement extends LitElement {
     @property() action: () => void = () => {};

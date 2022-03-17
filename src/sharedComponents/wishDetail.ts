@@ -165,14 +165,10 @@ export class WishDetailPage extends LitElement {
             return html `
                 <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.editMode = true}>Redigér Ønskeliste</button-element><br>
                 <button-element .buttonType="${ButtonType.delete}" .action=${() => this.deleteWishChild()}>Slet Ønskeliste</button-element><br>
-                ${this.wish.current_status ? html`<button-element .buttonType="${ButtonType.navigate}" .action=${() => this.retractWishChild()}>Annullere</button-element><br>` :
-                    Number(this.accountInfo.reward_balance) >= Number(this.wish.target_reward_balance) ? html`<button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmWishChild()}>Indløs</button-element><br>` : ''}
+                ${Number(this.accountInfo.reward_balance) >= Number(this.wish.target_reward_balance) ? html`<button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmWishChild()}>Indløs</button-element><br>` : ''}
             `;
         }else{
-            return html `
-                ${this.wish.current_status ? html`<button-element .buttonType="${ButtonType.navigate}" .action=${() => this.retractWishChild()}>Annullere</button-element><br>` :
-                    Number(this.accountInfo.reward_balance) >= Number(this.wish.target_reward_balance) ? html`<button-element .buttonType="${ButtonType.confirm}" @click=${() => this.confirmWishChild()}>Indløs</button-element><br>` : ''}
-            `;
+            return html`<button-element .buttonType="${ButtonType.deny}" .action=${() => this.retractWishChild()}>Annullér indløsning</button-element><br>`
         }
     }
 
