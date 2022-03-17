@@ -22,13 +22,16 @@ export class WishForm extends LitElement implements ICustomErrorHandling {
     validated() {
         this.wishListNameValid = this.wishListName.length > 0
         this.wishListContentValid = this.wishListContent.length > 0
-        this.wishListTargetValid = this.wishListTarget.toString().length > 0
-        if (this.wishListNameValid && this.wishListContentValid && this.wishListTargetValid) {
-            return true;
-        }else{
+        this.wishListTargetValid = this.wishListTarget > 0
+        if (!this.wishListTargetValid) {
+            this.errorMessage = "Beløbet skal være større end 0!"
+            return false;
+        }
+        if (!this.wishListNameValid || !this.wishListContentValid) {
             this.errorMessage = "All fields are required!"
             return false
         }
+        return true;
     }
 
     protected render(): TemplateResult {

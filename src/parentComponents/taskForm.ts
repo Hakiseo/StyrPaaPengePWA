@@ -54,14 +54,17 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
     validated() {
         this.taskNameValid = this.taskName.length > 0
         this.taskContentValid = this.taskContent.length > 0
-        this.taskRewardAmountValid = this.taskRewardAmount.toString().length > 0
+        this.taskRewardAmountValid = this.taskRewardAmount > 0
 
-        if (this.taskNameValid && this.taskContentValid && this.taskRewardAmountValid) {
-            return true;
-        }else{
+        if (!this.taskRewardAmountValid) {
+            this.errorMessage = "Beløbet skal være større end 0!"
+            return false;
+        }
+        if (!this.taskNameValid || !this.taskContentValid) {
             this.errorMessage = "All fields are required!"
             return false
         }
+        return true;
     }
 
     connectedCallback() {
