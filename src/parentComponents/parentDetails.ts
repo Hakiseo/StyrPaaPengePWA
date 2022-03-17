@@ -85,7 +85,7 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
             `
         }
         return html `
-            <button-element .buttonType="${ButtonType.delete}" .action="${() => this.deleteParent()}"> Slet </button-element>
+            <button-element .buttonType="${ButtonType.delete}" .deleteMessage="Er du sikker på at du vil slette din bruger?" .action="${() => this.deleteParent()}"> Slet </button-element>
             <button-element .buttonType="${ButtonType.navigate}" .action="${() => router.navigate(`/parent/details/changePassword`)}"> Ændre Password </button-element>
             <button-element .buttonType="${ButtonType.confirm}" .action="${() => this.detailsAction()}"> Rediger </button-element>
         `
