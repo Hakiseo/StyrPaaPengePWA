@@ -6,7 +6,8 @@ export interface IChildData {
     last_name: string,
     age: number,
     username: string,
-    reward_balance: number
+    reward_balance: number,
+    parent_id: number
 }
 
 export interface IMinimalChildrenData {
