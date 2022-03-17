@@ -27,7 +27,7 @@ export class ParentIndexPage extends LitElement {
         if (_changedProperties.has("parentId") && this.parentId){
             fetchJuniors(this.parentId).then((r: IApiResponse) => {
                 if (!r.error && r.results){
-                    this.childrenData = r.results
+                    this.childrenData = r.results.filter(d => d !== null)
                     this.minimalChildrenData = this.childrenData.map(r => {
                         return {id: r.id, firstName: r.first_name, lastName: r.last_name}
                     })
