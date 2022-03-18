@@ -113,13 +113,48 @@ export function verifyToken(): Promise<any> {
 }
 
 export function registerNewUser(data: IRegisterParentInput) {
-    return apiPost("register/", data)
+    return fetch(apiUrl + "register/", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .catch(() => {
+            alert("Something went wrong please try again after the reload or restart the app")
+            window.location.reload()
+        })
 }
 
 export function userLogin(data: ILoginInput) {
-    return apiPost("login/", data)
+    return fetch(apiUrl + "login/", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .catch(() => {
+            alert("Something went wrong please try again after the reload or restart the app")
+            window.location.reload()
+        })
 }
 
 export function getToken(data: IGetTokenInput) {
-    return apiPost("token", data)
+    return fetch(apiUrl + "token", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .catch(() => {
+            alert("Something went wrong please try reloading or restart the app")
+        })
 }
