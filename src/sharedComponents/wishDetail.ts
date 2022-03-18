@@ -191,7 +191,12 @@ export class WishDetailPage extends LitElement {
 
     updateWishChild(e : CustomEvent){
         if (e.detail.wishListName && e.detail.wishListContent && e.detail.wishListTarget) {
-            update_Wish(this.wish.id, e.detail.wishListName, e.detail.wishListContent, e.detail.wishListTarget).then((r : IApiResponse) => {
+            update_Wish({
+                id: this.wish.id,
+                saving_name: e.detail.wishListName,
+                content: e.detail.wishListContent,
+                target_reward_balance: e.detail.wishListTarget
+            }).then((r : IApiResponse) => {
                 if(r.error){
                     this.errorMessage = "Error updating wish..."
                     this.displayError()

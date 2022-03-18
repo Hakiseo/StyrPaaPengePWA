@@ -200,7 +200,13 @@ export class TaskDetailPage extends LitElement {
 
     updateTaskParent(e : CustomEvent){
         if (e.detail.taskName && e.detail.taskContent && e.detail.taskRewardAmount) {
-            update_Task(this.task.id, e.detail.taskName, e.detail.taskContent, e.detail.taskRewardAmount, e.detail.childId).then((r : IApiResponse) => {
+            update_Task({
+                id: this.task.id,
+                task_name: e.detail.taskName,
+                content: e.detail.taskContent,
+                reward_amount: e.detail.taskRewardAmount,
+                assigned_to: e.detail.childId
+            }).then((r : IApiResponse) => {
                 if(r.error){
                     this.errorMessage = "Error updating task..."
                     this.displayError()

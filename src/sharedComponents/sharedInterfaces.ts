@@ -61,3 +61,21 @@ export enum ButtonType {
     deny = "Deny",
     cancel = "Cancel"
 }
+
+export interface GetTokenInput {
+    userId: number,
+    userType: string,
+}
+
+export interface LoginInput {
+    loginData: string,
+    password: string
+}
+
+export interface RegisterParentInput {
+    firstName: string,
+    surname: string,
+    age: number,
+    email: string,
+    password: string
+}

@@ -6,3 +6,17 @@ export interface IAccountInfo {
     age:string;
     reward_balance:number;
 }
+
+export interface UpdateWishInput {
+    id: string,
+    saving_name: string,
+    content: string,
+    target_reward_balance: number
+}
+
+export interface CreateWishInput {
+    creator_id: string,
+    saving_name: string,
+    content: string,
+    target_reward_balance: number
+}

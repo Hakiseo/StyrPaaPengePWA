@@ -1,6 +1,12 @@
 //parent component related api-requests
 
 import {apiDelete, apiFetch, apiPost, apiPut, getCurrentUserId} from "./apiUtils";
+import {
+    ChangePasswordInput,
+    CreateJuniorInput, CreateTaskInput,
+    EditChildInput,
+    EditParentInput, UpdateTaskInput
+} from "../parentComponents/parentInterfaces";
 
 export function getAllParent(): Promise<any> {
     return apiFetch("parent")
@@ -10,7 +16,7 @@ export function getCurrentParent() {
     return apiFetch("parent/" + getCurrentUserId())
 }
 
-export function createJuniorUser(data: {}) {
+export function createJuniorUser(data: CreateJuniorInput) {
     return apiPost("parent/createChild", data)
 }
 
@@ -18,11 +24,11 @@ export function fetchJuniors(id: string) {
     return apiFetch("parent/children/" + id)
 }
 
-export function changePasswordParent(data: {}) {
+export function changePasswordParent(data: ChangePasswordInput) {
     return apiPut("parent/changePassword/parent", data)
 }
 
-export function changePasswordChild(data: {}) {
+export function changePasswordChild(data: ChangePasswordInput) {
     return apiPut("parent/changePassword/child", data)
 }
 
@@ -34,11 +40,11 @@ export function fetchChild(id: string) {
     return apiFetch("parent/child/" + id)
 }
 
-export function editChild(data: {}) {
+export function editChild(data: EditChildInput) {
     return apiPut("parent/editChild/", data)
 }
 
-export function editParent(data: {}) {
+export function editParent(data: EditParentInput) {
     return apiPut("parent/editParent/", data)
 }
 
@@ -102,12 +108,11 @@ export function delete_Task(id: string) {
     return apiDelete("parent/task/delete/" + id)
 }
 
-export function update_Task(id: string, task_name: string, content: string, reward_amount: number, assigned_to: string) {
-    return apiPut("parent/task/update/",
-        {id: id, task_name: task_name, content: content, reward_amount: reward_amount, assigned_to: assigned_to})
+export function update_Task(data: UpdateTaskInput) {
+    return apiPut("parent/task/update/",data)
 }
 
-export function create_Task(data: {}) {
+export function create_Task(data: CreateTaskInput) {
     return apiPost("parent/task/create/", data)
 }
 

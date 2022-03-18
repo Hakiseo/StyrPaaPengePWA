@@ -41,12 +41,12 @@ export class WishCreatePage extends LitElement implements ICustomErrorHandling {
 
     createWishList(e: CustomEvent){
         if (e.detail.wishListName && e.detail.wishListContent && e.detail.wishListTarget) {
-            create_Wishlist(
-                getCurrentUserId(),
-                e.detail.wishListName,
-                e.detail.wishListContent,
-                e.detail.wishListTarget)
-                .then((r : IApiResponse) => {
+            create_Wishlist({
+                creator_id: getCurrentUserId(),
+                saving_name: e.detail.wishListName,
+                content: e.detail.wishListContent,
+                target_reward_balance: e.detail.wishListTarget
+            }).then((r : IApiResponse) => {
                     if(r.error){
                         this.errorMessage = "Error creating wish..."
                         this.displayError()
