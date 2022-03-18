@@ -16,16 +16,9 @@ export class WishlistOverviewPage extends LitElement {
     @property({type: String}) errorMessage: string | null = "";
     @property() currentBalance!: number;
 
-    connectedCallback() {
-        super.connectedCallback();
-        console.log("wish overview")
-        console.log(this.currentBalance)
-    }
-
     protected firstUpdated(_changedProperties: PropertyValues) {
         super.firstUpdated(_changedProperties);
         if (!this.currentBalance) {
-            console.log("Firstupdated get balance")
             this.getBalance()
         }
     }
@@ -93,7 +86,10 @@ export class WishlistOverviewPage extends LitElement {
                 <error-message> Error loading wishlist </error-message>
             `;
         }
-        if (!this.currentBalance) return html `<p> Loading ... </p>`
+        if (this.currentBalance === undefined) return html `
+            <p> Loader saldo ... </p>
+            <p> Reload siden eller gå tilbage til index hvis dette tager mere end 5 sekunder</p>
+        `
         return html `
             <h1>Ønskelister:</h1>
             <button-element .buttonType="${ButtonType.navigate}" .action=${() => this.goBack()}>Tilbage</button-element><br>
@@ -109,7 +105,6 @@ export class WishlistOverviewPage extends LitElement {
     }
 
     getBalance() {
-        console.log("Getting balance")
         getChildInfo(getCurrentUserId()).then((r : IApiResponse) =>{
             if(r.results !== null){
                 let tempList:IAccountInfo[] = r.results;
