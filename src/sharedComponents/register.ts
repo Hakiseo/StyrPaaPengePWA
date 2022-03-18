@@ -1,7 +1,7 @@
 import {html, LitElement, TemplateResult} from "lit";
 import {customElement, property} from "lit/decorators.js";
 import {registerNewUser} from "../api/apiUtils";
-import {ButtonType, ICustomErrorHandling, InputType} from "./sharedInterfaces";
+import {ButtonType, ICustomErrorHandling, InputType, ISuccessResponse} from "./sharedInterfaces";
 import "../sharedComponents/errorMessage"
 
 @customElement("register-page")
@@ -88,12 +88,15 @@ export class Register extends LitElement implements ICustomErrorHandling{
                 age: this.age,
                 email: this.email,
                 password: this.password,
-            }).then(r => {
-                if (r.success) {
+            }).then((r: ISuccessResponse) => {
+                if (r.error) {
+                    if (r.error === "ER_DUP_ENTRY") this.errorMessage = "Email addressen eksisterer allerede!"
+                    else this.errorMessage = r.error
+                }
+                else if (r.success) {
                     this.showLogin()
                 } else {
-                    if (r.error === "ER_DUP_ENTRY") this.errorMessage = "This email already exists!"
-                    else this.errorMessage = r.error
+                    this.errorMessage = "Noget gik galt. Reload siden og prøv igen"
                 }
             })
         } else {

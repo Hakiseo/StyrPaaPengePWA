@@ -11,6 +11,11 @@ export interface IVerifyTokenResponse {
     userType: string
 }
 
+export interface ISuccessResponse {
+    success: boolean,
+    error: string | null,
+}
+
 export interface ICustomErrorHandling {
     errorMessage: string | undefined
     validated: () => boolean
