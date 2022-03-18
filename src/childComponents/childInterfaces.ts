@@ -7,14 +7,14 @@ export interface IAccountInfo {
     reward_balance:number;
 }
 
-export interface UpdateWishInput {
+export interface IUpdateWishInput {
     id: string,
     saving_name: string,
     content: string,
     target_reward_balance: number
 }
 
-export interface CreateWishInput {
+export interface ICreateWishInput {
     creator_id: string,
     saving_name: string,
     content: string,

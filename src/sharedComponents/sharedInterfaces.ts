@@ -62,17 +62,17 @@ export enum ButtonType {
     cancel = "Cancel"
 }
 
-export interface GetTokenInput {
+export interface IGetTokenInput {
     userId: number,
     userType: string,
 }
 
-export interface LoginInput {
+export interface ILoginInput {
     loginData: string,
     password: string
 }
 
-export interface RegisterParentInput {
+export interface IRegisterParentInput {
     firstName: string,
     surname: string,
     age: number,

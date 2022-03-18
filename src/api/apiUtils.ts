@@ -1,4 +1,9 @@
-import {IVerifyTokenResponse} from "../sharedComponents/sharedInterfaces";
+import {
+    IGetTokenInput,
+    IVerifyTokenResponse,
+    ILoginInput,
+    IRegisterParentInput
+} from "../sharedComponents/sharedInterfaces";
 
 //TODO: Change it to match your development environment
 //TODO: Change it in production to match the live server when we get there
@@ -107,14 +112,14 @@ export function verifyToken(): Promise<any> {
     return apiPost("verifyToken", {})
 }
 
-export function registerNewUser(data: {}) {
+export function registerNewUser(data: IRegisterParentInput) {
     return apiPost("register/", data)
 }
 
-export function userLogin(data: {}) {
+export function userLogin(data: ILoginInput) {
     return apiPost("login/", data)
 }
 
-export function getToken(data: {}) {
+export function getToken(data: IGetTokenInput) {
     return apiPost("token", data)
 }

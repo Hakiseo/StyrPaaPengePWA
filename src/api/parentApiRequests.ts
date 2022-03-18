@@ -2,10 +2,10 @@
 
 import {apiDelete, apiFetch, apiPost, apiPut, getCurrentUserId} from "./apiUtils";
 import {
-    ChangePasswordInput,
-    CreateJuniorInput, CreateTaskInput,
-    EditChildInput,
-    EditParentInput, UpdateTaskInput
+    IChangePasswordInput,
+    ICreateJuniorInput, ICreateTaskInput,
+    IEditChildInput,
+    IEditParentInput, IUpdateTaskInput
 } from "../parentComponents/parentInterfaces";
 
 export function getAllParent(): Promise<any> {
@@ -16,7 +16,7 @@ export function getCurrentParent() {
     return apiFetch("parent/" + getCurrentUserId())
 }
 
-export function createJuniorUser(data: CreateJuniorInput) {
+export function createJuniorUser(data: ICreateJuniorInput) {
     return apiPost("parent/createChild", data)
 }
 
@@ -24,11 +24,11 @@ export function fetchJuniors(id: string) {
     return apiFetch("parent/children/" + id)
 }
 
-export function changePasswordParent(data: ChangePasswordInput) {
+export function changePasswordParent(data: IChangePasswordInput) {
     return apiPut("parent/changePassword/parent", data)
 }
 
-export function changePasswordChild(data: ChangePasswordInput) {
+export function changePasswordChild(data: IChangePasswordInput) {
     return apiPut("parent/changePassword/child", data)
 }
 
@@ -40,11 +40,11 @@ export function fetchChild(id: string) {
     return apiFetch("parent/child/" + id)
 }
 
-export function editChild(data: EditChildInput) {
+export function editChild(data: IEditChildInput) {
     return apiPut("parent/editChild/", data)
 }
 
-export function editParent(data: EditParentInput) {
+export function editParent(data: IEditParentInput) {
     return apiPut("parent/editParent/", data)
 }
 
@@ -108,11 +108,11 @@ export function delete_Task(id: string) {
     return apiDelete("parent/task/delete/" + id)
 }
 
-export function update_Task(data: UpdateTaskInput) {
+export function update_Task(data: IUpdateTaskInput) {
     return apiPut("parent/task/update/",data)
 }
 
-export function create_Task(data: CreateTaskInput) {
+export function create_Task(data: ICreateTaskInput) {
     return apiPost("parent/task/create/", data)
 }
 

@@ -1,7 +1,7 @@
 //Child component related api-requests
 
 import {apiDelete, apiFetch, apiPost, apiPut, getCurrentUserId} from "./apiUtils";
-import {CreateWishInput, UpdateWishInput} from "../childComponents/childInterfaces";
+import {ICreateWishInput, IUpdateWishInput} from "../childComponents/childInterfaces";
 
 export function getAllChildren(): Promise<any> {
     return apiFetch("child")
@@ -49,7 +49,7 @@ export function confirm_Wish(id: string) {
     return apiPut("child/wish/confirm/", {id: id})
 }
 
-export function update_Wish(data: UpdateWishInput) {
+export function update_Wish(data: IUpdateWishInput) {
     return apiPut("child/wish/update/", data)
 }
 
@@ -57,6 +57,6 @@ export function delete_Wish(id: string) {
     return apiDelete("child/wish/delete/" + id)
 }
 
-export function create_Wishlist(data: CreateWishInput) {
+export function create_Wishlist(data: ICreateWishInput) {
     return apiPost("child/wish/create/", data)
 }

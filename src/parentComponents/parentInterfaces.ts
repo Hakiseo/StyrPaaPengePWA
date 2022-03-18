@@ -40,7 +40,7 @@ export enum ApprovedType {
 
 // ------------------------
 
-export interface CreateJuniorInput {
+export interface ICreateJuniorInput {
     firstName: string,
     lastName: string,
     age: number,
@@ -50,13 +50,13 @@ export interface CreateJuniorInput {
     parentId: string,
 }
 
-export interface ChangePasswordInput {
+export interface IChangePasswordInput {
     id: string,
     newPassword: string,
     oldPassword?: string
 }
 
-export interface EditChildInput {
+export interface IEditChildInput {
     id: string,
     first_name: string,
     last_name: string,
@@ -65,7 +65,7 @@ export interface EditChildInput {
     balance: number
 }
 
-export interface EditParentInput {
+export interface IEditParentInput {
     id: string,
     first_name: string,
     last_name: string,
@@ -73,7 +73,7 @@ export interface EditParentInput {
     email: string,
 }
 
-export interface UpdateTaskInput {
+export interface IUpdateTaskInput {
     id: string,
     task_name: string,
     content: string,
@@ -81,7 +81,7 @@ export interface UpdateTaskInput {
     assigned_to: string
 }
 
-export interface CreateTaskInput {
+export interface ICreateTaskInput {
     creator_id: string,
     task_name: string,
     content: string,
