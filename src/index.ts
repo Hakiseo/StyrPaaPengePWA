@@ -1,25 +1,26 @@
 import {LitElement, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 
-import "./parentComponents/tasklistOverviewPage"
-import "./parentComponents/parentIndexPage"
-import "./parentComponents/taskCreatePage"
-import "./parentComponents/createChild"
-import "./parentComponents/childDetails"
-import "./parentComponents/parentDetails"
-import "./parentComponents/changePassword"
+//Dynamic load
+import ("./parentComponents/tasklistOverviewPage");
+import ("./parentComponents/parentIndexPage");
+import ("./parentComponents/taskCreatePage");
+import ("./parentComponents/createChild");
+import ("./parentComponents/childDetails");
+import ("./parentComponents/parentDetails");
+import ("./parentComponents/changePassword");
 
-import "./childComponents/wishlistOverviewPage"
-import "./childComponents/childIndexPage"
-import "./childComponents/wishCreatePage"
+import ("./childComponents/wishlistOverviewPage");
+import ("./childComponents/childIndexPage");
+import ("./childComponents/wishCreatePage");
 
-import "./sharedComponents/wishDetail"
-import "./sharedComponents/taskDetail"
-import "./sharedComponents/register"
-import "./sharedComponents/sideMenu"
-import "./sharedComponents/buttonElement"
-import "./sharedComponents/approvedDisplay"
-import "./home"
+import ("./sharedComponents/wishDetail");
+import ("./sharedComponents/taskDetail");
+import ("./sharedComponents/register");
+import ("./sharedComponents/sideMenu");
+import ("./sharedComponents/buttonElement");
+import ("./sharedComponents/approvedDisplay");
+import ("./home");
 
 import {getIdentityToken, verifyToken} from "./api/apiUtils";
 import {UserType, IVerifyTokenResponse, ButtonType} from "./sharedComponents/sharedInterfaces"
