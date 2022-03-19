@@ -9,6 +9,9 @@ import {IChildData, IMinimalChildrenData} from "./parentInterfaces";
 import "../sharedComponents/buttonElement";
 import "../sharedComponents/errorMessage"
 
+const errorMessageWish = "Error loading wishlist data...";
+const errorMessageTask = "Error loading tasklist data...";
+
 @customElement("parent-index-page")
 export class ParentIndexPage extends LitElement {
     @property({type: String}) parentId!: string;
@@ -17,6 +20,7 @@ export class ParentIndexPage extends LitElement {
     @property() wishlist!: IWishlist[];
     @property() tasklist!: ITasklist[];
     @property({type: String}) errorMessage: string | null = "";
+    @property({type: String}) errorMessage2: string | null = "";
 
     connectedCallback() {
         super.connectedCallback();
@@ -39,8 +43,8 @@ export class ParentIndexPage extends LitElement {
         }
     }
 
-    displayError(){
-        window.alert(this.errorMessage)
+    displayError(message: string){
+        window.alert(message)
         this.errorMessage = "";
     }
 
@@ -68,21 +72,23 @@ export class ParentIndexPage extends LitElement {
         super();
         this.parentId = getCurrentUserId();
         getConfirmedWishlistParent(this.parentId).then((r : IApiResponse) =>{
+            console.log("wish", r)
             if (r.results !== null) {
                 this.wishlist = r.results
             }
             if(r.error){
-                this.errorMessage = "Error loading wishlist data..."
-                this.displayError()
+                this.errorMessage = errorMessageWish
+                this.displayError(this.errorMessage)
             }
         })
         getConfirmedTasklistParent(this.parentId).then((r : IApiResponse) =>{
+            console.log("task", r)
             if (r.results !== null) {
                 this.tasklist = r.results
             }
             if(r.error){
-                this.errorMessage = "Error loading tasklist data..."
-                this.displayError()
+                this.errorMessage2 = errorMessageTask
+                this.displayError(this.errorMessage2)
             }
         })
     }
@@ -106,7 +112,7 @@ export class ParentIndexPage extends LitElement {
                 <div>
                     <h3> Indløste ønskelister: </h3>
                 </div>
-                <error-message> Error loading Wishlist </error-message>
+                <error-message> ${this.errorMessage} </error-message>
             `;
         }
     }
@@ -130,7 +136,7 @@ export class ParentIndexPage extends LitElement {
                 <div>
                     <h3> Opgaver til godkendelse: </h3>
                 </div>
-                <error-message> Error loading Tasklist... </error-message>
+                <error-message> ${this.errorMessage2} </error-message>
             `;
         }
     }
