@@ -139,7 +139,7 @@ export class TaskDetailPage extends LitElement {
             `;
         }else{
             return html `
-                <error-message> Error loading Child data </error-message>
+                <error-message> ${this.errorMessage} </error-message>
             `;
         }
     }

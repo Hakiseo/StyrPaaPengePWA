@@ -79,7 +79,7 @@ export class TasklistOverviewPage extends LitElement {
                 <h1>Opgaver:</h1>
                 <button-element .action=${() => this.goBack()}>Tilbage</button-element>
                 <button-element .action=${() => this.createTaskList()}>Opret Opgave</button-element>
-                <error-message> Error loading tasklist </error-message>
+                <error-message> ${this.errorMessage} </error-message>
             `;
         }else{
             return html `

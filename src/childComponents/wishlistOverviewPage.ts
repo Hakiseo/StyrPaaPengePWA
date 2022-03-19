@@ -83,7 +83,7 @@ export class WishlistOverviewPage extends LitElement {
     private renderWishes(){
         if(!this.wishlist){
             return html `
-                <error-message> Error loading wishlist </error-message>
+                <error-message> ${this.errorMessage} </error-message>
             `;
         }
         if (this.currentBalance === undefined) return html `

@@ -14,6 +14,7 @@ export class ChildIndexPage extends LitElement {
     @property() accountInfo!: IAccountInfo;
     @property() tasklist!: ITasklist[];
     @property({type: String}) errorMessage: string | null = "";
+    @property({type: String}) errorMessage2: string | null = "";
 
     connectedCallback() {
         super.connectedCallback();
@@ -32,8 +33,8 @@ export class ChildIndexPage extends LitElement {
         `
     }
 
-    displayError(){
-        window.alert(this.errorMessage)
+    displayError(message:string){
+        window.alert(message)
         this.errorMessage = "";
     }
 
@@ -54,7 +55,7 @@ export class ChildIndexPage extends LitElement {
             }
             if(r.error){
                 this.errorMessage = "Error child data..."
-                this.displayError()
+                this.displayError(this.errorMessage)
             }
         })
         getAssignedTasklist(getCurrentUserId()).then((r : IApiResponse) =>{
@@ -62,8 +63,8 @@ export class ChildIndexPage extends LitElement {
                 this.tasklist = r.results
             }
             if(r.error){
-                this.errorMessage = "Error loading task data..."
-                this.displayError()
+                this.errorMessage2 = "Error loading task data..."
+                this.displayError(this.errorMessage2)
             }
         })
     }
@@ -77,7 +78,7 @@ export class ChildIndexPage extends LitElement {
         }else{
             console.log("Error loading AccountInfo")
             return html `
-                <error-message> Error loading AccountInfo </error-message>
+                <error-message> ${this.errorMessage}</error-message>
             `;
         }
     }
@@ -85,7 +86,7 @@ export class ChildIndexPage extends LitElement {
     private renderTasks(){
         if(!this.tasklist){
             return html `
-                <error-message> Error loading tasklist </error-message>
+                <error-message> ${this.errorMessage2} </error-message>
             `;
         }else{
             return html `
