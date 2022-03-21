@@ -25,7 +25,7 @@ export class Register extends LitElement implements ICustomErrorHandling{
     validated() {
         this.firstNameValid = this.firstName.length > 0
         this.lastNameValid = this.lastName.length > 0
-        this.ageValid = this.age >= 18
+        this.ageValid = this.age >= 18 && this.age <= 100
         this.emailValid = this.email.includes("@")
         this.passwordValid = this.password.length >= 8
         this.repeatedPasswordValid = this.repeatedPassword.length >= 8
@@ -43,7 +43,7 @@ export class Register extends LitElement implements ICustomErrorHandling{
         }
 
         if (!this.ageValid) {
-            this.errorMessage = "Du skal minimum være 18 år, for at oprette en konto!"
+            this.errorMessage = this.age > 100 ? "Hvis du virkelig er over 100 og bruger vores app, så beklager vi at vi ikke har understøttet dig." : "Du skal minimum være 18 år, for at oprette en konto!"
             return false;
         }
 

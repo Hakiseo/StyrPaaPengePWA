@@ -48,12 +48,12 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
     validated() {
         this.firstNameValid = this.firstName.length > 0
         this.lastNameValid = this.lastName.length > 0
-        this.ageValid = this.age >= 5
+        this.ageValid = this.age >= 5 && this.age <= 18
         this.usernameValid = this.username.length > 0
         this.balanceValid = this.balance >= 0;
 
         if (!this.ageValid) {
-            this.errorMessage = "Kontoejeren skal minimum være 5 år, for at oprette en konto!"
+            this.errorMessage = this.age > 18 ? "Find dig et arbejde..." : "Kontoejeren skal minimum være 5 år, for at oprette en konto!"
             return false;
         }
 
