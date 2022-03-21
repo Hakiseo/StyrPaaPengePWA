@@ -38,7 +38,7 @@ export class ParentIndexPage extends LitElement {
                 }
             })
         }
-        if (_changedProperties.has("minimalChildrenData") && this.minimalChildrenData.length > 0) {
+        if (_changedProperties.has("minimalChildrenData")) {
             this.dispatchEvent(new CustomEvent("indexEmitMinimalChildrenData", {detail: this.minimalChildrenData}))
         }
     }
