@@ -44,6 +44,8 @@ export class CreateChild extends LitElement implements ICustomErrorHandling {
 
         if (this.password !== this.repeatedPassword) {
             this.errorMessage = "indtastet password er ikke ens!"
+            this.passwordValid = false;
+            this.repeatedPasswordValid = false;
             return false;
         }
 
