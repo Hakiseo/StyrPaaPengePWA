@@ -159,7 +159,7 @@ export class TaskDetailPage extends LitElement {
     renderDetailMode(){
         return html `
             <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.editMode = true}>Redigér Opgave</button-element>
-            <button-element .buttonType="${ButtonType.delete}" .deleteMessage="Er du sikker på at du vil slette opgaven?" .action=${() => this.deleteTaskParent()}>Slet Opgave</button-element>
+            <button-element .buttonType="${ButtonType.delete}" deleteMessage="Er du sikker på at du vil slette opgaven?" .action=${() => this.deleteTaskParent()}>Slet Opgave</button-element>
             ${this.task.current_status ? html `<button-element .buttonType="${ButtonType.deny}" .action=${() => this.rejectTaskParent()}>Afvis</button-element>` : ''}
             <button-element .buttonType="${ButtonType.confirm}" .action=${() => this.confirmTaskParent()}>Godkend</button-element>
         `;
