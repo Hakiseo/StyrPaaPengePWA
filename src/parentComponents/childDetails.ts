@@ -67,6 +67,12 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
             return false;
         }
 
+        if (this.username.includes("@")) {
+            this.usernameValid = false;
+            this.errorMessage = "Brugernavne til børne-konti må ikke indeholde '@'!"
+            return false;
+        }
+
         return true;
     }
 
