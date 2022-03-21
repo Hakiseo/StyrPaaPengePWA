@@ -46,11 +46,11 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
     `];
 
     validated() {
-        this.firstNameValid = this.firstName.length > 0
-        this.lastNameValid = this.lastName.length > 0
+        this.firstNameValid = this.firstName.length > 0 && this.firstName.length < 255
+        this.lastNameValid = this.lastName.length > 0 && this.lastName.length < 255
         this.ageValid = this.age >= 5 && this.age <= 18
-        this.usernameValid = this.username.length > 0
-        this.balanceValid = this.balance >= 0;
+        this.usernameValid = this.username.length > 0 && this.username.length < 255
+        this.balanceValid = this.balance >= 0 && this.balance < 100000000;
 
         if (!this.ageValid) {
             this.errorMessage = this.age > 18 ? "Find dig et arbejde..." : "Kontoejeren skal minimum være 5 år, for at oprette en konto!"
@@ -58,12 +58,12 @@ export class ChildDetails extends LitElement implements ICustomErrorHandling{
         }
 
         if (!this.balanceValid) {
-            this.errorMessage = "Start saldoen må ikke være mindre end 0! (Børn skylder meget til deres forældre, men stadigvæk...)"
+            this.errorMessage = "Start saldoen må ikke være mindre end 0! Den kan dog heller ikke være over 100 mil..."
             return false;
         }
 
         if (!this.firstNameValid || !this.lastNameValid || !this.ageValid || !this.usernameValid) {
-            this.errorMessage = "Alle felter skal udfyldes!"
+            this.errorMessage = "Alle felter er påkrævet og ingen af felterne må overskride 254 karakterer!"
             return false;
         }
 

@@ -20,15 +20,15 @@ export class WishForm extends LitElement implements ICustomErrorHandling {
     @property() wishListTargetValid: boolean = true;
 
     validated() {
-        this.wishListNameValid = this.wishListName.length > 0
-        this.wishListContentValid = this.wishListContent.length > 0
-        this.wishListTargetValid = this.wishListTarget > 0
+        this.wishListNameValid = this.wishListName.length > 0 && this.wishListName.length < 255
+        this.wishListContentValid = this.wishListContent.length > 0 && this.wishListContent.length < 255
+        this.wishListTargetValid = this.wishListTarget > 0 && this.wishListTarget < 1000000
         if (!this.wishListTargetValid) {
-            this.errorMessage = "Beløbet skal være større end 0!"
+            this.errorMessage = "Beløbet skal være større end 0! (Dog mindre end 1 mil per ønskeliste)"
             return false;
         }
         if (!this.wishListNameValid || !this.wishListContentValid) {
-            this.errorMessage = "Alle felter er påkrævet!"
+            this.errorMessage = "Alle felter er påkrævet og ingen af felterne må overskride 254 karakterer!"
             return false
         }
         return true;

@@ -52,16 +52,16 @@ export class TaskForm extends LitElement implements ICustomErrorHandling {
     @property() taskRewardAmountValid: boolean = true;
 
     validated() {
-        this.taskNameValid = this.taskName.length > 0
-        this.taskContentValid = this.taskContent.length > 0
-        this.taskRewardAmountValid = this.taskRewardAmount > 0
+        this.taskNameValid = this.taskName.length > 0 && this.taskName.length < 255
+        this.taskContentValid = this.taskContent.length > 0 && this.taskContent.length < 255
+        this.taskRewardAmountValid = this.taskRewardAmount > 0 && this.taskRewardAmount < 1000000
 
         if (!this.taskRewardAmountValid) {
-            this.errorMessage = "Beløbet skal være større end 0!"
+            this.errorMessage = "Beløbet skal være større end 0! (Dog også mindre end 1 mil per opgave)"
             return false;
         }
         if (!this.taskNameValid || !this.taskContentValid) {
-            this.errorMessage = "Alle felter er påkrævet!"
+            this.errorMessage = "Alle felter er påkrævet og ingen af felterne må overskride 254 karakterer!"
             return false
         }
         return true;

@@ -28,8 +28,8 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
     @property() errorMessage: string = "";
 
     validated() {
-        this.firstNameValid = this.firstName.length > 0
-        this.lastNameValid = this.lastName.length > 0
+        this.firstNameValid = this.firstName.length > 0 && this.firstName.length < 255
+        this.lastNameValid = this.lastName.length > 0 && this.lastName.length < 255
         this.ageValid = this.age >= 18 && this.age <= 100
         this.emailValid = this.email.includes("@")
 
@@ -39,12 +39,12 @@ export class ParentDetails extends LitElement implements ICustomErrorHandling {
         }
 
         if (!this.emailValid) {
-            this.errorMessage = "Indtask email!"
+            this.errorMessage = "Indtast email!"
             return false;
         }
 
         if (!this.firstNameValid || !this.lastNameValid || !this.ageValid || !this.emailValid) {
-            this.errorMessage = "Alle felter skal udfyldes!"
+            this.errorMessage = "Alle felter er påkrævet og ingen af felterne må overskride 254 karakterer!"
             return false;
         }
 

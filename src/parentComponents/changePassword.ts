@@ -27,16 +27,18 @@ export class ChangePassword extends LitElement implements ICustomErrorHandling{
 
     validated() {
         if (this.parent) {
-            this.oldPasswordValid = this.oldPassword.length > 0 //Just need to not be empty if a user was created before our requirements
-            this.passwordValid = this.password.length >= 8
-            this.repeatedPasswordValid = this.repeatedPassword.length >= 8
+            this.oldPasswordValid = this.oldPassword.length > 0 && this.oldPassword.length < 255 //Just need to not be empty if a user was created before our requirements
+            this.passwordValid = this.password.length >= 8 && this.password.length < 255
+            this.repeatedPasswordValid = this.repeatedPassword.length >= 8 && this.repeatedPassword.length < 255
         } else {
-            this.passwordValid = this.password.length >= 3
-            this.repeatedPasswordValid = this.repeatedPassword.length >= 3
+            this.passwordValid = this.password.length >= 3 && this.password.length < 255
+            this.repeatedPasswordValid = this.repeatedPassword.length >= 3 && this.repeatedPassword.length < 255
         }
 
         if (this.password !== this.repeatedPassword) {
             this.errorMessage = "indtastet password er ikke ens!"
+            this.passwordValid = false;
+            this.repeatedPasswordValid = false;
             return false;
         }
 

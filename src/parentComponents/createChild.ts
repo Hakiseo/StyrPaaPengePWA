@@ -34,13 +34,14 @@ export class CreateChild extends LitElement implements ICustomErrorHandling {
     }
 
     validated() {
-        this.firstNameValid = this.firstName.length > 0
-        this.lastNameValid = this.lastName.length > 0
+        this.firstNameValid = this.firstName.length > 0 && this.firstName.length < 255
+        this.lastNameValid = this.lastName.length > 0 && this.lastName.length < 255
         this.ageValid = this.age >= 5 && this.age <= 18
-        this.usernameValid = this.username.length > 0
-        this.passwordValid = this.password.length >= 3
-        this.repeatedPasswordValid = this.repeatedPassword.length >= 3
-        this.startBalanceValid = this.startBalance >= 0;
+        this.usernameValid = this.username.length > 0 && this.username.length < 255
+        this.passwordValid = this.password.length >= 3 && this.password.length < 255
+        this.repeatedPasswordValid = this.repeatedPassword.length >= 3 && this.repeatedPassword.length < 255
+        this.startBalanceValid = this.startBalance >= 0 && this.startBalance < 100000000;
+
 
         if (this.password !== this.repeatedPassword) {
             this.errorMessage = "indtastet password er ikke ens!"
@@ -60,12 +61,12 @@ export class CreateChild extends LitElement implements ICustomErrorHandling {
         }
 
         if (!this.startBalanceValid) {
-            this.errorMessage = "Start saldoen må ikke være mindre end 0! (Børn skylder meget til deres forældre, men stadigvæk...)"
+            this.errorMessage = "Start saldoen må ikke være mindre end 0! Den kan dog heller ikke være over 100 mil..."
             return false;
         }
 
         if (!this.firstNameValid || !this.lastNameValid || !this.ageValid || !this.usernameValid || !this.passwordValid || !this.repeatedPasswordValid) {
-            this.errorMessage = "Alle felter skal udfyldes!"
+            this.errorMessage = "Alle felter er påkrævet og ingen af felterne må overskride 254 karakterer!"
             return false;
         }
 
