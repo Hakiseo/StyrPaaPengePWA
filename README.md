@@ -26,7 +26,7 @@ This project is a frontend project build with Lit.
 > npm i
 3. To build the project files run the command
 > npm run build:prod
-4. When the build is done you can go ahead and run the command
+4. When the build is done you can go ahead and run the command (Alternatively skip this step and let your process manager handle it)
 > npm run start:prod
 
 ###Notes:
